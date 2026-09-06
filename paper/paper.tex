@@ -372,7 +372,7 @@ separados; se presentan aquí ya desagregadas.
   varianza asintótica de $\xi_n$ ($\tau^2$ depende de la ley de $Y$
   cuando esta no es continua, Sección 2.1), mientras que los empates en
   $X$ hacen de $\xi_n$ un estadístico aleatorizado por el desempate.
-  Se desagregan en tres sub-hipótesis:
+  Se desagregan en cuatro sub-hipótesis:
   \begin{description}
   \item[H2a (empates en la respuesta).] Manteniendo $X$ continua,
     discretizar $Y$ incrementará o alterará la variabilidad de $\xi_n$
@@ -518,7 +518,7 @@ Módulo & Pregunta principal & Factores que varían \\
 \midrule
 Validación & ¿Reproduce la implementación los casos con solución analítica conocida? & $n$; familias elípticas (normal, $t$); estructura lineal \\[4pt]
 H1 & ¿Cómo evoluciona el sesgo/MSE de $\xi_n$ con $n$? & $n \times$ régimen de $\xi_0$ \\[4pt]
-H2a/b/c & ¿Qué efecto tienen los empates en $Y$, en $X$, y en ambos? & número de categorías $\times$ margen discretizado (Y/X/ambos) $\times$ $n$; $B$ desempates por conjunto de datos \\[4pt]
+H2a--d & ¿Qué efecto tienen los empates en $Y$, en $X$, en ambos, y su atenuación por agregación de ítems? & número de categorías $\times$ margen discretizado (Y/X/ambos) $\times$ $n$; $B$ desempates por conjunto de datos; número de ítems $k$ para H2d \\[4pt]
 H3 & ¿Hay sensibilidad a mecanismos distribucionales no elípticos, tras calibrar a igual dependencia? & forma marginal $\times$ estructura de referencia; sub-experimento aislado de invariancia monótona \\[4pt]
 H4 & ¿Qué estadístico detecta mejor cada geometría de dependencia? & estadístico $\times$ estructura $\times$ intensidad; error de tipo I verificado antes de comparar potencia \\[4pt]
 H5a & ¿Cómo cambia el desempeño práctico a dependencia fija? & $n \times \xi_0$ fijo \\[4pt]
@@ -910,11 +910,17 @@ regímenes de dependencia moderada.
 
 La comparación entre regímenes confirma además, ahora sí de forma
 directamente verificable, la parte de H1 que predecía una reducción
-particularmente marcada cuando $\xi$ es alto: en cada tamaño de
-muestra, el sesgo del régimen alto es sustancialmente mayor en
+particularmente marcada cuando $\xi$ es alto: en todos los tamaños de
+muestra hasta $n=2800$, el sesgo del régimen alto es mayor en
 magnitud que el del régimen moderado ($-0.1225$ vs.\ $-0.0786$ en
-$n=20$, una diferencia de más del $50\%$; el patrón se mantiene hasta
-$n=500$). El error estándar Monte Carlo permite además una lectura
+$n=20$, una diferencia de más del $50\%$; el patrón se mantiene sin
+excepción hasta $n=2800$). En $n=3500$, sin embargo, ambos sesgos son
+extremadamente pequeños ($-0.0003$ en el régimen alto vs.\ $0.0006$ en
+el moderado) y la comparación cambia de signo --- una diferencia sin
+relevancia práctica dado lo diminuto de ambos valores, pero que debe
+reportarse con precisión en vez de generalizarse como válida ``en
+cada'' tamaño de muestra. El error estándar Monte Carlo permite además
+una lectura
 más precisa de qué tan lejos de cero está el sesgo en cada celda: en
 el régimen moderado, el sesgo en $n=2000$--$3500$ está dentro de
 $1$--$2$ errores estándar de cero (genuinamente indistinguible de
@@ -1050,19 +1056,22 @@ Un barrido adicional sobre el número de ítems $k \in
 \{1,2,3,5,10,20,40,100,200,400\}$ (Tabla~\ref{tab:h2d-kvar}) --- este
 último rango eligiéndose deliberadamente para cubrir instrumentos de
 personalidad o intereses con cientos de ítems --- muestra que el
-beneficio tiene rendimientos decrecientes y que la meseta ya alcanzada
-en $k\approx 5$--$40$ \emph{se sostiene sin cambios hasta $k=400$}: la
-varianza empírica permanece esencialmente plana ($0.0029$--$0.0036$)
-en todo ese rango, sin ninguna reducción adicional apreciable. La
-razón se aprecia en la última fila: el número de valores distintos
-observados se acerca asintóticamente a $n=100$ --- el número de
-sujetos de la muestra --- no al rango teórico del puntaje compuesto
-($5k+1$). Una vez que prácticamente cada sujeto obtiene un valor
-distinto, agregar más ítems no puede seguir reduciendo la varianza de
-$\xi_n$, porque esta ya está limitada por $n$, no por $k$. Esto
-sugiere que, para efectos de mitigar el costo de los empates sobre
-$\xi_n$ específicamente, un número moderado de ítems ($k\approx 10$)
-captura prácticamente todo el beneficio disponible; instrumentos con
+beneficio tiene rendimientos marcadamente decrecientes a partir de
+$k\approx 5$--$40$: entre ese rango y $k=400$ la varianza empírica se
+mantiene casi plana ($0.0029$--$0.0036$), con una reducción adicional
+de apenas $\approx 19\%$ ($0.0036 \to 0.0029$) --- pequeña frente a la
+reducción de $k=1$ a $k=5$, y no acompañada de un error estándar que
+permita descartar que sea, en parte, ruido de Monte Carlo, pero
+tampoco estrictamente nula. Este patrón es compatible con lo que
+muestra la última fila: el número de valores distintos observados se
+acerca asintóticamente a $n=100$ --- el número de sujetos de la
+muestra --- no al rango teórico del puntaje compuesto ($5k+1$); una
+vez que prácticamente cada sujeto obtiene un valor distinto, agregar
+más ítems tiene cada vez menos margen para seguir reduciendo la
+varianza de $\xi_n$. Esto sugiere que, para efectos de mitigar el
+costo de los empates sobre $\xi_n$ específicamente, un número
+moderado de ítems ($k\approx 10$) ya captura la mayor parte del
+beneficio disponible; instrumentos con
 muchos más ítems (300--400, como algunos inventarios de personalidad o
 intereses reales) podrían justificarse por otras razones psicométricas
 (confiabilidad, validez de contenido), pero no por esta.
@@ -1129,9 +1138,9 @@ informativa aquí. El error de tipo I de ambos se mantiene
 razonablemente cerca del nivel nominal dado lo impreciso de su
 estimación con $R=50$.
 
-El hallazgo original --- que el \emph{rango de valores puntuales
+El hallazgo inicial --- que el \emph{rango de valores puntuales
 estimados} de $\xi_n$ entre familias ($0.018$) es menos de la mitad
-que el de dCor ($0.042$), Tabla~\ref{tab:h3} original --- sigue siendo
+que el de dCor ($0.042$), Tabla~\ref{tab:h3} --- sigue siendo
 válido como observación descriptiva, pero no debe generalizarse a
 ``$\xi_n$ es más estable que dCor en sesgo, varianza, y potencia'':
 en sesgo específicamente, el patrón se invierte. La lectura más precisa
@@ -1272,8 +1281,11 @@ $n=2000$ (senoidal) & 0.997 & 0.583 \\
 \end{center}
 \end{table}
 
-El resultado reproduce con notable fidelidad la asimetría teórica de
-\citet{auddy2024}. Ambas tasas parten del mismo punto en $n=100$ (por
+El resultado es consistente con la asimetría teórica de
+\citet{auddy2024} --- no la demuestra ni estima el umbral de forma
+robusta, como se precisa más abajo, pero el patrón esperado es
+detectable incluso en este diseño acotado. Ambas tasas parten del
+mismo punto en $n=100$ (por
 construcción), pero divergen dramáticamente al crecer $n$: bajo la
 tasa $n^{-1/4}$ --- el propio umbral de detección de $\xi_n$ --- la
 potencia \emph{aumenta} monótonamente hasta saturarse cerca de $1$ en
@@ -1401,9 +1413,11 @@ predicción específica que originalmente solo se afirmaba, sin
 probarla directamente: el sesgo de muestra finita es real, decrece con
 $n$, no depende únicamente de la cota algebraica de
 \citet{dalitz2024} (existe sesgo sustancial incluso cuando esa cota no
-restringe activamente al estimador), y es consistentemente mayor en
-magnitud --- en cada tamaño de muestra probado --- bajo un régimen de
-dependencia alto que bajo uno moderado (Tabla~\ref{tab:h1}). H2,
+restringe activamente al estimador), y es mayor en magnitud bajo un
+régimen de dependencia alto que bajo uno moderado en todos los
+tamaños de muestra hasta $n=2800$ --- aunque ambos sesgos son ya
+extremadamente pequeños y la comparación se invierte en $n=3500$
+(Tabla~\ref{tab:h1}). H2,
 desagregada en H2a--d, mostró que los empates en la respuesta y en el
 predictor son mecanismos distintos con consecuencias distintas:
 varianza pura en un caso, varianza más aleatorización por desempate en
@@ -1411,9 +1425,10 @@ el otro (Tablas~\ref{tab:h2a}--\ref{tab:h2b}), y un efecto conjunto
 (Tabla~\ref{tab:h2c}) que no es la suma de ambos. H2d mostró que la
 práctica psicométrica estándar de agregar ítems en un puntaje
 compuesto atenúa este problema, aunque con rendimientos marcadamente
-decrecientes: la meseta se alcanza con relativamente pocos ítems y no
-mejora con instrumentos de cientos de ítems, porque el límite pasa a
-ser el tamaño de la muestra, no el número de ítems. H3, al evaluarse
+decrecientes: la meseta se alcanza con relativamente pocos ítems, y
+los instrumentos de cientos de ítems añaden solo una reducción
+adicional modesta, porque el margen de mejora pasa a estar acotado
+por el tamaño de la muestra, no por el número de ítems. H3, al evaluarse
 en las cinco métricas que la propia hipótesis prometía (sesgo,
 varianza, error de tipo I, y potencia, no solo el valor puntual
 estimado), resultó más matizada de lo que sugería la comparación
