@@ -1,0 +1,9 @@
+*.zip
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.blg
+*.bbl
+.Rhistory
+.RData
