@@ -1,12 +1,13 @@
 \documentclass[article]{ajs}
 
 \usepackage{amsmath}
+\usepackage{float}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% declarations for ajs.cls %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\author{Arquímedes De León Chacón Chacón\,\orcidlink{0000-0002-7014-7513}\\ iMetric, Spain}
+\author{Arquímedes Chacón\,\orcidlink{0000-0002-7014-7513}\\ Universidad Católica Andrés Bello, Venezuela}
 
 %% WORKING TITLE -- candidates discussed, easy to swap later:
 %%  1. Stress-Testing Chatterjee's Xi Correlation Coefficient: A Monte Carlo
@@ -18,7 +19,7 @@
 %%     Framework
 \title{Stress-Testing Chatterjee's Xi Correlation Coefficient: A Monte Carlo Study of Sample Size, Distribution Shape, and Variable Type}
 
-\Plainauthor{Arquímedes De León Chacón Chacón}
+\Plainauthor{Arquímedes Chacón}
 \Plaintitle{Stress-Testing Chatterjee's Xi Correlation Coefficient: A Monte Carlo Study of Sample Size, Distribution Shape, and Variable Type}
 \Shorttitle{Stress-Testing Chatterjee's Xi Correlation Coefficient}
 
@@ -53,9 +54,9 @@
 \Pages{1--xx}
 
 \Address{
-  Arquímedes De León Chacón Chacón\\
-  iMetric\\
-  Spain\\
+  Arquímedes Chacón\\
+  Universidad Católica Andrés Bello\\
+  Venezuela\\
   E-mail: \email{arquimedeschacon@gmail.com}
 }
 
@@ -65,11 +66,116 @@
 
 \section{Introducción} \label{sec:introduction}
 
-% TODO: motivate the problem -- why measures of dependence beyond
-% Pearson/Spearman/Kendall matter, why xi in particular, and the gap
-% this paper fills (no comprehensive multi-factorial Monte Carlo study
-% crossing n x distribution shape x variable type for xi, confirmed
-% absent from the Austrian Journal of Statistics specifically).
+% NOTA: seccion redactada en español para facilitar la revision.
+% Traducir al ingles en la version final antes de enviar.
+
+Cuantificar la fuerza de una relación entre dos variables es una de
+las tareas más antiguas y más recurrentes de la estadística aplicada.
+Sin embargo, los tres coeficientes que dominan la práctica ---
+Pearson, Spearman, y Kendall--- comparten una limitación conocida:
+están diseñados para detectar dependencia lineal o, a lo sumo,
+monótona, y pueden acercarse a cero incluso ante una relación
+funcional perfecta y sin ruido si esta no es monótona
+\citep{chatterjee2021}. En ciencias del comportamiento y sociales,
+donde las relaciones entre constructos rara vez se conocen de
+antemano y a menudo involucran umbrales, techos, o formas en U, esta
+limitación no es un tecnicismo menor.
+
+Este artículo busca aportar específicamente al ámbito de la
+psicología, donde esta limitación adquiere una relevancia particular.
+Los constructos psicológicos --- personalidad, actitudes, síntomas,
+cogniciones --- rara vez son el resultado de un mecanismo aislable:
+emergen de fenómenos multifactoriales en los que intervienen
+simultáneamente disposiciones individuales, historia de aprendizaje,
+contexto social, y procesos biológicos, ninguno de los cuales puede
+controlarse o aislarse experimentalmente con la limpieza de un sistema
+físico. Esta naturaleza multifactorial implica que la forma funcional
+de la relación entre dos variables psicológicas rara vez se conoce de
+antemano, de modo que asumir linealidad o monotonía no es una
+simplificación inocua sino una apuesta sobre un mecanismo que, por su
+propia naturaleza, resulta difícil de aislar y verificar. Un
+coeficiente que promete detectar cualquier forma de dependencia
+funcional, como $\xi_n$, es en principio la herramienta natural para
+esta situación --- pero esa misma promesa exige someterlo a las
+condiciones bajo las cuales efectivamente se recogen los datos
+psicológicos: escalas ordinales de pocos puntos (ítems tipo Likert),
+tamaños de muestra moderados por costos de reclutamiento, y
+poblaciones heterogéneas que producen distribuciones asimétricas o
+mixturas. Es exactamente esa combinación de condiciones la que este
+estudio somete a prueba, y la que se ilustra en la
+Sección~\ref{sec:realdata} con datos reales de personalidad.
+
+Esta ceguera ante la posible no monotonía no se limita a los
+coeficientes de correlación bivariados: incluso cuando la práctica
+psicométrica estándar --- modelos de ecuaciones estructurales,
+estructuras factoriales de segundo orden --- se topa con relaciones
+inesperadas que obligan a reespecificar el modelo (cargas cruzadas,
+residuos correlacionados, factores adicionales), esa reespecificación
+ocurre casi siempre dentro del mismo paradigma de relaciones
+monótonas o lineales entre factores e indicadores: rara vez se
+cuestiona si la relación subyacente podría no ser monótona en
+absoluto. Explorar sistemáticamente esa posibilidad --- por ejemplo,
+mediante análisis de ruta simulados con coeficientes verdaderamente no
+monótonos --- excede el alcance de este artículo y se deja como línea
+de trabajo futura; aquí nos concentramos en el caso bivariado.
+
+\citet{chatterjee2021} propuso una alternativa que promete resolver
+este problema con una fórmula casi trivial: un coeficiente basado en
+rangos, $\xi_n$, que converge a una cantidad poblacional igual a cero
+si y solo si las variables son independientes, e igual a uno si y
+solo si una es función medible de la otra --- sin importar la forma
+de esa función --- y que además admite una prueba de independencia
+con distribución asintótica conocida, sin necesidad de remuestreo.
+Esta combinación de simplicidad, generalidad, y tratabilidad
+asintótica explica por qué, en apenas unos años, $\xi_n$ ha generado
+una literatura teórica en rápido crecimiento: extensiones a
+dependencia condicional y multivariante \citep{azadkia2021},
+correcciones de sesgo \citep{dalitz2024}, familias generalizadas
+\citep{gao2024}, resultados sobre continuidad \citep{ansari2026,
+bucher2025}, y umbrales exactos de detección \citep{auddy2024}.
+
+Pese a ese volumen de trabajo teórico, ninguno de esos estudios --- ni
+ningún otro que hayamos podido localizar --- somete a $\xi_n$ a un
+diseño de simulación factorial que cruce sistemáticamente tamaño de
+muestra, tipo de variable, forma de la distribución, estructura de
+dependencia, y magnitud de la dependencia, ni lo compara bajo esas
+mismas condiciones contra los puntos de referencia históricos de la
+dependencia no lineal (distance correlation, medidas basadas en
+cópulas). Las simulaciones existentes son, en el mejor de los casos, de alcance
+muy acotado: unos pocos modelos fijos, uno o dos tamaños de muestra,
+sin variar el tipo de variable. Este artículo llena ese
+vacío --- pero, como se detalla en la Sección~\ref{sec:framework}, no
+como un barrido exploratorio sin rumbo: cada uno de los cinco
+factores del diseño se eligió porque la propia estructura algebraica
+o asintótica de $\xi_n$, ya demostrada en la literatura citada arriba,
+predice o al menos permite un efecto específico sobre su
+comportamiento. Formulamos esas predicciones como cinco hipótesis
+(H1--H5) antes de describir el diseño de simulación que las pone a
+prueba.
+
+Es importante precisar el alcance de este estudio desde ya.
+\citet{bucher2025} demuestran, mediante construcciones adversariales
+(``shuffles of min''), que $\xi$ puede tener potencia trivial y que no
+existen intervalos de confianza significativos de nivel exacto para
+$\xi$ en el peor de los casos. Nuestro estudio no busca refutar ni
+replicar esos resultados de peor caso --- los damos por probados y
+fuera de discusión--- sino cuantificar, mediante simulación, el
+comportamiento de $\xi_n$ bajo condiciones \emph{típicas}, no
+adversariales, del tipo que efectivamente encuentra un investigador
+aplicado: distribuciones asimétricas o de colas pesadas, variables
+ordinales tipo Likert, tamaños de muestra moderados, y estructuras de
+dependencia realistas.
+
+El resto del artículo se organiza así. La Sección~\ref{sec:framework}
+presenta el marco teórico de $\xi_n$, sus medidas competidoras, y las
+cinco hipótesis del estudio. La Sección~\ref{sec:design} describe el
+diseño factorial de la simulación, los mecanismos generadores de
+datos, y las métricas de resultado. La Sección~\ref{sec:results}
+reporta los resultados organizados por hipótesis. La
+Sección~\ref{sec:realdata} ilustra los hallazgos aplicando $\xi_n$ y
+sus competidores a un conjunto de datos real de psicología. Las
+Secciones~\ref{sec:discussion} y~\ref{sec:conclusion} discuten las
+implicaciones prácticas para investigadores aplicados y concluyen.
 
 \section{Marco teórico} \label{sec:framework}
 
@@ -189,7 +295,7 @@ La Tabla~\ref{tab:comparison} resume las propiedades que distinguen a
 $\xi_n$ de estas dos familias y que motivan su inclusión como puntos
 de comparación en el diseño de simulación (Sección~\ref{sec:design}).
 
-\begin{table}[hbt]
+\begin{table}[H]
 \caption{\label{tab:comparison}Propiedades de $\xi_n$ y sus medidas de dependencia de referencia.}
 \begin{center}
 \small
@@ -211,83 +317,152 @@ Distribución nula tratable & Sí (Normal) & No (permutación) & No (permutació
 
 \subsection{Efectos hipotetizados del tamaño de muestra, tipo de variable, forma de la distribución, estructura y régimen de dependencia}
 
-El diseño factorial de la Sección~\ref{sec:design} no es un barrido
-sin guía de condiciones arbitrarias: cada factor se eligió porque la
-estructura algebraica o asintótica de $\xi_n$ revisada arriba predice,
-o al menos permite, un efecto específico sobre su comportamiento.
+El diseño de simulación de la Sección~\ref{sec:design} no es un
+barrido sin guía de condiciones arbitrarias: cada hipótesis se eligió
+porque la estructura algebraica o asintótica de $\xi_n$ revisada
+arriba predice, o al menos permite, un efecto específico sobre su
+comportamiento. Varias de las hipótesis originalmente planteadas como
+un único efecto resultaron, tras un escrutinio más cuidadoso,
+confundir mecanismos distintos que requieren diseños y estimandos
+separados; se presentan aquí ya desagregadas.
 
 \begin{description}
-\item[H1 (tamaño de muestra).] Como la cota superior de muestra finita
-  $(n-2)/(n+1)$ (Sección 2.1) se aproxima a uno solo cuando
-  $n \to \infty$, $\xi_n$ debería exhibir un sesgo sistemático a la
-  baja para $n$ pequeño que se reduce a una tasa algebraica conocida
-  --- no simplemente la vaga expectativa de que ``más datos ayudan''.
-  Además, este sesgo debería ser más pronunciado cuanto más alto sea
-  el valor poblacional real $\xi(X,Y)$, ya que la cota solo restringe
-  de forma apreciable los valores cercanos a uno.
-\item[H2 (tipo de variable).] Como la varianza asintótica de $\xi_n$
-  bajo independencia es libre de distribución ($2/5$) solo cuando $Y$
-  es continua, y como los empates entre los $X_i$ vuelven a $\xi_n$ un
-  estadístico aleatorizado, se espera que las variables ordinales y
-  discretas (por ejemplo, ítems tipo Likert) alteren tanto la varianza
-  como la reproducibilidad de $\xi_n$ respecto a las variables
-  continuas --- una propiedad demostrada del estimador, no una
-  preocupación especulativa.
+\item[H1 (tamaño de muestra).] La cota superior de muestra finita
+  $(n-2)/(n+1)$ (Sección 2.1) demuestra, de forma puramente algebraica,
+  que $\xi_n$ \emph{no puede} aproximarse a uno en muestras pequeñas
+  cuando la dependencia poblacional real es alta --- pero esa cota no
+  implica, por sí sola, que el sesgo sea sustancial para cualquier
+  valor de $\xi$, ni que su patrón sea el mismo bajo toda estructura de
+  dependencia: para $\xi \approx 0.5$, por ejemplo, la cota de $0.86$
+  en $n=20$ no restringe de forma directa al estimador. Formulamos por
+  tanto H1 como una hipótesis condicional: el sesgo negativo y el MSE
+  de $\xi_n$ disminuirán al aumentar $n$, con una reducción
+  particularmente marcada cuando el valor poblacional de $\xi$ sea
+  alto; la magnitud --- y el signo --- del sesgo residual en otros
+  regímenes deberá verificarse empíricamente y podrá depender de la
+  estructura de dependencia y del patrón de empates (H2, H4). La
+  interacción entre $n$ y el nivel de dependencia real es, así, parte
+  sustantiva de H1 y no solo de H5.
+\item[H2 (empates y tipo de variable).] La formulación original agrupaba
+  bajo una sola etiqueta dos mecanismos demostrados que son, en
+  realidad, preguntas distintas: los empates en $Y$ alteran la
+  varianza asintótica de $\xi_n$ ($\tau^2$ depende de la ley de $Y$
+  cuando esta no es continua, Sección 2.1), mientras que los empates en
+  $X$ hacen de $\xi_n$ un estadístico aleatorizado por el desempate.
+  Se desagregan en tres sub-hipótesis:
+  \begin{description}
+  \item[H2a (empates en la respuesta).] Manteniendo $X$ continua,
+    discretizar $Y$ incrementará o alterará la variabilidad de $\xi_n$
+    y podrá modificar el desempeño del test de independencia respecto
+    al caso continuo.
+  \item[H2b (empates en el predictor).] Manteniendo $Y$ continua,
+    discretizar $X$ introducirá variabilidad adicional atribuible al
+    desempate aleatorio y reducirá la reproducibilidad de $\xi_n$; este
+    efecto será mayor con menos categorías y con muestras pequeñas.
+  \item[H2c (discretización conjunta).] Cuando ambas marginales sean
+    discretas, el comportamiento de $\xi_n$ reflejará la combinación de
+    ambos mecanismos y no será recuperable por simple extrapolación de
+    H2a y H2b.
+  \item[H2d (puntaje compuesto).] En la práctica psicométrica real, un
+    constructo rara vez se mide con un único ítem: se agregan varios
+    ítems (tipo Likert) que lo miden con error de medición
+    independiente en un puntaje compuesto (p.\ ej.\ el promedio). Se
+    espera que agregar $k$ ítems atenúe sustancialmente el problema de
+    empates documentado en H2a--H2c respecto a un único ítem crudo,
+    aunque sin eliminarlo, dado que el puntaje compuesto conserva un
+    número finito de valores posibles.
+  \end{description}
+  Cabe además una precisión de interpretación: que la discretización
+  ``preserve la estructura de dependencia subyacente'' es válido
+  respecto al mecanismo latente, pero no implica que preserve el mismo
+  valor observado de $\xi$ --- al discretizar se transforma la
+  distribución conjunta observada, y con ella puede cambiar $\xi$, lo
+  que es particularmente relevante dado el carácter direccional de
+  $\xi_n$.
 \item[H3 (forma de la distribución).] La invariancia de $\xi_n$ ante
   transformaciones estrictamente monótonas de las marginales sugeriría,
   en principio, estabilidad frente a la forma de la distribución. Sin
   embargo, \cite{ansari2026} demuestran que $\xi$ \emph{no} es continua
   respecto a convergencia débil en general, y que su continuidad solo
   ha sido establecida para familias específicas (elípticas,
-  $\ell_1$-simétricas). \cite{bucher2025} llevan esto al extremo:
-  construyen explícitamente (vía ``shuffles of min'') secuencias que
-  convergen débilmente a la independencia mientras $\xi$ permanece fijo
-  en cualquier valor arbitrario, incluyendo uno, con la consecuencia de
-  que los tests de independencia basados en $\xi_n$ pueden tener
-  potencia trivial y de que no existen intervalos de confianza
-  significativos de nivel exacto o uniforme para $\xi$. Estos
-  resultados son de \emph{peor caso}, obtenidos con construcciones
-  adversariales que quedan fuera del alcance de este estudio. Nuestra
-  hipótesis, en cambio, es de \emph{caso típico}: dado que la
-  continuidad de $\xi$ solo se ha verificado formalmente para un
-  conjunto acotado de familias de distribución, no está probado que
-  esa estabilidad se extienda a las formas no adversariales --- pero
-  comunes en ciencias del comportamiento --- que se incluyen en nuestro
-  diseño factorial (asimetría, colas pesadas, mixturas), en contraste
-  con la deriva numérica esperada en dCor bajo las mismas
-  transformaciones. Cabe precisar que \cite{ansari2026} ya resuelven
-  \emph{analíticamente}, con fórmula cerrada, el caso de las
-  distribuciones elípticas (incluyendo la normal y la $t$ de Student;
-  ver su Sección 5) --- por lo que esas dos formas marginales no
-  constituyen, en sí mismas, un vacío de conocimiento, sino que se
-  incluyen en nuestro diseño como \emph{validación}: si nuestra
-  simulación no reproduce su valor exacto de $\xi(Y,X)$ para esos
-  casos, ello señalaría un error en el código de simulación. El vacío
-  genuino de H3 recae específicamente en las formas marginales
-  \emph{no} elípticas ni $\ell_1$-simétricas de nuestro diseño
-  (exponencial asimétrica, mixtura bimodal), para las cuales ninguna
-  garantía analítica de continuidad existe todavía.
-\item[H4 (estructura de dependencia).] \cite{chatterjee2021} y
+  $\ell_1$-simétricas); \cite{bucher2025} llevan esto al extremo con
+  construcciones adversariales (``shuffles of min'') que quedan fuera
+  del alcance de este estudio (Sección~\ref{sec:introduction}). Sin
+  embargo, variar la familia marginal dentro de un modelo aditivo
+  $Y=f(X)+\sigma E$ no aísla limpiamente el efecto de la forma
+  marginal: también cambia la distribución del error, la cópula
+  inducida entre $X$ e $Y$, el valor poblacional de $\xi$ antes y
+  después de calibrar, y la dificultad relativa del problema para dCor.
+  Reformulamos H3 en consecuencia: tras calibrar cada condición a un
+  mismo nivel poblacional de dependencia direccional (Sección
+  \ref{sec:design}), se evaluará si el sesgo, la varianza, y la
+  potencia de $\xi_n$ cambian sistemáticamente entre familias
+  marginales; las diferencias se interpretarán como sensibilidad al
+  \emph{mecanismo generador conjunto} asociado a cada familia, no
+  exclusivamente como sensibilidad a la marginal. Distinguimos además,
+  dentro de H3, dos ejercicios formalmente separados: (i) una
+  \emph{validación} con las familias elípticas (normal, $t$) para las
+  que \citet{ansari2026} ya proveen fórmula cerrada --- si la
+  simulación no la reproduce, no se avanza a (ii); y (ii) un
+  \emph{estudio de robustez empírica} con las familias no elípticas
+  del diseño (exponencial, mixtura bimodal), donde reside el vacío
+  genuino. Por último, dado que la comparación con dCor busca ilustrar
+  una diferencia de invariancia (rangos vs.\ distancias crudas), y que
+  cambiar de familia marginal mediante un nuevo modelo aditivo
+  \emph{no} equivale a aplicar una transformación monótona al mismo par
+  $(X,Y)$, esa propiedad se aísla mejor en un sub-experimento
+  específico (Sección~\ref{sec:design}) que en el factorial principal.
+\item[H4 (geometría de la dependencia).] \cite{chatterjee2021} y
   \cite{gao2024} ya reportan que $\xi_n$ es más potente que dCor para
   relaciones oscilatorias y no monótonas, pero menos potente para
-  relaciones lineales, circulares o heterocedásticas. No se ha
-  examinado si este trade-off persiste de manera uniforme al variar
-  conjuntamente el tamaño de muestra y el tipo de variable.
-\item[H5 (régimen de dependencia).] \cite{auddy2024} demuestran que el
-  comportamiento de $\xi_n$ bajo alternativas locales depende
-  cualitativamente de si el valor poblacional real $\xi_0$ está en cero
-  o es positivo: para testear independencia pura ($\xi_0 = 0$), el
-  umbral de detección de $\xi_n$ es subóptimo, del orden $n^{-1/4}$,
-  frente al óptimo paramétrico $n^{-1/2}$; para testear grado de
-  asociación ($\xi_0 > 0$), en cambio, $\xi_n$ resulta minimax óptimo
-  con la tasa correcta $n^{-1/2}$. Se espera, por lo tanto, que la
-  potencia y el sesgo de $\xi_n$ no dependan solo de $n$, la forma de
-  la distribución, o el tipo de variable de manera uniforme, sino que
-  el régimen de dependencia real (cercano a independencia vs.
-  moderado/alto) module todos estos efectos --- por lo que la magnitud
-  de la dependencia simulada debe tratarse como un factor cruzado
-  explícito, y no solo como los dos extremos ``independencia'' vs.
-  ``dependencia fuerte''.
+  relaciones lineales, circulares o heterocedásticas. Sin embargo, estas
+  cinco estructuras no representan variaciones de un mismo tipo de
+  dependencia: lineal, cuadrática, y senoidal tienen un componente
+  funcional direccional de $X$ hacia $Y$; la circular no es una función
+  global unívoca de $X$; y la heterocedástica exhibe dependencia
+  condicional (en la dispersión) que puede ser fuerte incluso cuando
+  las medidas clásicas de asociación son pequeñas. Reformulamos H4
+  como una hipótesis sobre \emph{geometría}, no solo forma funcional:
+  el orden relativo de potencia entre $\xi_n$, dCor, y los estadísticos
+  basados en cópulas dependerá de la geometría de la dependencia ---
+  $\xi_n$ debería ser especialmente competitivo en relaciones
+  direccionales, no monótonas, y funcionalmente informativas de $X$
+  hacia $Y$; dCor debería mantener ventaja en configuraciones
+  simétricas, circulares, o dominadas por dispersión condicional. Esta
+  comparación de potencia solo es interpretable si los tests
+  comparados tienen error de tipo I empírico comparable al nivel
+  nominal bajo cada condición (Sección~\ref{sec:design}, 3.3); de lo
+  contrario, una ``mayor potencia'' puede ser únicamente un artefacto
+  de calibración.
+\item[H5 (régimen de dependencia).] La formulación original mezclaba
+  dos preguntas distintas. \cite{auddy2024} demuestran que, bajo
+  \emph{alternativas locales} --- secuencias en las que la magnitud de
+  la señal decrece con $n$ a una tasa específica ---, el umbral de
+  detección de $\xi_n$ es subóptimo ($n^{-1/4}$) para testear
+  independencia pura ($\xi_0=0$) pero minimax óptimo ($n^{-1/2}$) para
+  testear grado de asociación ($\xi_0>0$). Un diseño con niveles
+  \emph{fijos} de $\xi_0$ a través de todos los tamaños de muestra ---
+  como el originalmente propuesto --- es útil para estudiar sesgo, MSE,
+  y curvas de potencia prácticas, pero no prueba directamente ese
+  resultado sobre alternativas locales, para el cual la señal debe
+  depender explícitamente de $n$. Se distinguen, en consecuencia, dos
+  sub-hipótesis:
+  \begin{description}
+  \item[H5a (desempeño práctico a dependencia fija).] A valores
+    poblacionales fijos de $\xi_0 \in \{0.1,0.3,0.5,0.8\}$, la potencia
+    aumentará con $n$, pero el ritmo de aumento dependerá de la
+    estructura de dependencia (H4) y de la presencia de empates (H2).
+  \item[H5b (sensibilidad local).] Bajo una secuencia de alternativas
+    cuya señal decrece al crecer $n$ (siguiendo el marco de
+    \citealp{auddy2024}), $\xi_n$ mostrará un umbral de detección
+    distinto al de sus competidores, especialmente cerca de
+    independencia.
+  \end{description}
+  Para H5a, el nivel $\xi_0 \approx 0$ requiere una condición explícita
+  de independencia exacta ($X \perp Y$ generada directamente), distinta
+  de la ``casi independencia'' con señal decreciente que se reserva
+  para H5b --- un $\sigma$ simplemente muy grande no equivale a
+  independencia exacta para efectos de evaluar error de tipo I.
 \end{description}
 
 \section{Diseño de simulación} \label{sec:design}
@@ -295,22 +470,50 @@ o al menos permite, un efecto específico sobre su comportamiento.
 % NOTA: seccion redactada en español para facilitar la revision.
 % Traducir al ingles en la version final antes de enviar.
 
-\subsection{Diseño factorial}
+\subsection{Diseño por módulos}
 
-El diseño cruza cinco factores, cada uno directamente motivado por una
-de las hipótesis de la Sección~\ref{sec:framework}:
+Un factorial completo sobre los cinco ejes de la Sección~\ref{sec:framework}
+($n$, tipo de variable, forma marginal, estructura, régimen) --- y sus
+factores adicionales no siempre explícitos, como la marginal
+discretizada (H2a/b/c) o la direccionalidad $\xi_n(X,Y)$ vs.\
+$\xi_n(Y,X)$ --- resultaría en una matriz de miles de celdas,
+computacionalmente inmanejable dado el costo $O(n^2)$ o peor de los
+competidores (Sección~\ref{sec:design}, 3.4) y, más importante,
+innecesaria: cada hipótesis requiere que varíen solo uno o dos
+factores, no todos a la vez. En vez de un factorial completo reducido
+después por motivos computacionales, el diseño se estructura desde el
+inicio como módulos dirigidos por hipótesis, cada uno con su propia
+pregunta y sus propios factores:
 
-\begin{description}
-\item[Tamaño de muestra] --- $n \in \{20, 50, 100, 500, 2000\}$ (H1).
-\item[Tipo de variable] --- continua, binaria, ordinal (Likert de 3, 5 y 7 puntos), obtenidas discretizando una misma variable latente continua antes de calcular cada estadístico (H2).
-\item[Forma marginal] --- normal, uniforme, exponencial (asimétrica), $t$ de colas pesadas, mixtura bimodal (H3).
-\item[Estructura de dependencia] --- forma funcional: lineal, cuadrática, senoidal, circular, heterocedástica (H4).
-\item[Régimen de dependencia] --- magnitud poblacional de $\xi$, aproximadamente $0, 0.1, 0.3, 0.5, 0.8$, calibrado mediante el nivel de ruido añadido a cada relación funcional (H5).
-\end{description}
+\begin{table}[H]
+\caption{\label{tab:modules}Módulos del diseño de simulación.}
+\begin{center}
+\small
+\begin{tabular}{p{1.6cm}p{4.6cm}p{5.3cm}}
+\toprule
+Módulo & Pregunta principal & Factores que varían \\
+\midrule
+Validación & ¿Reproduce la implementación los casos con solución analítica conocida? & $n$; familias elípticas (normal, $t$); estructura lineal \\[4pt]
+H1 & ¿Cómo evoluciona el sesgo/MSE de $\xi_n$ con $n$? & $n \times$ régimen de $\xi_0$ \\[4pt]
+H2a/b/c & ¿Qué efecto tienen los empates en $Y$, en $X$, y en ambos? & número de categorías $\times$ margen discretizado (Y/X/ambos) $\times$ $n$; $B$ desempates por conjunto de datos \\[4pt]
+H3 & ¿Hay sensibilidad a mecanismos distribucionales no elípticos, tras calibrar a igual dependencia? & forma marginal $\times$ estructura de referencia; sub-experimento aislado de invariancia monótona \\[4pt]
+H4 & ¿Qué estadístico detecta mejor cada geometría de dependencia? & estadístico $\times$ estructura $\times$ intensidad; error de tipo I verificado antes de comparar potencia \\[4pt]
+H5a & ¿Cómo cambia el desempeño práctico a dependencia fija? & $n \times \xi_0$ fijo \\[4pt]
+H5b & ¿Cómo cambia el umbral de detección bajo alternativas locales? & $n \times$ señal decreciente en $n$ (1-2 estructuras) \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
 
-Para cada combinación de condiciones se calculan $\xi_n$, dCor, y
-$D$ de Hoeffding / $\tau^\ast$ como puntos de comparación
-(Sección~\ref{sec:framework}, Tabla~\ref{tab:comparison}).
+Para cada celda relevante se calculan $\xi_n$, dCor, $\tau^\ast$, y
+--- como referencias aplicadas de uso rutinario, no como competidores
+generales de independencia --- Pearson y Spearman. $D$ de Hoeffding se
+incluye como diagnóstico histórico/complementario en H4 más que como
+competidor principal: $\tau^\ast$ fue diseñado específicamente para
+corregir un punto ciego conocido de $D$ (Sección~\ref{sec:framework}),
+por lo que, si el presupuesto computacional obliga a priorizar, se
+prioriza $\tau^\ast$ sobre $D$ antes que reducir el número de
+réplicas Monte Carlo.
 
 \subsection{Mecanismos generadores de datos}
 
@@ -330,83 +533,313 @@ formas funcionales $f$ son:
 \text{Circular:} &\quad Y = Z\sqrt{1-X^2} + \sigma E, \quad Z = \pm 1 \text{ con prob. } 1/2 \text{ (independiente de $X$)}, \\
 \text{Heterocedástica:} &\quad Y = 3\big(s(X)(1-\lambda)+\lambda\big)E, \quad s(X) = \mathbf{1}(|X|\le 0.5),
 \end{align*}
-con $X$ reescalada a $[-1,1]$ en todos los casos. Las formas circular y
-heterocedástica siguen las alternativas de \citet[Sección 4.3]{chatterjee2021},
-usadas allí precisamente para exhibir condiciones donde $\xi_n$ es
-\emph{menos} potente que dCor (H4); las tres primeras siguen a
-\citet{dalitz2024} y \citet{gao2024}.
 
-\subsubsection{Calibración del régimen de dependencia (H5)}
+Cada estructura tiene un análogo intuitivo en fenómenos psicológicos
+reales --- mencionado aquí únicamente como ayuda interpretativa para
+el lector, sin que modifique el mecanismo generador ni represente una
+afirmación sustantiva sobre ningún constructo en particular:
+
+\begin{description}
+\item[Lineal] --- análoga a una relación dosis-respuesta simple, p.\ ej.\ entre una intervención y la reducción de un síntoma.
+\item[Cuadrática] --- análoga a fenómenos con un punto óptimo, p.\ ej.\ activación/desempeño (ley de Yerkes--Dodson), donde tanto muy poca como demasiada activación reducen el desempeño.
+\item[Senoidal] --- análoga a fenómenos cíclicos, p.\ ej.\ variación anímica circadiana o estacional.
+\item[Circular] --- análoga a una relación de intensidad sin dirección preferida, p.\ ej.\ la magnitud de una respuesta emocional sin importar su valencia (positiva o negativa).
+\item[Heterocedástica] --- análoga a una mayor variabilidad de respuesta bajo ciertas condiciones, p.\ ej.\ más dispersión en el afecto reportado bajo estrés alto que bajo estrés bajo.
+\end{description}
+
+Solo las estructuras circular y heterocedástica requieren que $X$
+tenga soporte acotado --- para que $\sqrt{1-X^2}$ y el indicador
+$\mathbf{1}(|X|\le 0.5)$ estén bien definidos ---, \emph{no} las cinco
+estructuras por igual. Para estas dos estructuras específicamente, $X$
+se obtiene aplicando a la variable latente $Z$ (de la familia marginal
+asignada por H3) una transformación monótona acotada, $X := 2F_Z(Z)-1
+\in (-1,1)$, que preserva el orden de $Z$; la ``forma marginal''
+comparada en H3 se refiere, en estos dos casos, a la de $Z$ antes de
+esa transformación, no a la de $X$ ya observada y acotada. Para las
+estructuras lineal, cuadrática, y senoidal --- la única familia de
+estructuras que H3 usa como referencia, Sección~\ref{sec:results} ---
+$X$ conserva directamente su familia marginal original, sin
+reescalamiento forzado, de modo que ``normal'', ``$t$'', etc.\ se
+refieren en esos casos a la distribución efectivamente observada. Las
+formas circular y heterocedástica siguen las alternativas de
+\citet[Sección 4.3]{chatterjee2021}, usadas allí precisamente para
+exhibir condiciones donde $\xi_n$ es \emph{menos} potente que dCor
+(H4); las tres primeras siguen a \citet{dalitz2024} y \citet{gao2024}.
+
+\subsubsection{Calibración del régimen de dependencia (H1, H5a)}
 
 El nivel de ruido $\sigma$ no tiene el mismo significado para $\xi$ en
 cada estructura funcional --- un mismo $\sigma$ puede corresponder a
 valores muy distintos de $\xi(X,Y)$ según la forma de $f$. Por ello,
-para cada combinación de (estructura, forma marginal, tipo de
-variable), $\sigma$ se calibra numéricamente, no se fija a priori: se
-aproxima el valor poblacional $\xi(X,Y)$ mediante Monte Carlo de gran
-tamaño de muestra ($n=10^5$, promediado sobre múltiples réplicas;
-usando la fórmula cerrada de \citet{ansari2026} como atajo y
-verificación donde esté disponible, i.e., para las formas elípticas de
-H3), y se ajusta $\sigma$ (búsqueda numérica, p.\ ej.\ bisección) hasta
-que ese valor aproximado quede dentro de una tolerancia fija del nivel
-objetivo $\xi_0 \in \{0, 0.1, 0.3, 0.5, 0.8\}$. El valor de $\sigma$
-resultante para cada celda del diseño se documenta en el repositorio
-de reproducibilidad (Sección~\ref{sec:design}, 3.4) junto con el
-script de calibración.
+para cada combinación de (estructura, forma marginal), $\sigma$ se
+calibra numéricamente, no se fija a priori, sujeto a tres
+precauciones.
 
-\subsubsection{Discretización para tipo de variable (H2)}
+\emph{Monotonía no garantizada.} Una búsqueda por bisección presupone
+que $\xi(X,Y)$ crece monótonamente al disminuir $\sigma$; esto no está
+garantizado para todas las estructuras, en particular la circular, la
+heterocedástica, o tras discretizar. Antes de adoptar la bisección
+como procedimiento general, se verifica empíricamente --- para cada
+combinación relevante de estructura y forma marginal --- la curva
+$\sigma \mapsto \xi(X,Y)$ sobre una malla de valores; si la curva no
+es monótona en el rango relevante, se sustituye la bisección por una
+búsqueda global sobre esa malla.
 
-Partiendo de la variable continua generada según lo anterior, las
-versiones binaria y ordinales (Likert-3, Likert-5, Likert-7) se
+\emph{Escala de calibración.} Para las condiciones de H2 (variables
+discretizadas), la calibración se realiza sobre la variable latente
+continua, \emph{antes} de discretizar --- no sobre la variable
+observada. Esto permite estudiar cuánto distorsiona la discretización
+una dependencia subyacente común; el valor de $\xi$ resultante en la
+escala observada (tras discretizar) se calcula y reporta por separado,
+no se impone como objetivo de calibración.
+
+\emph{Sin referencia poblacional compartida entre estadísticos.} $\xi_n$,
+dCor, y $\tau^\ast$ no estiman el mismo funcional poblacional ni
+comparten escala, por lo que calibrar a un valor $\xi_0$ fija el nivel
+de dependencia (aproximadamente) para $\xi_n$, pero no garantiza un
+nivel comparable para dCor o $\tau^\ast$ bajo la misma condición. En
+consecuencia (Sección~\ref{sec:design}, 3.3), el sesgo y MSE de cada
+estadístico se reportan respecto de su \emph{propio} valor poblacional
+--- aproximado por el mismo procedimiento Monte Carlo de gran tamaño
+de muestra ($n=10^5$; usando la fórmula cerrada de
+\citet{ansari2026} como atajo y verificación para las formas elípticas
+de H3) --- y la comparación \emph{entre} estadísticos se limita a
+cantidades comparables entre escalas: error de tipo I, potencia,
+tamaño de efecto estandarizado, y tiempo de cómputo.
+
+El valor de $\sigma$ resultante (y, si aplica, el $\xi$ observado
+tras discretizar) para cada celda del diseño se documenta en el
+repositorio de reproducibilidad (Sección~\ref{sec:design}, 3.4) junto
+con el script de calibración.
+
+\subsubsection{Discretización, desempate anidado, y puntaje compuesto (H2a--d)}
+
+Partiendo de la variable latente continua generada según lo anterior,
+las versiones binaria y ordinales (Likert-3, Likert-5, Likert-7) se
 obtienen aplicando la función de distribución acumulada teórica de la
 marginal correspondiente para cortar el rango en $c \in \{2,3,5,7\}$
 categorías de igual probabilidad, asignando códigos enteros
-$1,\dots,c$. Esto preserva la estructura de dependencia subyacente
-mientras introduce empates de forma controlada --- el mecanismo
-exacto que H2 busca poner a prueba. La discretización se aplica,
-según la condición, a $Y$, a $X$, o a ambos, para poder distinguir el
-efecto de empates en el covariable (que aleatoriza $\xi_n$ directamente,
-Sección~\ref{sec:framework}) del efecto de empates en la respuesta
-(que altera $\tau^2$).
+$1,\dots,c$. Esto preserva el \emph{mecanismo} de dependencia latente
+--- no necesariamente el mismo valor \emph{observado} de $\xi$, que
+puede cambiar al discretizar (Sección~\ref{sec:framework}, H2). La
+discretización se aplica, según el módulo, a $Y$ (H2a), a $X$ (H2b), o
+a ambos (H2c), precisamente para no confundir el efecto de empates en
+el covariable con el efecto de empates en la respuesta.
+
+Para las condiciones con empates en $X$ (H2b, H2c), una sola
+replicación Monte Carlo por conjunto de datos no basta, porque
+$\xi_n$ depende del desempate aleatorio. Se usa en su lugar un diseño
+anidado: (i) se genera un conjunto de datos latente; (ii) se
+discretiza; (iii) se calcula $\xi_n$ bajo $B$ desempates aleatorios
+distintos del mismo conjunto discretizado; y (iv) se descompone la
+varianza total de $\xi_n$ en una componente \emph{entre} conjuntos de
+datos (variabilidad de muestreo ordinaria) y una componente
+\emph{dentro} de cada conjunto (variabilidad inducida por el
+desempate). Esta descomposición --- planificada como resultado propio
+en la Sección~\ref{sec:results} --- permite distinguir la inestabilidad
+propia del muestreo de la inestabilidad introducida por la
+implementación del estadístico ante empates.
+
+Para H2d, un rasgo latente $\theta$ genera $k=10$ ítems Likert de 6
+puntos, $I_j = \mathrm{discretizar}(\theta + \epsilon_j, 6)$ para
+$j=1,\dots,k$, con $\epsilon_j$ ruido de medición independiente entre
+ítems (mismo procedimiento de discretización que H2a--c); el puntaje
+observado es $\bar{I} = \frac{1}{k}\sum_j I_j$. Los parámetros
+($k=10$, escala 1--6) se eligen para coincidir con la longitud típica
+de una faceta del \texttt{bfi} (Sección~\ref{sec:realdata}). Esta es
+deliberadamente una simplificación de la práctica psicométrica real,
+donde suele haber muchos más ítems (p.\ ej.\ 40) agrupados en varios
+factores relacionados teóricamente entre sí, de modo que las
+relaciones entre los puntajes compuestos resultantes son complejas
+precisamente por la varianza compartida entre factores correlacionados
+--- exactamente el tipo de fenómeno multifactorial difícil de aislar
+que motiva este estudio (Sección~\ref{sec:introduction}). H2d se
+limita a mostrar cómo la sola agregación de ítems --- sin todavía esa
+complejidad multifactorial adicional --- ya atenúa el problema de
+empates de H2a--c; explorar la estructura multifactorial completa
+excede el alcance de este artículo (Sección~\ref{sec:introduction}).
+
+\subsubsection{Invariancia ante transformaciones monótonas (sub-experimento de H3)}
+
+Para aislar limpiamente la propiedad de invariancia discutida en H3
+--- distinta de comparar familias marginales generadas por modelos
+aditivos separados (Sección~\ref{sec:framework}) --- se ejecuta un
+sub-experimento independiente del módulo H3 principal: se genera una
+única distribución conjunta base $(X,Y)$, se le aplican
+transformaciones estrictamente monótonas (pero no lineales) a una o
+ambas marginales, y se compara la estabilidad de $\xi_n$, $\rho$ de
+Spearman, y $\tau$ de Kendall (que deberían permanecer invariantes)
+frente a la deriva numérica esperada en dCor (que no lo es). Este
+sub-experimento, al mantener fija la distribución conjunta subyacente
+y variar solo la parametrización, prueba la propiedad matemática de
+invariancia de forma mucho más directa que el factorial principal de
+H3.
+
+\subsubsection{Alternativas locales e independencia exacta (H5b)}
+
+Para el módulo H5b se seleccionan una o dos estructuras del módulo H4
+(lineal y senoidal) y se define, siguiendo el marco de
+\citet{auddy2024}, una secuencia de alternativas cuya señal decrece
+con $n$ a una tasa explícita --- p.\ ej.\ $c_n \propto n^{-1/4}$ y
+$c_n \propto n^{-1/2}$ --- en vez de un nivel de dependencia fijo,
+precisamente para poder observar si el umbral de detección empírico de
+$\xi_n$ se asemeja más a uno u otro orden. Para la evaluación del
+error de tipo I en H1/H5a se genera, además, una condición explícita
+de independencia exacta ($X \perp Y$, generada directamente sin pasar
+por un $\sigma$ grande), reservando la señal decreciente en $n$ de
+H5b para el estudio de potencia local cerca de independencia.
 
 \subsection{Métricas de resultado}
 
 Para cada condición, replicada $R$ veces:
 
 \begin{description}
-\item[Sesgo y MSE] de cada estadístico respecto a su valor poblacional teórico (H1, H3).
-\item[Varianza empírica] entre replicaciones, incluyendo variabilidad atribuible al desempate aleatorio de rangos cuando aplica (H2).
-\item[Error de tipo I y potencia] de la prueba de independencia asociada a cada estadístico, evaluados por separado en el régimen cercano a independencia y en el régimen de dependencia moderada/alta (H5).
-\item[Tiempo de cómputo], dado que la ventaja de velocidad de $\xi_n$ es una de sus propiedades más citadas (Sección~\ref{sec:framework}, Tabla~\ref{tab:comparison}).
+\item[Sesgo y MSE] de cada estadístico respecto a \emph{su propio} valor
+  poblacional teórico --- $\xi$ para $\xi_n$, la dCor poblacional para
+  dCor, y así sucesivamente (Sección~\ref{sec:design}, 3.2) --- nunca
+  respecto a una única ``referencia poblacional'' compartida entre
+  estadísticos, ya que no estiman el mismo funcional ni comparten
+  escala (H1, H3).
+\item[Descomposición de varianza] entre conjuntos de datos y dentro de
+  cada conjunto por desempate aleatorio, para las condiciones con
+  empates en el covariable (H2b, H2c).
+\item[Error de tipo I empírico] al nivel nominal (p.\ ej.\ $0.05$),
+  evaluado \emph{únicamente} bajo la condición de independencia exacta
+  ($X \perp Y$ generada directamente, H1, H5a) --- nunca bajo
+  alternativas, locales o no, ya que ahí la proporción de rechazos es
+  potencia y no error de tipo I. Se documenta para cada estadístico el
+  número de permutaciones (si aplica), la regla exacta de cálculo del
+  valor $p$, y el tratamiento de empates.
+\item[Potencia], evaluada bajo dependencia fija (H5a, $\xi_0>0$) y bajo
+  la secuencia de alternativas locales (H5b), reportada \emph{solo}
+  entre estadísticos cuyo error de tipo I esté razonablemente
+  controlado bajo la misma condición --- de lo contrario la
+  comparación de potencia es un artefacto de calibración, no una
+  comparación real (H4). La potencia es comparable entre $\xi_n$,
+  dCor, y $\tau^\ast$ porque los tres se leen como probabilidad de
+  rechazo bajo una misma condición generadora, no porque los
+  coeficientes compartan escala o funcional poblacional (Sección
+  \ref{sec:design}, 3.2).
+\item[Tiempo de cómputo], dado que la ventaja de velocidad de $\xi_n$
+  es una de sus propiedades más citadas (Sección~\ref{sec:framework},
+  Tabla~\ref{tab:comparison}).
 \end{description}
+
+Además de las tablas de la Sección~\ref{sec:results}, se planean
+figuras que hagan visibles las interacciones entre factores: curvas de
+sesgo/MSE de $\xi_n$ frente a $n$ (una curva por nivel de $\xi_0$),
+curvas de potencia frente a intensidad de dependencia por estructura,
+error de tipo I por tipo de variable y número de categorías,
+descomposición de varianza (muestreo vs.\ desempate), tiempo de
+cómputo en escala logarítmica frente a $n$, y las curvas de
+calibración $\sigma \mapsto \xi(X,Y)$ por estructura (Sección
+\ref{sec:design}, 3.2) que documentan la verificación de monotonía.
 
 \subsection{Software y reproducibilidad}
 
-% TODO: version de R, paquetes (XICOR, energy, etc.), politica de
-% semilla fija, y estructura del repositorio de reproducibilidad
-% (siguiendo el mismo patron ya usado en las validaciones Monte Carlo
-% de AssumptionsLab: script + resultados + README por cada corrida).
+Toda la simulación se implementa en \proglang{R} (versión $\ge 4.3$),
+usando los paquetes \pkg{XICOR} \citep[para $\xi_n$; el mismo paquete
+usado por][]{chatterjee2021,dalitz2024}, \pkg{energy} \citep[para
+dCor; de los mismos autores que la propusieron,][]{szekely2007},
+\pkg{TauStar} (para $\tau^\ast$, priorizado como competidor principal
+de tipo rangos/cópula, Sección~\ref{sec:design}, 3.1), \pkg{Hmisc}
+(para $D$ de Hoeffding, como diagnóstico complementario), y las
+funciones base de \proglang{R} para Pearson y Spearman (referencias
+aplicadas de uso rutinario).
+
+\emph{Alcance computacional.} El diseño por módulos (Sección
+\ref{sec:design}, 3.1) evita deliberadamente un factorial completo
+--- que con los ejes considerados superaría con facilidad varios
+miles de celdas --- dado que dCor, $D$, y $\tau^\ast$ tienen costo
+$O(n^2)$ o peor y sus pruebas de independencia requieren permutación;
+el propio \citet{chatterjee2021} reporta pruebas competidoras que no
+llegaron a converger en tamaños de muestra grandes. En su lugar, cada
+módulo (Tabla~\ref{tab:modules}) fija su propio conjunto mínimo de
+celdas necesarias para responder su pregunta, con $R$ réplicas por
+celda (a determinar según presupuesto computacional, siguiendo el
+orden de $R=1000$ usado por \citealp{gao2024} y \citealp{dalitz2024}),
+y $B$ desempates adicionales por conjunto de datos en los módulos con
+empates en el covariable (H2b, H2c). Interacciones de orden superior
+entre módulos, más allá de las planeadas, pueden añadirse como
+material suplementario si el presupuesto computacional lo permite.
+
+\emph{Política de semilla.} Cada celda se ejecuta con una semilla fija
+y documentada (\texttt{set.seed()}), siguiendo el mismo patrón ya
+usado en las validaciones Monte Carlo de AssumptionsLab: semilla fija,
+script versionado, y resultados crudos (\texttt{.csv}) committeados
+junto al script que los produjo, para que cualquier lector pueda
+reproducir exactamente los mismos valores.
+
+\emph{Repositorio de reproducibilidad.} El código completo (mecanismos
+generadores de datos, calibración de $\sigma$, cómputo de los tres
+estadísticos, y generación de las Tablas~\ref{tab:h1}--\ref{tab:h5b})
+se publica en un repositorio público dedicado,
+\url{https://github.com/ArchieJamDev/ChatterjeeXi-Simulation}, bajo
+\texttt{simulation/}, con su propio \texttt{README} de instrucciones
+de ejecución --- separado del código fuente del manuscrito
+(\texttt{paper/}) en el mismo repositorio.
 
 \section{Resultados} \label{sec:results}
 
 % NOTA: seccion redactada en español para facilitar la revision.
 % Traducir al ingles en la version final antes de enviar.
 %
-% Cada tabla resume el efecto de UN factor (el de su hipotesis),
-% manteniendo los otros cuatro fijos en un nivel de referencia
-% (indicado en cada caption). La matriz factorial completa (todas
-% las combinaciones de los 5 factores) queda como material
-% suplementario/apendice reproducible.
+% Cada tabla resume el modulo correspondiente de la Tabla de modulos
+% (Seccion 3.1), manteniendo los factores no listados fijos en un
+% nivel de referencia (indicado en cada caption). Interacciones de
+% orden superior quedan como material suplementario/apendice
+% reproducible.
+
+\subsection{Validación}
+
+Antes de interpretar cualquier resultado sustantivo, se verifica que
+la implementación reproduzca los casos con solución analítica
+conocida: el valor exacto de $\xi(X,Y)$ para la familia normal
+equicorrelada de \citet[Ec.~33]{ansari2026}, $\xi(X,Y) = \frac{3}{\pi}
+\arcsin\!\big(\tfrac{1+\rho^2}{2}\big) - \tfrac{1}{2}$ para $(X,Y)$
+normal bivariada estándar con correlación $\rho$. Para el modelo
+lineal $Y = X + \sigma E$ con $X, E \sim N(0,1)$ independientes
+($\rho = 1/\sqrt{1+\sigma^2}$), la Tabla~\ref{tab:validation} compara
+ese valor exacto con la estimación Monte Carlo de gran tamaño de
+muestra ($n=10^5$) de nuestra propia implementación. La diferencia
+máxima observada es $0.002$, por debajo del umbral de tolerancia
+--- el gate de validación \emph{se supera} para la familia normal. El
+caso $t$ de Student de \citet[Sección 5.1]{ansari2026} queda pendiente
+de una verificación análoga antes de avanzar a la interpretación
+completa de H3 sobre familias no elípticas.
+
+\begin{table}[H]
+\caption{\label{tab:validation}Validación: $\xi(X,Y)$ exacto (normal equicorrelada, \citealp{ansari2026}) vs.\ estimación Monte Carlo ($n=10^5$) de esta implementación, modelo lineal $Y=X+\sigma E$.}
+\begin{center}
+\small
+\begin{tabular}{ccccc}
+\toprule
+$\sigma$ & $\rho$ & $\xi$ exacto & $\xi$ estimado (MC) & Diferencia abs.\ \\
+\midrule
+3.00 & 0.316 & 0.056 & 0.057 & 0.001 \\
+2.00 & 0.447 & 0.114 & 0.116 & 0.002 \\
+1.50 & 0.555 & 0.180 & 0.181 & 0.000 \\
+1.00 & 0.707 & 0.310 & 0.309 & 0.001 \\
+0.70 & 0.819 & 0.445 & 0.447 & 0.002 \\
+0.50 & 0.894 & 0.569 & 0.570 & 0.001 \\
+0.30 & 0.958 & 0.725 & 0.725 & 0.001 \\
+0.15 & 0.989 & 0.858 & 0.859 & 0.001 \\
+0.05 & 0.999 & 0.952 & 0.952 & 0.000 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
 
 \subsection{H1: efecto del tamaño de muestra}
 
-\begin{table}[hbt]
-\caption{\label{tab:h1}Sesgo de muestra finita de $\xi_n$ en función de $n$. Referencia fija: forma = normal, tipo de variable = continua, estructura = lineal, régimen = moderado ($\xi_0 \approx 0.5$).}
+\begin{table}[H]
+\caption{\label{tab:h1}Sesgo de muestra finita de $\xi_n$ en función de $n$, con la cota teórica de \citet{dalitz2024} como referencia de cuánto sesgo es estructuralmente inevitable. Referencia fija: forma = normal, tipo de variable = continua, estructura = lineal, régimen = moderado ($\xi_0 \approx 0.5$).}
 \begin{center}
 \begin{tabular}{lccccc}
 \toprule
  & $n=20$ & $n=50$ & $n=100$ & $n=500$ & $n=2000$ \\
 \midrule
+Cota teórica $(n-2)/(n+1)$ &  &  &  &  &  \\
 Media $\hat\xi_n$ &  &  &  &  &  \\
 Sesgo             &  &  &  &  &  \\
 MSE               &  &  &  &  &  \\
@@ -415,10 +848,10 @@ MSE               &  &  &  &  &  \\
 \end{center}
 \end{table}
 
-\subsection{H2: efecto del tipo de variable}
+\subsection{H2a--d: empates en la respuesta, el predictor, ambos, y el puntaje compuesto}
 
-\begin{table}[hbt]
-\caption{\label{tab:h2}Varianza empírica y potencia de $\xi_n$ según tipo de variable. Referencia fija: $n$ de referencia, forma = normal, estructura = lineal, régimen = moderado.}
+\begin{table}[H]
+\caption{\label{tab:h2a}H2a: varianza empírica y potencia de $\xi_n$ al discretizar únicamente $Y$ ($X$ continua). Referencia fija: $n$ de referencia, forma = normal, estructura = lineal, régimen = moderado.}
 \begin{center}
 \begin{tabular}{lccccc}
 \toprule
@@ -431,10 +864,54 @@ Potencia          &  &  &  &  &  \\
 \end{center}
 \end{table}
 
+\begin{table}[H]
+\caption{\label{tab:h2b}H2b: descomposición de varianza de $\xi_n$ al discretizar únicamente $X$ ($Y$ continua). Referencia fija: $n$ de referencia, forma = normal, estructura = lineal, régimen = moderado.}
+\begin{center}
+\begin{tabular}{lccccc}
+\toprule
+ & Continua & Binaria & Likert-3 & Likert-5 & Likert-7 \\
+\midrule
+Varianza entre conjuntos de datos &  &  &  &  &  \\
+Varianza dentro (desempate)       &  &  &  &  &  \\
+Potencia                          &  &  &  &  &  \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{table}[H]
+\caption{\label{tab:h2c}H2c: varianza empírica y potencia de $\xi_n$ con $X$ e $Y$ discretizadas conjuntamente. Referencia fija: $n$ de referencia, forma = normal, estructura = lineal, régimen = moderado.}
+\begin{center}
+\begin{tabular}{lccccc}
+\toprule
+ & Continua & Binaria & Likert-3 & Likert-5 & Likert-7 \\
+\midrule
+Varianza empírica &  &  &  &  &  \\
+Potencia          &  &  &  &  &  \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{table}[H]
+\caption{\label{tab:h2d}H2d: $\xi_n$ sobre un ítem Likert crudo vs.\ un puntaje compuesto de $k=10$ ítems (escala 1--6, coincidente con \texttt{bfi}), mismo rasgo latente. Referencia fija: $n$ de referencia, forma = normal, estructura = lineal, régimen = moderado.}
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+ & Ítem único (Likert-6) & Puntaje compuesto ($k=10$) \\
+\midrule
+Varianza empírica &  &  \\
+Potencia          &  &  \\
+Núm.\ valores observados distintos &  &  \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
 \subsection{H3: estabilidad ante la forma de la distribución}
 
-\begin{table}[hbt]
-\caption{\label{tab:h3}$\xi_n$ frente a dCor bajo distintas formas marginales (misma dependencia subyacente). Referencia fija: $n$ de referencia, tipo de variable = continua, estructura = lineal, régimen = moderado. Las columnas marcadas (V) son de \emph{validación} contra el valor exacto de \citet{ansari2026} para familias elípticas (Ec.~33 y Sección 5.1); el vacío genuino recae en las columnas restantes (formas no elípticas, sin garantía analítica de continuidad).}
+\begin{table}[H]
+\caption{\label{tab:h3}$\xi_n$ frente a dCor bajo distintas formas marginales, tras calibrar cada condición a un mismo nivel poblacional de dependencia direccional. Referencia fija: $n$ de referencia, tipo de variable = continua, estructura = lineal, régimen = moderado. Las columnas marcadas (V) son de \emph{validación} contra el valor exacto de \citet{ansari2026} para familias elípticas (Ec.~33 y Sección 5.1); el vacío genuino recae en las columnas restantes (formas no elípticas, sin garantía analítica de continuidad). Diferencias observadas se interpretan como sensibilidad al mecanismo generador conjunto, no exclusivamente a la marginal (Sección~\ref{sec:framework}).}
 \begin{center}
 \begin{tabular}{lccccc}
 \toprule
@@ -447,35 +924,56 @@ dCor    &  &  &  &  &  \\
 \end{center}
 \end{table}
 
-\subsection{H4: potencia según estructura de dependencia}
-
-\begin{table}[hbt]
-\caption{\label{tab:h4}Potencia de detección por estadístico y estructura de dependencia. Referencia fija: $n$ de referencia, forma = normal, tipo de variable = continua, régimen = moderado.}
+\begin{table}[H]
+\caption{\label{tab:h3invar}Sub-experimento aislado: estabilidad de cada medida ante transformaciones monótonas de una misma distribución conjunta base (Sección~\ref{sec:design}).}
 \begin{center}
-\begin{tabular}{lccccc}
+\begin{tabular}{lccc}
 \toprule
- & Lineal & Cuadrática & Senoidal & Circular & Heterocedástica \\
+ & Sin transformar & Transf. monótona 1 & Transf. monótona 2 \\
 \midrule
-$\xi_n$          &  &  &  &  &  \\
-dCor             &  &  &  &  &  \\
-$D$ / $\tau^\ast$ &  &  &  &  &  \\
+$\xi_n$    &  &  &  \\
+Spearman   &  &  &  \\
+Kendall    &  &  &  \\
+dCor       &  &  &  \\
 \bottomrule
 \end{tabular}
 \end{center}
 \end{table}
 
-\subsection{H5: interacción entre régimen de dependencia y tamaño de muestra}
+\subsection{H4: potencia según geometría de la dependencia}
 
-A diferencia de H1-H4, esta hipótesis es sobre una \emph{interacción}
+\begin{table}[H]
+\caption{\label{tab:h4}Error de tipo I y potencia de detección por estadístico y estructura de dependencia (geometría). Referencia fija: $n$ de referencia, forma = normal, tipo de variable = continua, régimen = moderado. La potencia solo es comparable entre estadísticos con error de tipo I similar bajo la misma condición (Sección~\ref{sec:design}).}
+\begin{center}
+\small
+\begin{tabular}{lccccc}
+\toprule
+ & Lineal & Cuadrática & Senoidal & Circular & Heterocedástica \\
+\midrule
+Error de tipo I: $\xi_n$      &  &  &  &  &  \\
+Error de tipo I: dCor         &  &  &  &  &  \\
+Error de tipo I: $\tau^\ast$  &  &  &  &  &  \\
+\midrule
+Potencia: $\xi_n$      &  &  &  &  &  \\
+Potencia: dCor         &  &  &  &  &  \\
+Potencia: $\tau^\ast$  &  &  &  &  &  \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+\subsection{H5a: desempeño práctico a dependencia fija}
+
+A diferencia de H1--H4, esta hipótesis es sobre una \emph{interacción}
 --- el propio efecto de $n$ depende del régimen --- por lo que su
 tabla es bidimensional en vez de un barrido de un solo factor.
 
-\begin{table}[hbt]
-\caption{\label{tab:h5}Potencia de $\xi_n$ cruzando tamaño de muestra y régimen de dependencia poblacional $\xi_0$. Referencia fija: forma = normal, tipo de variable = continua, estructura = lineal.}
+\begin{table}[H]
+\caption{\label{tab:h5a}Potencia de $\xi_n$ cruzando tamaño de muestra y régimen de dependencia poblacional $\xi_0$ fijo (incluye una condición de independencia exacta, no solo $\sigma$ grande). Referencia fija: forma = normal, tipo de variable = continua, estructura = lineal.}
 \begin{center}
 \begin{tabular}{lccccc}
 \toprule
- & $\xi_0\approx 0$ & $\xi_0\approx 0.1$ & $\xi_0\approx 0.3$ & $\xi_0\approx 0.5$ & $\xi_0\approx 0.8$ \\
+ & $\xi_0 = 0$ (exacta) & $\xi_0\approx 0.1$ & $\xi_0\approx 0.3$ & $\xi_0\approx 0.5$ & $\xi_0\approx 0.8$ \\
 \midrule
 $n=20$   &  &  &  &  &  \\
 $n=50$   &  &  &  &  &  \\
@@ -487,14 +985,91 @@ $n=2000$ &  &  &  &  &  \\
 \end{center}
 \end{table}
 
+\subsection{H5b: sensibilidad local}
+
+\begin{table}[H]
+\caption{\label{tab:h5b}Potencia empírica bajo alternativas locales cuya señal decrece con $n$ a tasas $n^{-1/4}$ y $n^{-1/2}$ \citep{auddy2024}, estructuras lineal y senoidal. Referencia fija: forma = normal, tipo de variable = continua.}
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+ & Señal $\propto n^{-1/4}$ & Señal $\propto n^{-1/2}$ \\
+\midrule
+$n=100$ (lineal)    &  &  \\
+$n=500$ (lineal)    &  &  \\
+$n=2000$ (lineal)   &  &  \\
+$n=100$ (senoidal)  &  &  \\
+$n=500$ (senoidal)  &  &  \\
+$n=2000$ (senoidal) &  &  \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
 \section{Ilustración con datos reales} \label{sec:realdata}
 
-% TODO: apply xi (and the competing measures) to the bfi dataset
-% (Revelle, psych package, SAPA project): 2800 subjects, 25 Likert
-% (1-6) personality items (Big Five), plus age (continuous), gender
-% (binary), and education (ordinal, 1-5). Chosen because it spans
-% all three variable types in the factorial design within a single
-% real, non-toy, psychology dataset.
+% NOTA: seccion redactada en español para facilitar la revision.
+% Traducir al ingles en la version final antes de enviar. Sin
+% resultados numericos todavia -- esto es el plan de analisis, a
+% ejecutar una vez completada la simulacion.
+
+Siguiendo la recomendación de AJS de ilustrar los métodos con datos
+reales e interesantes, y no con ejemplos triviales, se aplica $\xi_n$
+y sus medidas de comparación al conjunto de datos \texttt{bfi} del
+paquete \pkg{psych} \citep{revelle2024psych}, originado en el proyecto
+SAPA \citep{revelle2010sapa}: 2800 sujetos, 25 ítems de personalidad
+tipo Likert (escala 1--6, cinco facetas del modelo Big Five), más edad
+(continua), género (binaria), y nivel educativo (ordinal, 1--5). Se
+eligió específicamente porque combina, dentro de un único conjunto de
+datos real y de tamaño considerable, los tres tipos de variable del
+diseño de simulación (Sección~\ref{sec:design}), permitiendo mostrar
+las precauciones de interpretación de H1--H5 en un caso aplicado, no
+solo en condiciones simuladas.
+
+Se examinan tres pares ilustrativos, elegidos para representar cada
+tipo de comparación de variable del diseño:
+
+\begin{description}
+\item[Continua--continua.] Edad frente a un puntaje sumario de
+  neuroticismo, para explorar si la relación es genuinamente monótona
+  (donde Pearson/Spearman deberían bastar) o si $\xi_n$ detecta
+  estructura adicional no monótona.
+\item[Ordinal--ordinal.] Dos ítems individuales de la misma faceta
+  (Likert 1--6), como caso aplicado directo de H2a/H2c: se reporta
+  $\xi_n$ bajo distintos desempates aleatorios para ilustrar
+  empíricamente la variabilidad inducida por los empates documentada
+  en H2b.
+\item[Binaria--continua.] Género frente a un puntaje sumario de
+  extraversión, ilustrando el caso binario de H2a.
+\end{description}
+
+Para cada par se reportan $\xi_n(X,Y)$ y $\xi_n(Y,X)$ --- dada la
+direccionalidad de $\xi_n$ (Sección~\ref{sec:framework}) ---, junto
+con dCor, $\tau^\ast$, Pearson, y Spearman, y se discuten las
+diferencias a la luz de los hallazgos de la Sección~\ref{sec:results}:
+por ejemplo, si $n=2800$ es suficientemente grande para que el sesgo
+de muestra finita (H1) sea despreciable, o si el número de categorías
+de los ítems Likert (H2) sugiere cautela en la interpretación puntual
+de $\xi_n$ frente a su intervalo de incertidumbre.
+
+\begin{table}[H]
+\caption{\label{tab:realdata}Coeficientes calculados sobre \texttt{bfi} ($n=2800$) para los tres pares ilustrativos.}
+\begin{center}
+\small
+\begin{tabular}{lccc}
+\toprule
+ & Edad -- Neuroticismo & Ítem 1 -- Ítem 2 (Likert) & Género -- Extraversión \\
+ & (continua--continua) & (ordinal--ordinal) & (binaria--continua) \\
+\midrule
+$\xi_n(X,Y)$ &  &  &  \\
+$\xi_n(Y,X)$ &  &  &  \\
+dCor         &  &  &  \\
+$\tau^\ast$  &  &  &  \\
+Pearson      &  &  &  \\
+Spearman     &  &  &  \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
 
 \section{Discusión} \label{sec:discussion}
 
