@@ -51,9 +51,11 @@
   unexpected finding in which distance correlation and a copula-based
   measure diverge substantially from each other under circular
   relationships, rather than behaving as a homogeneous block of
-  alternatives; and a sharp empirical asymmetry between $\xi_n$'s
-  suboptimal detection threshold near independence and its minimax
-  optimality away from it. A real-data illustration with personality
+  alternatives; and empirical evidence, consistent with theory, of
+  $\xi_n$'s own detection threshold weakening near independence
+  relative to the optimal parametric rate expected away from it ---
+  without itself comparing that threshold against competing measures.
+  A real-data illustration with personality
   data reproduces two of these findings directly. Taken together, the
   results offer practical guidance on when $\xi_n$ should be preferred,
   interpreted with caution, or complemented with classical measures, in
@@ -1005,8 +1007,8 @@ Num.\ distinct observed values & 6.0 & 43.4 \\
 
 H2d confirms the psychometric intuition: the $k=10$-item composite
 score reduces empirical variance by approximately 37\% relative to the
-single item, raises power from $0.970$ to $1.000$, and more than
-sevenfolds the effective number of distinct observed values
+single item, raises power from $0.970$ to $1.000$, and multiplies the
+effective number of distinct observed values by more than seven
 ($6.0 \to 43.4$, close to the theoretical maximum of $10\times(6-1)+1=51$).
 Aggregating items alone --- without any additional multifactorial
 structure --- already substantially attenuates the tie cost documented
@@ -1087,8 +1089,9 @@ Power             & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 \\
 \end{center}
 \end{table}
 
-With the five metrics H3 promises to evaluate, the pattern is more
-nuanced than the point-estimate comparison alone suggests. In
+With the four further metrics H3 promises beyond the point estimate ---
+bias, variance, Type I error, and power --- the pattern is more nuanced
+than the point-estimate comparison alone suggests. In
 \emph{bias}, it is dCor that turns out comparatively more stable in
 absolute magnitude ($|{-0.002}|$ to $|0.001|$) versus $\xi_n$
 ($-0.011$ to $-0.021$) --- the opposite of what the comparison of
@@ -1211,16 +1214,21 @@ $n=2000$ & 0.033 & 1.000 & 1.000 & 1.000 & 1.000 \\
 
 Type I error (the $\xi_0=0$ column) stays close to the nominal level
 across all five rows, confirming that the power differences between
-columns are not an artifact of poor calibration. The pattern clearly
-confirms H5a: the rate at which power grows with $n$ depends strongly
-on the regime. At $\xi_0\approx 0.1$ (near independence), $n=2000$ is
-needed to reach near-perfect power, starting from only $0.134$ at
-$n=20$ --- an enormous jump. At $\xi_0\approx 0.8$, in contrast, power
-is already saturated at $1.000$ even at $n=20$. This large difference
-in the "sample cost" depending on how close the true dependence is to
-zero directly motivates the H5b module, which formally examines the
-detection threshold under local alternatives in that same near-independence
-regime.
+columns are not an artifact of poor calibration. The pattern confirms the specific slice of H5a tested here: at a fixed
+structure (linear) and without ties, the rate at which power grows
+with $n$ depends strongly on $\xi_0$. At $\xi_0\approx 0.1$ (near
+independence), $n=2000$ is needed to reach near-perfect power, starting
+from only $0.134$ at $n=20$ --- an enormous jump. At $\xi_0\approx 0.8$,
+in contrast, power is already saturated at $1.000$ even at $n=20$.
+H5a's further claim that this rate also depends on dependence structure
+and the presence of ties is not tested by this particular crossing ---
+the H4 and H2a--c modules (Tables~\ref{tab:h4}, \ref{tab:h2a}--\ref{tab:h2b})
+address those factors separately, each at its own fixed regime, not
+jointly with this $n\times\xi_0$ design. This large difference in the
+"sample cost" depending on how close the true dependence is to zero
+directly motivates the H5b module, which formally examines the
+detection threshold under local alternatives in that same
+near-independence regime.
 
 \subsection{H5b: local sensitivity}
 
@@ -1264,7 +1272,13 @@ mechanism that motivates H5b. With only three sample sizes and two
 structures, this experiment does not aim to \emph{establish} the
 minimax rate robustly --- that is the province of \citet{auddy2024}'s
 theoretical proof --- but rather to show that the asymmetry they
-predict is empirically detectable even with a modest design.
+predict is empirically detectable even with a modest design. Note also
+that this module reports only $\xi_n$'s own power under the two decay
+rates; it does not include dCor, $\tau^\ast$, Pearson, or Spearman, so
+it cannot by itself establish that $\xi_n$'s detection threshold
+differs empirically from its competitors', as H5b's original wording
+suggested --- only that $\xi_n$'s own behavior is consistent with the
+asymmetry the theory predicts for $\xi_n$ specifically.
 
 \section{Real-Data Illustration} \label{sec:realdata}
 
@@ -1290,9 +1304,10 @@ of variable comparison in the design:
   (where Pearson/Spearman should suffice) or whether $\xi_n$ detects
   additional non-monotone structure.
 \item[Ordinal--ordinal.] Two individual items from the same facet
-  (Likert 1--6), as a direct applied case of H2a/H2c: $\xi_n$ is
-  reported under different random tie-breaks to empirically illustrate
-  the tie-induced variability documented in H2b.
+  (Likert 1--6), as a direct applied case of H2a--c: $\xi_n$ is
+  reported under different random tie-breaks, with the resulting
+  variability corresponding specifically to H2b (tie-breaking
+  randomization when the first item is treated as the predictor).
 \item[Binary--continuous.] Gender against an extraversion summary
   score, illustrating H2a's binary case.
 \end{description}
@@ -1503,10 +1518,13 @@ in point estimate, but not uniformly so in bias or variance --- with
 $\xi_n$'s invariance property itself holding without qualification in
 an isolated sub-experiment; a dependence geometry that determines
 which statistic detects best, with dCor and $\tau^\ast$ unexpectedly
-diverging from each other in the circular case; and a sharp empirical
-asymmetry between $\xi_n$'s suboptimal detection threshold near
-independence and its minimax optimality away from it. The real-data
-illustration with personality data (\texttt{bfi}) reproduced two of
+diverging from each other in the circular case; and empirical evidence,
+consistent with \citet{auddy2024}'s theoretical result, of $\xi_n$'s
+own detection threshold weakening near independence relative to the
+optimal parametric rate expected away from it, though this study
+compares $\xi_n$ only against itself under two decay rates, not against
+its competitors. The real-data illustration with personality data
+(\texttt{bfi}) reproduced two of
 these findings directly on applied, not just simulated, data. Taken
 together, these results support the study's central message: $\xi_n$
 is a valuable, directional tool for detecting arbitrary functional
