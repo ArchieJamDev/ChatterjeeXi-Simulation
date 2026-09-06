@@ -1241,7 +1241,7 @@ de los ítems Likert (H2) sugiere cautela en la interpretación puntual
 de $\xi_n$ frente a su intervalo de incertidumbre.
 
 \begin{table}[H]
-\caption{\label{tab:realdata}Coeficientes calculados sobre \texttt{bfi} ($n=2800$) para los tres pares ilustrativos.}
+\caption{\label{tab:realdata}Coeficientes calculados sobre \texttt{bfi} para los tres pares ilustrativos (casos completos por par: $n=2694$, $2757$, y $2713$ respectivamente, tras excluir valores perdidos).}
 \begin{center}
 \small
 \begin{tabular}{lccc}
@@ -1249,16 +1249,38 @@ de $\xi_n$ frente a su intervalo de incertidumbre.
  & Edad -- Neuroticismo & Ítem 1 -- Ítem 2 (Likert) & Género -- Extraversión \\
  & (continua--continua) & (ordinal--ordinal) & (binaria--continua) \\
 \midrule
-$\xi_n(X,Y)$ &  &  &  \\
-$\xi_n(Y,X)$ &  &  &  \\
-dCor         &  &  &  \\
-$\tau^\ast$  &  &  &  \\
-Pearson      &  &  &  \\
-Spearman     &  &  &  \\
+$\xi_n(X,Y)$ & 0.009 & 0.358 & 0.024 \\
+$\xi_n(Y,X)$ & 0.025 & 0.375 & 0.003 \\
+dCor         & 0.109 & 0.670 & 0.098 \\
+$\tau^\ast$  & 0.003 & 0.164 & 0.002 \\
+Pearson      & $-0.114$ & 0.707 & 0.101 \\
+Spearman     & $-0.099$ & 0.703 & 0.096 \\
 \bottomrule
 \end{tabular}
 \end{center}
 \end{table}
+
+Los tres pares ilustran hallazgos distintos de la Sección
+\ref{sec:results} sobre datos reales. En Edad--Neuroticismo, Pearson y
+Spearman detectan una asociación negativa modesta pero clara
+($\approx -0.10$, consistente con la literatura sobre neuroticismo y
+edad), y dCor una magnitud comparable de dependencia general
+($0.109$); $\xi_n$, en cambio, da un valor mucho menor ($0.009$--$0.025$)
+--- una réplica directa, en datos reales, del patrón de H4 (Tabla
+\ref{tab:h4}): $\xi_n$ es menos sensible que Pearson/dCor ante
+relaciones aproximadamente monótonas, y su valor puntual no debe
+interpretarse como ``ausencia de asociación'' sin consultar además
+Pearson o Spearman. En Ítem 1--Ítem 2 (dos ítems de neuroticismo),
+todos los estadísticos coinciden en una asociación fuerte, como se
+espera de dos indicadores del mismo constructo; la desviación estándar
+de $\xi_n$ entre $20$ desempates aleatorios independientes es $0.010$
+--- una réplica directa, en datos reales, de la variabilidad por
+empates documentada en H2b, aunque atenuada aquí por el tamaño de
+muestra considerablemente mayor ($n\approx 2757$) que las celdas de
+referencia de H2 ($n=100$). En Género--Extraversión, los seis
+estadísticos coinciden en una asociación muy débil o nula, un hallazgo
+sustantivo razonable dado que las diferencias de género en
+extraversión reportadas en la literatura suelen ser pequeñas.
 
 \section{Discusión} \label{sec:discussion}
 
