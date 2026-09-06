@@ -1081,24 +1081,43 @@ transformaciones monótonas.
 \subsection{H4: potencia según geometría de la dependencia}
 
 \begin{table}[H]
-\caption{\label{tab:h4}Error de tipo I y potencia de detección por estadístico y estructura de dependencia (geometría). Referencia fija: $n$ de referencia, forma = normal, tipo de variable = continua, régimen = moderado. La potencia solo es comparable entre estadísticos con error de tipo I similar bajo la misma condición (Sección~\ref{sec:design}).}
+\caption{\label{tab:h4}Error de tipo I y potencia de detección por estadístico y estructura de dependencia (geometría). Referencia fija: $n=100$, forma = normal, tipo de variable = continua; cada estructura calibrada por separado a $\xi_n \approx 0.10$ (el máximo común alcanzable, dado el techo estructural de heterocedástica $\approx 0.124$; $R=300$, 99 permutaciones). El error de tipo I se calcula una sola vez bajo independencia exacta y es el mismo para las cinco columnas.}
 \begin{center}
 \small
 \begin{tabular}{lccccc}
 \toprule
  & Lineal & Cuadrática & Senoidal & Circular & Heterocedástica \\
 \midrule
-Error de tipo I: $\xi_n$      &  &  &  &  &  \\
-Error de tipo I: dCor         &  &  &  &  &  \\
-Error de tipo I: $\tau^\ast$  &  &  &  &  &  \\
+Error de tipo I: $\xi_n$      & \multicolumn{5}{c}{0.033} \\
+Error de tipo I: dCor         & \multicolumn{5}{c}{0.037} \\
+Error de tipo I: $\tau^\ast$  & \multicolumn{5}{c}{0.050} \\
 \midrule
-Potencia: $\xi_n$      &  &  &  &  &  \\
-Potencia: dCor         &  &  &  &  &  \\
-Potencia: $\tau^\ast$  &  &  &  &  &  \\
+Potencia: $\xi_n$      & 0.447 & 0.440 & 0.390 & 0.397 & 0.453 \\
+Potencia: dCor         & 0.967 & 0.680 & 0.053 & 0.100 & 0.760 \\
+Potencia: $\tau^\ast$  & 0.977 & 0.440 & 0.067 & 0.747 & 0.530 \\
 \bottomrule
 \end{tabular}
 \end{center}
 \end{table}
+
+Los tres estadísticos mantienen un error de tipo I razonablemente
+cercano al nivel nominal ($0.05$), por lo que las comparaciones de
+potencia son interpretables. El patrón confirma parcialmente H4 pero
+con un matiz importante. Para relaciones lineales y heterocedásticas,
+$\xi_n$ es claramente el menos potente de los tres ($0.447$ y $0.453$
+frente a $\ge 0.53$ de dCor/$\tau^\ast$), como se esperaba. Para la
+senoidal, en cambio, $\xi_n$ domina de forma contundente ($0.390$)
+mientras dCor y $\tau^\ast$ apenas superan el nivel nominal
+($0.053$ y $0.067$) --- prácticamente sin potencia alguna para detectar
+esta dependencia oscilatoria. El caso circular, sin embargo, no
+respalda la agrupación original de H4 de ``dCor y las medidas de
+cópula'' como un bloque homogéneo frente a $\xi_n$: aquí es
+$\tau^\ast$ ($0.747$) quien domina claramente, mientras dCor
+($0.100$) se queda casi sin potencia --- dCor y $\tau^\ast$ no se
+mueven juntos como un único competidor genérico, sino que cada uno
+tiene fortalezas distintas según la geometría específica de la
+dependencia, un matiz que la formulación original de H4 no
+anticipaba.
 
 \subsection{H5a: desempeño práctico a dependencia fija}
 

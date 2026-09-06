@@ -73,8 +73,18 @@ generate_xy <- function(n, structure, family, sigma, lambda = 0.5, df = 3) {
     Zsign <- sample(c(-1, 1), n, replace = TRUE)
     Y <- Zsign * sqrt(pmax(1 - X^2, 0)) + sigma * E
   } else { # heterocedastica
+    # NOTE: for this structure alone, the dependence-strength knob is
+    # lambda (Chatterjee 2021, Sec 4.3: lambda=0 max. heteroskedastic,
+    # lambda=1 fully homoskedastic i.e. X independent of Y's scale),
+    # NOT sigma -- sigma never appears in Chatterjee's own formula.
+    # To keep one uniform calibration interface across all five
+    # structures (calibration.R always varies "sigma"), the sigma
+    # argument is repurposed here directly as lambda, clamped to
+    # [0,1]; callers must pass sigma_range = c(0,1) (not the default
+    # c(1e-3,20)) when calibrating this structure.
+    lambda_eff <- pmin(pmax(sigma, 0), 1)
     s <- as.numeric(abs(X) <= 0.5)
-    Y <- 3 * (s * (1 - lambda) + lambda) * E
+    Y <- 3 * (s * (1 - lambda_eff) + lambda_eff) * E
   }
   list(X = X, Y = Y, Z = Z)
 }
