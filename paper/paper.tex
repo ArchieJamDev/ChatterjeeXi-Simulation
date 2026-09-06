@@ -1126,41 +1126,73 @@ A diferencia de H1--H4, esta hipótesis es sobre una \emph{interacción}
 tabla es bidimensional en vez de un barrido de un solo factor.
 
 \begin{table}[H]
-\caption{\label{tab:h5a}Potencia de $\xi_n$ cruzando tamaño de muestra y régimen de dependencia poblacional $\xi_0$ fijo (incluye una condición de independencia exacta, no solo $\sigma$ grande). Referencia fija: forma = normal, tipo de variable = continua, estructura = lineal.}
+\caption{\label{tab:h5a}Potencia de $\xi_n$ cruzando tamaño de muestra y régimen de dependencia poblacional $\xi_0$ fijo (incluye una condición de independencia exacta, no solo $\sigma$ grande). Referencia fija: forma = normal, tipo de variable = continua, estructura = lineal ($R=1000$).}
 \begin{center}
 \begin{tabular}{lccccc}
 \toprule
  & $\xi_0 = 0$ (exacta) & $\xi_0\approx 0.1$ & $\xi_0\approx 0.3$ & $\xi_0\approx 0.5$ & $\xi_0\approx 0.8$ \\
 \midrule
-$n=20$   &  &  &  &  &  \\
-$n=50$   &  &  &  &  &  \\
-$n=100$  &  &  &  &  &  \\
-$n=500$  &  &  &  &  &  \\
-$n=2000$ &  &  &  &  &  \\
+$n=20$   & 0.033 & 0.134 & 0.548 & 0.910 & 1.000 \\
+$n=50$   & 0.047 & 0.274 & 0.909 & 1.000 & 1.000 \\
+$n=100$  & 0.054 & 0.409 & 0.997 & 1.000 & 1.000 \\
+$n=500$  & 0.059 & 0.927 & 1.000 & 1.000 & 1.000 \\
+$n=2000$ & 0.033 & 1.000 & 1.000 & 1.000 & 1.000 \\
 \bottomrule
 \end{tabular}
 \end{center}
 \end{table}
 
+El error de tipo I (columna $\xi_0=0$) se mantiene cerca del nivel
+nominal en las cinco filas, confirmando que las diferencias de
+potencia entre columnas no son un artefacto de mala calibración. El
+patrón confirma H5a con claridad: el ritmo al que la potencia crece
+con $n$ depende fuertemente del régimen. En $\xi_0\approx 0.1$
+(cercano a independencia), se necesita $n=2000$ para alcanzar potencia
+prácticamente perfecta, partiendo de solo $0.134$ en $n=20$ --- un
+salto enorme. En $\xi_0\approx 0.8$, en cambio, la potencia ya está
+saturada en $1.000$ incluso con $n=20$. Esta enorme diferencia en el
+``costo de muestra'' según qué tan cerca esté la dependencia real de
+cero motiva directamente el módulo H5b, que examina formalmente el
+umbral de detección bajo alternativas locales en ese mismo régimen
+cercano a independencia.
+
 \subsection{H5b: sensibilidad local}
 
 \begin{table}[H]
-\caption{\label{tab:h5b}Potencia empírica bajo alternativas locales cuya señal decrece con $n$ a tasas $n^{-1/4}$ y $n^{-1/2}$ \citep{auddy2024}, estructuras lineal y senoidal. Referencia fija: forma = normal, tipo de variable = continua.}
+\caption{\label{tab:h5b}Potencia empírica bajo alternativas locales cuya señal decrece con $n$ a tasas $n^{-1/4}$ y $n^{-1/2}$ \citep{auddy2024}, estructuras lineal y senoidal. Ambas secuencias se anclan al mismo valor inicial $\xi(n_0{=}100)=0.15$, divergiendo solo en la tasa de decrecimiento. Referencia fija: forma = normal, tipo de variable = continua ($R=1000$).}
 \begin{center}
 \begin{tabular}{lcc}
 \toprule
  & Señal $\propto n^{-1/4}$ & Señal $\propto n^{-1/2}$ \\
 \midrule
-$n=100$ (lineal)    &  &  \\
-$n=500$ (lineal)    &  &  \\
-$n=2000$ (lineal)   &  &  \\
-$n=100$ (senoidal)  &  &  \\
-$n=500$ (senoidal)  &  &  \\
-$n=2000$ (senoidal) &  &  \\
+$n=100$ (lineal)    & 0.728 & 0.728 \\
+$n=500$ (lineal)    & 0.918 & 0.759 \\
+$n=2000$ (lineal)   & 0.995 & 0.636 \\
+$n=100$ (senoidal)  & 0.680 & 0.680 \\
+$n=500$ (senoidal)  & 0.899 & 0.713 \\
+$n=2000$ (senoidal) & 0.997 & 0.583 \\
 \bottomrule
 \end{tabular}
 \end{center}
 \end{table}
+
+El resultado reproduce con notable fidelidad la asimetría teórica de
+\citet{auddy2024}. Ambas tasas parten del mismo punto en $n=100$ (por
+construcción), pero divergen dramáticamente al crecer $n$: bajo la
+tasa $n^{-1/4}$ --- el propio umbral de detección de $\xi_n$ --- la
+potencia \emph{aumenta} monótonamente hasta saturarse cerca de $1$ en
+$n=2000$ ($0.995$ lineal, $0.997$ senoidal), señal de que $\xi_n$
+mantiene el ritmo frente a una señal que decrece a esa velocidad. Bajo
+la tasa $n^{-1/2}$ --- la tasa óptima paramétrica que, según
+\citet{auddy2024}, $\xi_n$ \emph{no} está garantizado a detectar ---
+la potencia sube brevemente y luego \emph{cae} de manera marcada
+($0.759 \to 0.636$ en lineal; $0.713 \to 0.583$ en senoidal, entre
+$n=500$ y $n=2000$), abriendo una brecha de más de $0.35$ frente a la
+tasa $n^{-1/4}$ en $n=2000$ pese a partir del mismo punto. Esto
+confirma empíricamente, en una escala de muestra accesible, la
+predicción teórica de que $\xi_n$ pierde terreno frente a señales que
+decrecen más rápido que su propio umbral de detección --- exactamente
+el mecanismo que motiva H5b.
 
 \section{Ilustración con datos reales} \label{sec:realdata}
 
