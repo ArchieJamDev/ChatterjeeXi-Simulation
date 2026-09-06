@@ -424,9 +424,12 @@ separados; se presentan aquí ya desagregadas.
   \emph{mecanismo generador conjunto} asociado a cada familia, no
   exclusivamente como sensibilidad a la marginal. Distinguimos además,
   dentro de H3, dos ejercicios formalmente separados: (i) una
-  \emph{validación} con las familias elípticas (normal, $t$) para las
-  que \citet{ansari2026} ya proveen fórmula cerrada --- si la
-  simulación no la reproduce, no se avanza a (ii); y (ii) un
+  \emph{validación}, posible únicamente para la familia normal, para
+  la que \citet{ansari2026} proveen una fórmula cerrada exacta ---
+  si la simulación no la reproduce, no se avanza a (ii); ninguna
+  fórmula cerrada análoga existe para $t$ con el diseño aditivo de
+  este estudio (Sección~\ref{sec:results}, Validación), por lo que esa
+  familia se reporta con el mismo estatus que las no elípticas; y (ii) un
   \emph{estudio de robustez empírica} con las familias no elípticas
   del diseño (exponencial, mixtura bimodal), donde reside el vacío
   genuino. Por último, dado que la comparación con dCor busca ilustrar
@@ -1504,10 +1507,12 @@ Como se declaró explícitamente desde la introducción, este estudio
 cubre condiciones \emph{típicas}, no adversariales; los resultados de
 peor caso de \citet{bucher2025} permanecen fuera de su alcance por
 diseño, no por omisión. Las réplicas Monte Carlo variaron entre
-módulos ($R=300$ a $1000$) según el costo computacional de cada
-prueba --- las pruebas de permutación de dCor y $\tau^\ast$ en H4
-son sustancialmente más costosas que la prueba asintótica propia de
-$\xi_n$ usada en H1, H2, y H5 ---, por lo que la precisión de las
+módulos ($R=50$ a $1000$) según el costo computacional de cada
+prueba --- el error de tipo I y la potencia de dCor en H3, que
+requieren su prueba de permutación, usan deliberadamente el $R$ más
+bajo de todo el estudio, limitado por la memoria disponible en esta
+máquina, mientras que las pruebas asintóticas propias de $\xi_n$ en
+H1, H2, y H5 usan $R=1000$ ---, por lo que la precisión de las
 estimaciones no es uniforme entre tablas. La mayoría de los módulos
 usa una única celda de referencia (forma normal, estructura lineal, o
 $n=100$, según el módulo) para aislar el efecto de interés, siguiendo
