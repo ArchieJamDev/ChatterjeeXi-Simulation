@@ -835,16 +835,18 @@ $\sigma$ & $\rho$ & $\xi$ exacto & $\xi$ estimado (MC) & Diferencia abs.\ \\
 \begin{table}[H]
 \caption{\label{tab:h1}Sesgo de muestra finita de $\xi_n$ en función de $n$, con la cota teórica de \citet{dalitz2024} como referencia de cuánto sesgo es estructuralmente inevitable. Referencia fija: forma = normal, tipo de variable = continua, estructura = lineal, régimen = moderado ($\xi_{\text{verdadero}} \approx 0.493$, $R=1000$ réplicas por celda).}
 \begin{center}
-\begin{tabular}{lccccc}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lccccccc}
 \toprule
- & $n=20$ & $n=50$ & $n=100$ & $n=500$ & $n=2000$ \\
+ & $n=20$ & $n=50$ & $n=100$ & $n=500$ & $n=2000$ & $n=2800$ & $n=3500$ \\
 \midrule
-Cota teórica $(n-2)/(n+1)$ & 0.857 & 0.941 & 0.970 & 0.994 & 0.999 \\
-Media $\hat\xi_n$ & 0.414 & 0.463 & 0.479 & 0.491 & 0.493 \\
-Sesgo             & $-0.079$ & $-0.030$ & $-0.014$ & $-0.002$ & $-0.0002$ \\
-MSE               & 0.022 & 0.007 & 0.003 & 0.0006 & 0.0002 \\
+Cota teórica $(n-2)/(n+1)$ & 0.857 & 0.941 & 0.970 & 0.994 & 0.999 & 0.999 & 0.999 \\
+Media $\hat\xi_n$ & 0.414 & 0.463 & 0.479 & 0.491 & 0.493 & 0.493 & 0.494 \\
+Sesgo             & $-0.079$ & $-0.030$ & $-0.014$ & $-0.002$ & $-0.0002$ & $0.0002$ & $0.0006$ \\
+MSE               & 0.022 & 0.007 & 0.003 & 0.0006 & 0.0002 & 0.0001 & 0.0001 \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \end{center}
 \end{table}
 
@@ -858,6 +860,20 @@ que solo opera cerca de $\xi=1$; existe un mecanismo de sesgo adicional
 incluso en regímenes de dependencia moderada, que debe verificarse
 empíricamente en cada caso, no asumirse a partir de la cota por sí
 sola.
+
+Se extendió además el barrido a $n=2800$ y $n=3500$ --- tamaños
+frecuentes en investigación con encuestas de gran escala, y que
+incluyen deliberadamente el tamaño exacto de \texttt{bfi}
+(Sección~\ref{sec:realdata}) --- para responder directamente a la
+pregunta de qué ocurre más allá de $n=2000$. El sesgo permanece
+indistinguible de cero (dentro del error de Monte Carlo de esta
+simulación) en ambos casos, lo que da soporte directo a interpretar
+los resultados de la Sección~\ref{sec:realdata} sin necesidad de
+corregir por sesgo de muestra finita en ese tamaño muestral
+específico. (Aquí $n$ denota siempre el número de \emph{sujetos} u
+observaciones $(X_i,Y_i)$, una dimensión distinta e independiente del
+número de ítems $k$ que se promedian por sujeto en H2d --- $n=2800$
+son 2800 personas, no 2800 respuestas a ítems.)
 
 \subsection{H2a--d: empates en la respuesta, el predictor, ambos, y el puntaje compuesto}
 
@@ -889,46 +905,117 @@ varianza del estimador puntual, no en la potencia del test; esta
 tamaños de muestra menores (H5a).
 
 \begin{table}[H]
-\caption{\label{tab:h2b}H2b: descomposición de varianza de $\xi_n$ al discretizar únicamente $X$ ($Y$ continua). Referencia fija: $n$ de referencia, forma = normal, estructura = lineal, régimen = moderado.}
+\caption{\label{tab:h2b}H2b: descomposición de varianza de $\xi_n$ al discretizar únicamente $X$ ($Y$ continua). Referencia fija: $n=100$, forma = normal, estructura = lineal, régimen = moderado ($\xi_{\text{verdadero}} \approx 0.493$; $R_{\text{externo}}=300$ conjuntos de datos, $B=20$ desempates por conjunto).}
 \begin{center}
 \begin{tabular}{lccccc}
 \toprule
  & Continua & Binaria & Likert-3 & Likert-5 & Likert-7 \\
 \midrule
-Varianza entre conjuntos de datos &  &  &  &  &  \\
-Varianza dentro (desempate)       &  &  &  &  &  \\
-Potencia                          &  &  &  &  &  \\
+Varianza entre conjuntos de datos & 0.0034 & 0.0021 & 0.0022 & 0.0024 & 0.0026 \\
+Varianza dentro (desempate)       & 0.0000 & 0.0017 & 0.0013 & 0.0011 & 0.0009 \\
+Potencia                          & 1.000  & 0.998  & 1.000  & 1.000  & 1.000  \\
 \bottomrule
 \end{tabular}
 \end{center}
 \end{table}
 
+La descomposición confirma H2b de forma limpia. Por construcción, la
+varianza dentro es exactamente cero para la condición continua (sin
+empates que desempatar), y crece a $0.0017$ para la binaria ---
+prácticamente del mismo orden de magnitud que la varianza entre
+conjuntos de datos ($0.0021$) --- lo que significa que, con solo dos
+categorías, casi la mitad de la variabilidad total de $\xi_n$ proviene
+únicamente de cómo la implementación rompe los empates al azar, no de
+la muestra en sí. Esta componente decrece monótonamente al aumentar
+las categorías ($0.0013 \to 0.0011 \to 0.0009$), acercándose al límite
+continuo, exactamente como predice H2b. Como en H2a, la potencia
+permanece saturada en esta celda de referencia y no discrimina entre
+condiciones.
+
 \begin{table}[H]
-\caption{\label{tab:h2c}H2c: varianza empírica y potencia de $\xi_n$ con $X$ e $Y$ discretizadas conjuntamente. Referencia fija: $n$ de referencia, forma = normal, estructura = lineal, régimen = moderado.}
+\caption{\label{tab:h2c}H2c: varianza empírica y potencia de $\xi_n$ con $X$ e $Y$ discretizadas conjuntamente (mismo número de categorías en ambas). Referencia fija: $n=100$, forma = normal, estructura = lineal, régimen = moderado ($\xi_{\text{verdadero}} \approx 0.493$; $300 \times 20$ réplicas anidadas).}
 \begin{center}
 \begin{tabular}{lccccc}
 \toprule
  & Continua & Binaria & Likert-3 & Likert-5 & Likert-7 \\
 \midrule
-Varianza empírica &  &  &  &  &  \\
-Potencia          &  &  &  &  &  \\
+Varianza empírica & 0.0034 & 0.0124 & 0.0064 & 0.0045 & 0.0040 \\
+Potencia          & 1.000  & 0.980  & 1.000  & 1.000  & 1.000  \\
 \bottomrule
 \end{tabular}
 \end{center}
 \end{table}
 
+H2c se confirma con claridad: la varianza en la condición binaria
+conjunta ($0.0124$) supera tanto a la de H2a con empates solo en $Y$
+($0.0107$, Tabla~\ref{tab:h2a}) como a la varianza total de H2b con
+empates solo en $X$ ($0.0021+0.0017=0.0038$, Tabla~\ref{tab:h2b}) ---
+y por un margen considerable, no recuperable por una simple suma de
+ambos efectos por separado, tal como anticipaba H2c. Es también en
+esta celda donde, por primera vez en H2, la potencia muestra una caída
+medible ($0.980$ vs.\ $1.000$ en las demás condiciones): la
+combinación de empates en ambas variables es la única condición de
+H2 que llega a costar potencia detectable en este régimen de
+referencia, no solo precisión puntual.
+
 \begin{table}[H]
-\caption{\label{tab:h2d}H2d: $\xi_n$ sobre un ítem Likert crudo vs.\ un puntaje compuesto de $k=10$ ítems (escala 1--6, coincidente con \texttt{bfi}), mismo rasgo latente. Referencia fija: $n$ de referencia, forma = normal, estructura = lineal, régimen = moderado.}
+\caption{\label{tab:h2d}H2d: $\xi_n$ sobre un ítem Likert crudo vs.\ un puntaje compuesto de $k=10$ ítems (escala 1--6, coincidente con \texttt{bfi}), mismo rasgo latente. Referencia fija: $n=100$, forma = normal, estructura = lineal, régimen = moderado ($\xi_{\text{verdadero}} \approx 0.493$, $R=1000$ réplicas).}
 \begin{center}
 \begin{tabular}{lcc}
 \toprule
  & Ítem único (Likert-6) & Puntaje compuesto ($k=10$) \\
 \midrule
-Varianza empírica &  &  \\
-Potencia          &  &  \\
-Núm.\ valores observados distintos &  &  \\
+Varianza empírica & 0.0055 & 0.0035 \\
+Potencia          & 0.970  & 1.000  \\
+Núm.\ valores observados distintos & 6.0 & 43.4 \\
 \bottomrule
 \end{tabular}
+\end{center}
+\end{table}
+
+H2d confirma la intuición psicométrica: el puntaje compuesto de $k=10$
+ítems reduce la varianza empírica en aproximadamente un 37\% respecto
+al ítem único, sube la potencia de $0.970$ a $1.000$, y multiplica por
+más de siete el número efectivo de valores observados distintos
+($6.0 \to 43.4$, cercano al máximo teórico de $10\times(6-1)+1=51$).
+Agregar ítems por sí solo --- sin ninguna estructura multifactorial
+adicional --- ya atenúa sustancialmente el costo de los empates
+documentado en H2a--c.
+
+Un barrido adicional sobre el número de ítems $k \in
+\{1,2,3,5,10,20,40,100,200,400\}$ (Tabla~\ref{tab:h2d-kvar}) --- este
+último rango eligiéndose deliberadamente para cubrir instrumentos de
+personalidad o intereses con cientos de ítems --- muestra que el
+beneficio tiene rendimientos decrecientes y que la meseta ya alcanzada
+en $k\approx 5$--$40$ \emph{se sostiene sin cambios hasta $k=400$}: la
+varianza empírica permanece esencialmente plana ($0.0029$--$0.0036$)
+en todo ese rango, sin ninguna reducción adicional apreciable. La
+razón se aprecia en la última fila: el número de valores distintos
+observados se acerca asintóticamente a $n=100$ --- el número de
+sujetos de la muestra --- no al rango teórico del puntaje compuesto
+($5k+1$). Una vez que prácticamente cada sujeto obtiene un valor
+distinto, agregar más ítems no puede seguir reduciendo la varianza de
+$\xi_n$, porque esta ya está limitada por $n$, no por $k$. Esto
+sugiere que, para efectos de mitigar el costo de los empates sobre
+$\xi_n$ específicamente, un número moderado de ítems ($k\approx 10$)
+captura prácticamente todo el beneficio disponible; instrumentos con
+muchos más ítems (300--400, como algunos inventarios de personalidad o
+intereses reales) podrían justificarse por otras razones psicométricas
+(confiabilidad, validez de contenido), pero no por esta.
+
+\begin{table}[H]
+\caption{\label{tab:h2d-kvar}Efecto del número de ítems $k$ sobre la varianza empírica de $\xi_n$, mismas condiciones que la Tabla~\ref{tab:h2d} ($R=500$; $n=100$).}
+\begin{center}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{ccccccccccc}
+\toprule
+$k$ & 1 & 2 & 3 & 5 & 10 & 20 & 40 & 100 & 200 & 400 \\
+\midrule
+Varianza empírica & 0.0054 & 0.0050 & 0.0047 & 0.0036 & 0.0036 & 0.0034 & 0.0036 & 0.0035 & 0.0034 & 0.0029 \\
+Valores distintos & 6.0 & 11.0 & 16.0 & 25.4 & 43.3 & 62.7 & 78.2 & 90.2 & 95.0 & 97.5 \\
+\bottomrule
+\end{tabular}%
+}
 \end{center}
 \end{table}
 

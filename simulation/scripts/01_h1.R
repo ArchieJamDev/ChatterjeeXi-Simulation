@@ -27,7 +27,7 @@ cat("High-precision population xi (n=2e5 x5):", round(xi_true, 5),
     "(sd across reps:", round(sd(xi_true_reps), 5), ")\n")
 
 ## 3. Monte Carlo over n, R replications each
-n_values <- c(20, 50, 100, 500, 2000)
+n_values <- c(20, 50, 100, 500, 2000, 2800, 3500) # 2800 = bfi's own n (Sec 5)
 R <- 1000
 
 results <- data.frame(
