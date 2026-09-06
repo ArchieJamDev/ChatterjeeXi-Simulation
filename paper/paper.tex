@@ -1284,7 +1284,153 @@ extraversión reportadas en la literatura suelen ser pequeñas.
 
 \section{Discusión} \label{sec:discussion}
 
+% NOTA: seccion redactada en español para facilitar la revision.
+% Traducir al ingles en la version final antes de enviar.
+
+\subsection{Qué se confirmó, qué se refinó, y qué fue inesperado}
+
+Las cinco hipótesis, fundamentadas en propiedades ya demostradas de
+$\xi_n$ (Sección~\ref{sec:framework}), se confirmaron en su mayoría,
+con dos refinamientos y un hallazgo genuinamente inesperado.
+
+H1 se confirmó en su forma condicional: el sesgo de muestra finita es
+real y decrece con $n$, pero --- como advertía la revisión
+metodológica que motivó su reformulación --- no depende únicamente de
+la cota algebraica de \citet{dalitz2024}; existe sesgo sustancial
+incluso cuando esa cota no restringe activamente al estimador
+(Tabla~\ref{tab:h1}). H2, desagregada en H2a--d, mostró que los
+empates en la respuesta y en el predictor son mecanismos distintos con
+consecuencias distintas: varianza pura en un caso, varianza más
+aleatorización por desempate en el otro (Tablas~\ref{tab:h2a}--\ref{tab:h2b}),
+y un efecto conjunto (Tabla~\ref{tab:h2c}) que no es la suma de ambos.
+H2d mostró que la práctica psicométrica estándar de agregar ítems en
+un puntaje compuesto atenúa este problema, aunque con rendimientos
+marcadamente decrecientes: la meseta se alcanza con relativamente
+pocos ítems y no mejora con instrumentos de cientos de ítems,
+porque el límite pasa a ser el tamaño de la muestra, no el número de
+ítems. H3 confirmó la mayor estabilidad relativa de $\xi_n$ frente a
+dCor ante cambios de familia marginal, de forma particularmente
+limpia en el sub-experimento aislado de invariancia
+(Tabla~\ref{tab:h3invar}). H5a y H5b confirmaron, de forma
+sorprendentemente nítida para un estudio de simulación con recursos
+computacionales modestos, la asimetría teórica de \citet{auddy2024}
+entre el umbral de detección $n^{-1/4}$ de $\xi_n$ y la tasa
+paramétrica óptima $n^{-1/2}$ (Tabla~\ref{tab:h5b}).
+
+H4 fue la hipótesis con el hallazgo más inesperado. Se confirmó el
+patrón ya documentado por \citet{chatterjee2021} y \citet{gao2024}
+--- $\xi_n$ menos potente que dCor y $\tau^\ast$ para relaciones
+lineales y heterocedásticas, más potente para relaciones oscilatorias
+--- pero la estructura circular reveló que dCor y $\tau^\ast$ no se
+comportan como un bloque homogéneo de ``alternativas a $\xi_n$'': es
+$\tau^\ast$, no dCor, quien domina en esa geometría particular
+(Tabla~\ref{tab:h4}). Esto sugiere que la elección de punto de
+comparación importa tanto como la elección de $\xi_n$ mismo, y que
+recomendaciones que traten ``las medidas basadas en distancias/cópulas''
+como intercambiables entre sí deben revisarse caso por caso según la
+geometría de la dependencia esperada.
+
+\subsection{Una guía práctica para investigadores en psicología}
+
+El mensaje central de este estudio, dirigido al público que motivó su
+diseño (Sección~\ref{sec:introduction}), puede resumirse así: $\xi_n$
+debe interpretarse como una medida \emph{direccional} de qué tan bien
+$Y$ está determinada por $X$, con ventajas específicas para ciertos
+patrones funcionales y costos específicos bajo empates, discretización,
+dependencia débil, y ciertas geometrías de asociación --- no como una
+medida universalmente superior o inferior a Pearson, Spearman, dCor, o
+$\tau^\ast$. Concretamente:
+
+\begin{itemize}
+\item Con $n$ pequeño ($<100$) y dependencia que se sospecha alta,
+  esperar sesgo a la baja no despreciable (H1); con $n$ del orden de
+  miles (como en \texttt{bfi}), el sesgo es prácticamente nulo.
+\item Con ítems Likert individuales, especialmente de pocas categorías,
+  esperar mayor varianza --- y, si el covariable es el discretizado,
+  parte de esa varianza proviene solo del desempate aleatorio, no de
+  la muestra (H2a--c); agregar ítems en un puntaje compuesto ayuda,
+  con la mayor parte del beneficio ya lograda con relativamente pocos
+  ítems (H2d).
+\item Un valor bajo de $\xi_n$ no debe interpretarse como ``sin
+  asociación'' sin revisar también Pearson o Spearman --- la
+  ilustración de la Sección~\ref{sec:realdata} (Edad--Neuroticismo)
+  muestra exactamente este escenario con datos reales.
+\item Si se sospecha una relación genuinamente no monótona u
+  oscilatoria, $\xi_n$ es probablemente más sensible que las
+  alternativas (H4); si se sospecha una relación suave, monótona, o
+  heterocedástica, dCor o $\tau^\ast$ probablemente detecten mejor.
+\item Cerca de independencia, $\xi_n$ requiere tamaños de muestra
+  sustancialmente mayores que en regímenes de dependencia moderada o
+  alta para alcanzar potencia razonable (H5a--b) --- una consideración
+  relevante al planear el tamaño muestral de un estudio.
+\end{itemize}
+
+\subsection{Limitaciones}
+
+Como se declaró explícitamente desde la introducción, este estudio
+cubre condiciones \emph{típicas}, no adversariales; los resultados de
+peor caso de \citet{bucher2025} permanecen fuera de su alcance por
+diseño, no por omisión. Las réplicas Monte Carlo variaron entre
+módulos ($R=300$ a $1000$) según el costo computacional de cada
+prueba --- las pruebas de permutación de dCor y $\tau^\ast$ en H4
+son sustancialmente más costosas que la prueba asintótica propia de
+$\xi_n$ usada en H1, H2, y H5 ---, por lo que la precisión de las
+estimaciones no es uniforme entre tablas. La mayoría de los módulos
+usa una única celda de referencia (forma normal, estructura lineal, o
+$n=100$, según el módulo) para aislar el efecto de interés, siguiendo
+el diseño por módulos de la Sección~\ref{sec:design}; no se exploró la
+matriz factorial completa de interacciones de orden superior entre los
+cinco factores, que queda como extensión posible del repositorio de
+reproducibilidad. La validación formal de H3 para la familia $t$ de
+Student contra la fórmula cerrada de \citet{ansari2026} quedó
+pendiente (Sección~\ref{sec:results}, Validación); los resultados de
+H3 para esa familia deben leerse como internamente consistentes, no
+como validados externamente.
+
+\subsection{Líneas futuras}
+
+La ceguera ante la posible no monotonía documentada en la
+Introducción no se limita a los coeficientes bivariados: explorar
+sistemáticamente qué ocurre cuando los coeficientes de ruta
+verdaderos de un modelo de ecuaciones estructurales son en sí mismos
+no monótonos --- y si diagnósticos basados en $\xi_n$ pueden detectar
+esa mala especificación mejor que los diagnósticos de ajuste
+habituales --- es una extensión natural de este trabajo hacia el
+análisis de ruta y los modelos de segundo orden, y se deja
+explícitamente como línea de investigación futura, distinta de este
+artículo.
+
 \section{Conclusión} \label{sec:conclusion}
+
+Este artículo sometió a $\xi_n$, el coeficiente de correlación de
+\citet{chatterjee2021}, a un diseño de simulación Monte Carlo
+organizado por módulos y fundamentado en propiedades ya demostradas
+del estimador --- no en un barrido exploratorio sin guía --- cruzando
+tamaño de muestra, tipo de variable, forma de la distribución,
+geometría de la dependencia, y régimen de dependencia. Confirmamos que
+ninguno de estos cruces existía previamente en la literatura sobre
+$\xi_n$ (Sección~\ref{sec:introduction}), y que cada uno revela un
+comportamiento con consecuencias prácticas concretas para quien
+analiza datos psicológicos: sesgo de muestra finita que decrece con
+$n$ pero no depende solo de la cota algebraica conocida; costos
+distintos y no aditivos de los empates según si afectan al predictor,
+a la respuesta, o a ambos, atenuables mediante puntajes compuestos con
+rendimientos decrecientes; mayor estabilidad relativa frente a la
+forma de la distribución que dCor, confirmada de forma particularmente
+limpia en un sub-experimento aislado de invariancia; una geometría de
+la dependencia que determina qué estadístico detecta mejor, con dCor y
+$\tau^\ast$ divergiendo entre sí de forma inesperada en el caso
+circular; y una asimetría empíricamente nítida entre el umbral de
+detección subóptimo de $\xi_n$ cerca de independencia y su optimalidad
+minimax lejos de ella. La ilustración con datos reales de personalidad
+(\texttt{bfi}) reprodujo dos de estos hallazgos directamente sobre
+datos aplicados, no solo simulados. En conjunto, estos resultados
+apoyan el mensaje central del estudio: $\xi_n$ es una herramienta
+valiosa y direccional para detectar dependencia funcional arbitraria,
+pero su uso responsable en investigación psicológica exige atender al
+tamaño de muestra, al tipo de variable, y a la geometría de la
+dependencia esperada --- no tratarlo como un reemplazo universal de
+los coeficientes de asociación clásicos.
 
 %\bibliographystyle{plainat}
 \bibliography{paper}
