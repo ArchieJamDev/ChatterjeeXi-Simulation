@@ -44,8 +44,12 @@
   depende únicamente de la cota algebraica conocida; costos distintos
   y no aditivos de los empates según afecten al predictor, a la
   respuesta, o a ambos, atenuables mediante puntajes compuestos con
-  rendimientos marcadamente decrecientes; mayor estabilidad relativa
-  frente a la forma de la distribución que distance correlation; una
+  rendimientos marcadamente decrecientes; una comparación con distance
+  correlation ante cambios de familia marginal que resultó más matizada
+  de lo esperado --- $\xi_n$ más estable en el valor puntual estimado,
+  pero no uniformemente en sesgo o varianza --- excepto en un
+  sub-experimento aislado donde la invariancia de $\xi_n$ ante
+  transformaciones monótonas se sostuvo sin matices; una
   geometría de la dependencia que determina qué estadístico detecta
   mejor --- con un hallazgo inesperado en que distance correlation y
   una medida basada en cópulas divergen sustancialmente entre sí en
@@ -774,13 +778,18 @@ $O(n^2)$ o peor y sus pruebas de independencia requieren permutación;
 el propio \citet{chatterjee2021} reporta pruebas competidoras que no
 llegaron a converger en tamaños de muestra grandes. En su lugar, cada
 módulo (Tabla~\ref{tab:modules}) fija su propio conjunto mínimo de
-celdas necesarias para responder su pregunta, con $R$ réplicas por
-celda (a determinar según presupuesto computacional, siguiendo el
-orden de $R=1000$ usado por \citealp{gao2024} y \citealp{dalitz2024}),
-y $B$ desempates adicionales por conjunto de datos en los módulos con
-empates en el covariable (H2b, H2c). Interacciones de orden superior
-entre módulos, más allá de las planeadas, pueden añadirse como
-material suplementario si el presupuesto computacional lo permite.
+celdas necesarias para responder su pregunta. El número de réplicas
+$R$ efectivamente usado varía por módulo según el costo computacional
+de la prueba involucrada --- del orden de $R=1000$ para los módulos
+que solo requieren el test asintótico propio de $\xi_n$ (H1, H2, H5),
+siguiendo el orden usado por \citealp{gao2024} y \citealp{dalitz2024},
+y $R=300$--$500$ donde se computan además pruebas de permutación más
+costosas (H3, H4) --- y se reporta explícitamente en la tabla de
+resultados correspondiente en cada caso, junto con $B=20$ desempates
+adicionales por conjunto de datos en los módulos con empates en el
+covariable (H2b, H2c). Interacciones de orden superior entre módulos,
+más allá de las planeadas, quedan como extensión posible del
+repositorio de reproducibilidad (Sección~\ref{sec:discussion}).
 
 \emph{Política de semilla.} Cada celda se ejecuta con una semilla fija
 y documentada (\texttt{set.seed()}), siguiendo el mismo patrón ya
@@ -822,10 +831,23 @@ lineal $Y = X + \sigma E$ con $X, E \sim N(0,1)$ independientes
 ese valor exacto con la estimación Monte Carlo de gran tamaño de
 muestra ($n=10^5$) de nuestra propia implementación. La diferencia
 máxima observada es $0.002$, por debajo del umbral de tolerancia
---- el gate de validación \emph{se supera} para la familia normal. El
-caso $t$ de Student de \citet[Sección 5.1]{ansari2026} queda pendiente
-de una verificación análoga antes de avanzar a la interpretación
-completa de H3 sobre familias no elípticas.
+--- el gate de validación \emph{se supera} para la familia normal.
+Una revisión más cuidadosa de \citet[Sección 5.1]{ansari2026} muestra
+que, a diferencia del caso normal, esa sección no provee una fórmula
+cerrada análoga para la familia $t$ de Student en general --- solo
+demuestra continuidad para toda la clase elíptica, sin un valor
+numérico de referencia contra el cual comparar. Además, la condición
+$t$ de nuestro propio diseño ($X, E \sim t_{\text{df}}$ independientes,
+$Y=X+\sigma E$; Sección~\ref{sec:design}) no corresponde a la
+construcción elíptica bivariada que ese teorema exige --- una suma de
+dos variables $t$ independientes no es, en general, ella misma
+$t$-distribuida como par $(X,Y)$. Por tanto, la validación de la
+familia $t$ contra una fórmula cerrada, tal como se planteó
+originalmente, no es posible con este diseño, y se retira esa
+expectativa: la condición $t$ de la Tabla~\ref{tab:h3} se reporta con
+el mismo estatus epistémico que las familias no elípticas (uniforme,
+exponencial, mixtura) --- consistencia interna de la simulación, sin
+verificación externa contra un valor exacto conocido.
 
 \begin{table}[H]
 \caption{\label{tab:validation}Validación: $\xi(X,Y)$ exacto (normal equicorrelada, \citealp{ansari2026}) vs.\ estimación Monte Carlo ($n=10^5$) de esta implementación, modelo lineal $Y=X+\sigma E$.}
@@ -852,7 +874,7 @@ $\sigma$ & $\rho$ & $\xi$ exacto & $\xi$ estimado (MC) & Diferencia abs.\ \\
 \subsection{H1: efecto del tamaño de muestra}
 
 \begin{table}[H]
-\caption{\label{tab:h1}Sesgo de muestra finita de $\xi_n$ en función de $n$, con la cota teórica de \citet{dalitz2024} como referencia de cuánto sesgo es estructuralmente inevitable. Referencia fija: forma = normal, tipo de variable = continua, estructura = lineal, régimen = moderado ($\xi_{\text{verdadero}} \approx 0.493$, $R=1000$ réplicas por celda).}
+\caption{\label{tab:h1}Sesgo de muestra finita de $\xi_n$ en función de $n$, con la cota teórica de \citet{dalitz2024} como referencia, cruzado con régimen de dependencia (moderado $\xi_{\text{verdadero}}\approx 0.493$ vs.\ alto $\xi_{\text{verdadero}}\approx 0.844$), para probar directamente si el sesgo es más marcado cuando $\xi$ es alto. Referencia fija: forma = normal, tipo de variable = continua, estructura = lineal ($R=1000$ réplicas por celda; SE = error estándar Monte Carlo del sesgo, $\mathrm{sd}(\hat\xi_n)/\sqrt{R}$).}
 \begin{center}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{lccccccc}
@@ -860,39 +882,62 @@ $\sigma$ & $\rho$ & $\xi$ exacto & $\xi$ estimado (MC) & Diferencia abs.\ \\
  & $n=20$ & $n=50$ & $n=100$ & $n=500$ & $n=2000$ & $n=2800$ & $n=3500$ \\
 \midrule
 Cota teórica $(n-2)/(n+1)$ & 0.857 & 0.941 & 0.970 & 0.994 & 0.999 & 0.999 & 0.999 \\
+\midrule
+\multicolumn{8}{l}{\emph{Régimen moderado ($\xi_{\text{verdadero}}\approx 0.493$)}} \\
 Media $\hat\xi_n$ & 0.414 & 0.463 & 0.479 & 0.491 & 0.493 & 0.493 & 0.494 \\
-Sesgo             & $-0.079$ & $-0.030$ & $-0.014$ & $-0.002$ & $-0.0002$ & $0.0002$ & $0.0006$ \\
-MSE               & 0.022 & 0.007 & 0.003 & 0.0006 & 0.0002 & 0.0001 & 0.0001 \\
+Sesgo (SE)  & $-0.0786$ (0.0040) & $-0.0302$ (0.0024) & $-0.0138$ (0.0018) & $-0.0017$ (0.0008) & $-0.0002$ (0.0004) & $-0.0003$ (0.0003) & $0.0006$ (0.0003) \\
+MSE               & 0.0221 & 0.0068 & 0.0033 & 0.0006 & 0.0002 & 0.0001 & 0.0001 \\
+\midrule
+\multicolumn{8}{l}{\emph{Régimen alto ($\xi_{\text{verdadero}}\approx 0.844$)}} \\
+Media $\hat\xi_n$ & 0.721 & 0.798 & 0.823 & 0.841 & 0.843 & 0.843 & 0.844 \\
+Sesgo (SE)  & $-0.1225$ (0.0017) & $-0.0459$ (0.0009) & $-0.0213$ (0.0006) & $-0.0035$ (0.0003) & $-0.0007$ (0.0001) & $-0.0007$ (0.0001) & $-0.0003$ (0.0001) \\
+MSE               & 0.0178 & 0.0029 & 0.0009 & 0.0001 & 0.00002 & 0.00001 & 0.00001 \\
 \bottomrule
 \end{tabular}%
 }
 \end{center}
 \end{table}
 
-El sesgo se reduce monótonamente con $n$, como predice H1. Notablemente,
-a $n=20$ la cota teórica ($0.857$) está muy por encima del valor
-verdadero ($\approx 0.493$) y por tanto no restringe activamente al
-estimador --- y aun así se observa un sesgo sustancial ($-0.079$).
-Esto confirma la reformulación condicional de H1: el sesgo de muestra
-finita no depende únicamente del techo algebraico de \citet{dalitz2024},
-que solo opera cerca de $\xi=1$; existe un mecanismo de sesgo adicional
-incluso en regímenes de dependencia moderada, que debe verificarse
-empíricamente en cada caso, no asumirse a partir de la cota por sí
-sola.
+El sesgo se reduce monótonamente con $n$ en ambos regímenes, como
+predice H1. Notablemente, a $n=20$ la cota teórica ($0.857$) está por
+encima de ambos valores verdaderos y por tanto no restringe
+activamente al estimador en ninguno de los dos --- y aun así se
+observa un sesgo sustancial en los dos casos. Esto confirma la
+reformulación condicional de H1: el sesgo de muestra finita no depende
+únicamente del techo algebraico de \citet{dalitz2024}, que solo opera
+cerca de $\xi=1$; existe un mecanismo de sesgo adicional incluso en
+regímenes de dependencia moderada.
 
-Se extendió además el barrido a $n=2800$ y $n=3500$ --- tamaños
-frecuentes en investigación con encuestas de gran escala, y que
-incluyen deliberadamente el tamaño exacto de \texttt{bfi}
+La comparación entre regímenes confirma además, ahora sí de forma
+directamente verificable, la parte de H1 que predecía una reducción
+particularmente marcada cuando $\xi$ es alto: en cada tamaño de
+muestra, el sesgo del régimen alto es sustancialmente mayor en
+magnitud que el del régimen moderado ($-0.1225$ vs.\ $-0.0786$ en
+$n=20$, una diferencia de más del $50\%$; el patrón se mantiene hasta
+$n=500$). El error estándar Monte Carlo permite además una lectura
+más precisa de qué tan lejos de cero está el sesgo en cada celda: en
+el régimen moderado, el sesgo en $n=2000$--$3500$ está dentro de
+$1$--$2$ errores estándar de cero (genuinamente indistinguible de
+cero dentro del error de esta simulación), pero en el régimen alto el
+sesgo en esos mismos tamaños de muestra ($-0.0007$, SE $= 0.0001$)
+sigue siendo varias veces su propio error estándar --- pequeño en
+magnitud absoluta, pero no todavía indistinguible de cero. El régimen
+alto no solo parte de un sesgo mayor: tarda más en desvanecerse
+dentro del ruido de muestreo.
+
+Se extendió el barrido a $n=2800$ y $n=3500$ --- tamaños frecuentes en
+investigación con encuestas de gran escala, y que incluyen
+deliberadamente el tamaño exacto de \texttt{bfi}
 (Sección~\ref{sec:realdata}) --- para responder directamente a la
-pregunta de qué ocurre más allá de $n=2000$. El sesgo permanece
-indistinguible de cero (dentro del error de Monte Carlo de esta
-simulación) en ambos casos, lo que da soporte directo a interpretar
-los resultados de la Sección~\ref{sec:realdata} sin necesidad de
-corregir por sesgo de muestra finita en ese tamaño muestral
-específico. (Aquí $n$ denota siempre el número de \emph{sujetos} u
-observaciones $(X_i,Y_i)$, una dimensión distinta e independiente del
-número de ítems $k$ que se promedian por sujeto en H2d --- $n=2800$
-son 2800 personas, no 2800 respuestas a ítems.)
+pregunta de qué ocurre más allá de $n=2000$; en el régimen moderado
+(el relevante para interpretar la Sección~\ref{sec:realdata}, cuyos
+valores estimados de $\xi_n$ son bajos a moderados, Tabla
+\ref{tab:realdata}), el sesgo en $n=2800$ es indistinguible de cero
+dentro del error de Monte Carlo reportado. (Aquí $n$ denota siempre el
+número de \emph{sujetos} u observaciones $(X_i,Y_i)$, una dimensión
+distinta e independiente del número de ítems $k$ que se promedian por
+sujeto en H2d --- $n=2800$ son 2800 personas, no 2800 respuestas a
+ítems.)
 
 \subsection{H2a--d: empates en la respuesta, el predictor, ambos, y el puntaje compuesto}
 
@@ -1041,31 +1086,63 @@ Valores distintos & 6.0 & 11.0 & 16.0 & 25.4 & 43.3 & 62.7 & 78.2 & 90.2 & 95.0 
 \subsection{H3: estabilidad ante la forma de la distribución}
 
 \begin{table}[H]
-\caption{\label{tab:h3}$\xi_n$ frente a dCor bajo distintas formas marginales, cada una calibrada por separado a un mismo nivel poblacional objetivo de $\xi_n$ ($\approx 0.5$; el valor poblacional de dCor bajo esa misma condición no se fuerza a coincidir, Sección~\ref{sec:design}). Referencia fija: $n=100$, tipo de variable = continua, estructura = lineal ($R=1000$). La columna Normal (V) es de \emph{validación} contra \citet[Ec.~33]{ansari2026}; la validación análoga para $t$ (Sección 5.1 de esa referencia) queda pendiente (Sección~\ref{sec:results}, Validación). El vacío genuino recae en las formas no elípticas (uniforme, exponencial, mixtura). Diferencias observadas se interpretan como sensibilidad al mecanismo generador conjunto, no exclusivamente a la marginal (Sección~\ref{sec:framework}).}
+\caption{\label{tab:h3}$\xi_n$ frente a dCor bajo distintas formas marginales, cada una calibrada por separado a un mismo nivel poblacional objetivo de $\xi_n$ ($\approx 0.5$; el valor poblacional de dCor bajo esa misma condición no se fuerza a coincidir, Sección~\ref{sec:design}). Referencia fija: $n=100$, tipo de variable = continua, estructura = lineal. Sesgo/varianza: $R=1000$; error de tipo I/potencia (independencia exacta vs.\ la misma condición calibrada): $R=50$, 49 permutaciones para dCor --- una $R$ deliberadamente menor por el costo computacional y la memoria de la prueba de permutación en esta máquina, por lo que el error de tipo I reportado es impreciso ($\mathrm{SE}\approx 0.03$ dado $R=50$). La columna Normal (V) es de \emph{validación} contra \citet[Ec.~33]{ansari2026}; ninguna fórmula cerrada análoga existe para $t$ con este diseño (Sección~\ref{sec:results}, Validación), por lo que esa columna se reporta con el mismo estatus que las formas no elípticas (uniforme, exponencial, mixtura) --- consistencia interna, no verificación externa. Diferencias observadas se interpretan como sensibilidad al mecanismo generador conjunto, no exclusivamente a la marginal (Sección~\ref{sec:framework}).}
 \begin{center}
+\small
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{lccccc}
 \toprule
  & Normal (V) & Uniforme & Exponencial & $t$, colas pesadas & Mixtura bimodal \\
 \midrule
-$\xi_n$ & 0.479 & 0.487 & 0.483 & 0.491 & 0.473 \\
-dCor    & 0.816 & 0.835 & 0.829 & 0.821 & 0.793 \\
+\multicolumn{6}{l}{\emph{$\xi_n$ (valor poblacional calibrado: $0.493$, $0.495$, $0.496$, $0.507$, $0.495$)}} \\
+Media $\hat\xi_n$    & 0.478 & 0.484 & 0.483 & 0.492 & 0.474 \\
+Sesgo                & $-0.015$ & $-0.011$ & $-0.013$ & $-0.015$ & $-0.021$ \\
+Varianza             & 0.0032 & 0.0023 & 0.0038 & 0.0043 & 0.0019 \\
+Error de tipo I      & 0.04 & 0.06 & 0.02 & 0.06 & 0.04 \\
+Potencia             & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 \\
+\midrule
+\multicolumn{6}{l}{\emph{dCor (valor poblacional bajo el mismo $\sigma$: $0.818$, $0.834$, $0.828$, $0.821$, $0.792$)}} \\
+Media                & 0.816 & 0.834 & 0.829 & 0.821 & 0.793 \\
+Sesgo                & $-0.002$ & $0.0003$ & $0.0007$ & $-0.0002$ & $0.001$ \\
+Varianza             & 0.0012 & 0.0006 & 0.0019 & 0.0019 & 0.0006 \\
+Error de tipo I      & 0.00 & 0.04 & 0.04 & 0.08 & 0.08 \\
+Potencia             & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \end{center}
 \end{table}
 
-El rango de $\xi_n$ entre las cinco familias es de solo $0.018$
-(de $0.473$ a $0.491$), mientras que el rango de dCor es de $0.042$
-(de $0.793$ a $0.835$) --- más del doble --- pese a que todas las
-condiciones se calibraron al mismo nivel objetivo de $\xi_n$, no de
-dCor. Esto es consistente con la hipótesis de contraste de H3: $\xi_n$
-se mantiene comparativamente más estable entre familias marginales que
-dCor. Como se advirtió en la formulación de H3, esta diferencia se
-interpreta como sensibilidad al mecanismo generador conjunto de cada
-familia (que incluye una distribución de ruido distinta en cada caso),
-no como una prueba directa y aislada de invariancia ante
-transformaciones monótonas --- esa prueba más limpia es precisamente
-el propósito del sub-experimento aislado que sigue.
+Con las cinco métricas que H3 promete evaluar, el patrón es más matizado
+que la comparación de valores puntuales por sí sola. En \emph{sesgo}, es
+dCor quien resulta comparativamente más estable en magnitud absoluta
+($|{-0.002}|$ a $|0.001|$) frente a $\xi_n$ ($-0.011$ a $-0.021$) ---
+lo opuesto a lo que la comparación de rangos de valores puntuales
+sugería. En \emph{varianza}, ambos estadísticos muestran una dispersión
+comparable entre familias ($\xi_n$: $0.0019$--$0.0043$; dCor:
+$0.0006$--$0.0019$), sin una asimetría tan marcada como la de los
+valores puntuales. En \emph{potencia}, ninguno de los dos discrimina en
+esta celda de referencia --- ambos saturados en $1.00$ para las cinco
+familias, igual que en H2a--c, porque $n=100$ y $\xi\approx 0.5$ es un
+régimen de dependencia demasiado fuerte para que la potencia sea
+informativa aquí. El error de tipo I de ambos se mantiene
+razonablemente cerca del nivel nominal dado lo impreciso de su
+estimación con $R=50$.
+
+El hallazgo original --- que el \emph{rango de valores puntuales
+estimados} de $\xi_n$ entre familias ($0.018$) es menos de la mitad
+que el de dCor ($0.042$), Tabla~\ref{tab:h3} original --- sigue siendo
+válido como observación descriptiva, pero no debe generalizarse a
+``$\xi_n$ es más estable que dCor en sesgo, varianza, y potencia'':
+en sesgo específicamente, el patrón se invierte. La lectura más precisa
+es que $\xi_n$ y dCor exhiben perfiles de estabilidad distintos y no
+uniformemente ordenables entre sí --- consistente con el matiz que ya
+reveló H4 sobre dCor y $\tau^\ast$ (Tabla~\ref{tab:h4}): ninguna medida
+domina a las demás en todas las dimensiones de comparación
+simultáneamente. La prueba más limpia y menos ambigua de la propiedad
+de invariancia de $\xi_n$ en sí misma --- que si se sostiene sin
+matices --- es el sub-experimento aislado que sigue, no esta
+comparación entre familias generadoras distintas.
 
 \begin{table}[H]
 \caption{\label{tab:h3invar}Sub-experimento aislado: estabilidad de cada medida ante transformaciones monótonas de $X$ aplicadas a una misma distribución conjunta base (lineal, normal, $n=200$, $R=300$). Transf.\ 1 $=X^3$; Transf.\ 2 $=\exp(X)$.}
@@ -1207,11 +1284,15 @@ la tasa $n^{-1/2}$ --- la tasa óptima paramétrica que, según
 la potencia sube brevemente y luego \emph{cae} de manera marcada
 ($0.759 \to 0.636$ en lineal; $0.713 \to 0.583$ en senoidal, entre
 $n=500$ y $n=2000$), abriendo una brecha de más de $0.35$ frente a la
-tasa $n^{-1/4}$ en $n=2000$ pese a partir del mismo punto. Esto
-confirma empíricamente, en una escala de muestra accesible, la
+tasa $n^{-1/4}$ en $n=2000$ pese a partir del mismo punto. Este
+patrón es consistente, en una escala de muestra accesible, con la
 predicción teórica de que $\xi_n$ pierde terreno frente a señales que
 decrecen más rápido que su propio umbral de detección --- exactamente
-el mecanismo que motiva H5b.
+el mecanismo que motiva H5b. Con solo tres tamaños de muestra y dos
+estructuras, este experimento no pretende \emph{establecer} la tasa
+minimax de forma robusta --- eso corresponde a la prueba teórica de
+\citet{auddy2024} --- sino mostrar que la asimetría que predicen es
+detectable empíricamente incluso con un diseño modesto.
 
 \section{Ilustración con datos reales} \label{sec:realdata}
 
@@ -1309,32 +1390,50 @@ extraversión reportadas en la literatura suelen ser pequeñas.
 \subsection{Qué se confirmó, qué se refinó, y qué fue inesperado}
 
 Las cinco hipótesis, fundamentadas en propiedades ya demostradas de
-$\xi_n$ (Sección~\ref{sec:framework}), se confirmaron en su mayoría,
-con dos refinamientos y un hallazgo genuinamente inesperado.
+$\xi_n$ (Sección~\ref{sec:framework}), recibieron evidencia real en
+todos los casos, aunque no de forma uniformemente confirmatoria: dos
+de ellas (H1, H3) requirieron ampliar el diseño original para
+someterlas a prueba de forma completa, y una (H4) produjo un hallazgo
+genuinamente inesperado.
 
-H1 se confirmó en su forma condicional: el sesgo de muestra finita es
-real y decrece con $n$, pero --- como advertía la revisión
-metodológica que motivó su reformulación --- no depende únicamente de
-la cota algebraica de \citet{dalitz2024}; existe sesgo sustancial
-incluso cuando esa cota no restringe activamente al estimador
-(Tabla~\ref{tab:h1}). H2, desagregada en H2a--d, mostró que los
-empates en la respuesta y en el predictor son mecanismos distintos con
-consecuencias distintas: varianza pura en un caso, varianza más
-aleatorización por desempate en el otro (Tablas~\ref{tab:h2a}--\ref{tab:h2b}),
-y un efecto conjunto (Tabla~\ref{tab:h2c}) que no es la suma de ambos.
-H2d mostró que la práctica psicométrica estándar de agregar ítems en
-un puntaje compuesto atenúa este problema, aunque con rendimientos
-marcadamente decrecientes: la meseta se alcanza con relativamente
-pocos ítems y no mejora con instrumentos de cientos de ítems,
-porque el límite pasa a ser el tamaño de la muestra, no el número de
-ítems. H3 confirmó la mayor estabilidad relativa de $\xi_n$ frente a
-dCor ante cambios de familia marginal, de forma particularmente
-limpia en el sub-experimento aislado de invariancia
-(Tabla~\ref{tab:h3invar}). H5a y H5b confirmaron, de forma
-sorprendentemente nítida para un estudio de simulación con recursos
-computacionales modestos, la asimetría teórica de \citet{auddy2024}
-entre el umbral de detección $n^{-1/4}$ de $\xi_n$ y la tasa
-paramétrica óptima $n^{-1/2}$ (Tabla~\ref{tab:h5b}).
+H1 se confirmó en su forma condicional --- y ahora también en la
+predicción específica que originalmente solo se afirmaba, sin
+probarla directamente: el sesgo de muestra finita es real, decrece con
+$n$, no depende únicamente de la cota algebraica de
+\citet{dalitz2024} (existe sesgo sustancial incluso cuando esa cota no
+restringe activamente al estimador), y es consistentemente mayor en
+magnitud --- en cada tamaño de muestra probado --- bajo un régimen de
+dependencia alto que bajo uno moderado (Tabla~\ref{tab:h1}). H2,
+desagregada en H2a--d, mostró que los empates en la respuesta y en el
+predictor son mecanismos distintos con consecuencias distintas:
+varianza pura en un caso, varianza más aleatorización por desempate en
+el otro (Tablas~\ref{tab:h2a}--\ref{tab:h2b}), y un efecto conjunto
+(Tabla~\ref{tab:h2c}) que no es la suma de ambos. H2d mostró que la
+práctica psicométrica estándar de agregar ítems en un puntaje
+compuesto atenúa este problema, aunque con rendimientos marcadamente
+decrecientes: la meseta se alcanza con relativamente pocos ítems y no
+mejora con instrumentos de cientos de ítems, porque el límite pasa a
+ser el tamaño de la muestra, no el número de ítems. H3, al evaluarse
+en las cinco métricas que la propia hipótesis prometía (sesgo,
+varianza, error de tipo I, y potencia, no solo el valor puntual
+estimado), resultó más matizada de lo que sugería la comparación
+inicial: $\xi_n$ mostró un rango menor de \emph{valores puntuales}
+entre familias que dCor, pero fue dCor quien mostró menor \emph{sesgo}
+en magnitud absoluta, y ambos exhibieron varianza comparable
+(Tabla~\ref{tab:h3}) --- ninguna de las dos medidas domina a la otra en
+todas las dimensiones simultáneamente. La propiedad de invariancia de
+$\xi_n$ en sí misma, en cambio, se sostuvo sin matices en el
+sub-experimento aislado que mantiene fija la distribución conjunta
+base (Tabla~\ref{tab:h3invar}) --- la comparación entre familias
+generadoras distintas y la invariancia ante transformaciones monótonas
+resultaron ser, como advertía la reformulación de H3, preguntas
+relacionadas pero no idénticas. H5a y H5b fueron consistentes, de
+forma nítida para un estudio de simulación con recursos
+computacionales modestos, con la asimetría teórica de
+\citet{auddy2024} entre el umbral de detección $n^{-1/4}$ de $\xi_n$ y
+la tasa paramétrica óptima $n^{-1/2}$ (Tabla~\ref{tab:h5b}) --- sin
+que ese diseño acotado (tres tamaños de muestra, dos estructuras)
+pretenda establecer esa tasa de forma robusta por sí solo.
 
 H4 fue la hipótesis con el hallazgo más inesperado. Se confirmó el
 patrón ya documentado por \citet{chatterjee2021} y \citet{gao2024}
@@ -1400,11 +1499,12 @@ $n=100$, según el módulo) para aislar el efecto de interés, siguiendo
 el diseño por módulos de la Sección~\ref{sec:design}; no se exploró la
 matriz factorial completa de interacciones de orden superior entre los
 cinco factores, que queda como extensión posible del repositorio de
-reproducibilidad. La validación formal de H3 para la familia $t$ de
-Student contra la fórmula cerrada de \citet{ansari2026} quedó
-pendiente (Sección~\ref{sec:results}, Validación); los resultados de
-H3 para esa familia deben leerse como internamente consistentes, no
-como validados externamente.
+reproducibilidad. Para la familia $t$ de Student, ninguna fórmula cerrada análoga a la
+normal existe en \citet{ansari2026} con este diseño (Sección
+\ref{sec:results}, Validación); los resultados de H3 para esa familia
+deben leerse, como los de uniforme/exponencial/mixtura, como
+internamente consistentes, no como validados externamente contra un
+valor exacto conocido.
 
 \subsection{Líneas futuras}
 
@@ -1434,9 +1534,11 @@ analiza datos psicológicos: sesgo de muestra finita que decrece con
 $n$ pero no depende solo de la cota algebraica conocida; costos
 distintos y no aditivos de los empates según si afectan al predictor,
 a la respuesta, o a ambos, atenuables mediante puntajes compuestos con
-rendimientos decrecientes; mayor estabilidad relativa frente a la
-forma de la distribución que dCor, confirmada de forma particularmente
-limpia en un sub-experimento aislado de invariancia; una geometría de
+rendimientos decrecientes; una relación con dCor ante cambios de forma
+de la distribución más matizada de lo esperado --- $\xi_n$ más
+estable en el valor puntual, pero no uniformemente en sesgo o
+varianza --- con la propiedad de invariancia de $\xi_n$ en sí misma
+sosteniéndose sin matices en un sub-experimento aislado; una geometría de
 la dependencia que determina qué estadístico detecta mejor, con dCor y
 $\tau^\ast$ divergiendo entre sí de forma inesperada en el caso
 circular; y una asimetría empíricamente nítida entre el umbral de
