@@ -1022,34 +1022,61 @@ Valores distintos & 6.0 & 11.0 & 16.0 & 25.4 & 43.3 & 62.7 & 78.2 & 90.2 & 95.0 
 \subsection{H3: estabilidad ante la forma de la distribución}
 
 \begin{table}[H]
-\caption{\label{tab:h3}$\xi_n$ frente a dCor bajo distintas formas marginales, tras calibrar cada condición a un mismo nivel poblacional de dependencia direccional. Referencia fija: $n$ de referencia, tipo de variable = continua, estructura = lineal, régimen = moderado. Las columnas marcadas (V) son de \emph{validación} contra el valor exacto de \citet{ansari2026} para familias elípticas (Ec.~33 y Sección 5.1); el vacío genuino recae en las columnas restantes (formas no elípticas, sin garantía analítica de continuidad). Diferencias observadas se interpretan como sensibilidad al mecanismo generador conjunto, no exclusivamente a la marginal (Sección~\ref{sec:framework}).}
+\caption{\label{tab:h3}$\xi_n$ frente a dCor bajo distintas formas marginales, cada una calibrada por separado a un mismo nivel poblacional objetivo de $\xi_n$ ($\approx 0.5$; el valor poblacional de dCor bajo esa misma condición no se fuerza a coincidir, Sección~\ref{sec:design}). Referencia fija: $n=100$, tipo de variable = continua, estructura = lineal ($R=1000$). La columna Normal (V) es de \emph{validación} contra \citet[Ec.~33]{ansari2026}; la validación análoga para $t$ (Sección 5.1 de esa referencia) queda pendiente (Sección~\ref{sec:results}, Validación). El vacío genuino recae en las formas no elípticas (uniforme, exponencial, mixtura). Diferencias observadas se interpretan como sensibilidad al mecanismo generador conjunto, no exclusivamente a la marginal (Sección~\ref{sec:framework}).}
 \begin{center}
 \begin{tabular}{lccccc}
 \toprule
- & Normal (V) & Uniforme & Exponencial & $t$, colas pesadas (V) & Mixtura bimodal \\
+ & Normal (V) & Uniforme & Exponencial & $t$, colas pesadas & Mixtura bimodal \\
 \midrule
-$\xi_n$ &  &  &  &  &  \\
-dCor    &  &  &  &  &  \\
+$\xi_n$ & 0.479 & 0.487 & 0.483 & 0.491 & 0.473 \\
+dCor    & 0.816 & 0.835 & 0.829 & 0.821 & 0.793 \\
 \bottomrule
 \end{tabular}
 \end{center}
 \end{table}
 
+El rango de $\xi_n$ entre las cinco familias es de solo $0.018$
+(de $0.473$ a $0.491$), mientras que el rango de dCor es de $0.042$
+(de $0.793$ a $0.835$) --- más del doble --- pese a que todas las
+condiciones se calibraron al mismo nivel objetivo de $\xi_n$, no de
+dCor. Esto es consistente con la hipótesis de contraste de H3: $\xi_n$
+se mantiene comparativamente más estable entre familias marginales que
+dCor. Como se advirtió en la formulación de H3, esta diferencia se
+interpreta como sensibilidad al mecanismo generador conjunto de cada
+familia (que incluye una distribución de ruido distinta en cada caso),
+no como una prueba directa y aislada de invariancia ante
+transformaciones monótonas --- esa prueba más limpia es precisamente
+el propósito del sub-experimento aislado que sigue.
+
 \begin{table}[H]
-\caption{\label{tab:h3invar}Sub-experimento aislado: estabilidad de cada medida ante transformaciones monótonas de una misma distribución conjunta base (Sección~\ref{sec:design}).}
+\caption{\label{tab:h3invar}Sub-experimento aislado: estabilidad de cada medida ante transformaciones monótonas de $X$ aplicadas a una misma distribución conjunta base (lineal, normal, $n=200$, $R=300$). Transf.\ 1 $=X^3$; Transf.\ 2 $=\exp(X)$.}
 \begin{center}
 \begin{tabular}{lccc}
 \toprule
  & Sin transformar & Transf. monótona 1 & Transf. monótona 2 \\
 \midrule
-$\xi_n$    &  &  &  \\
-Spearman   &  &  &  \\
-Kendall    &  &  &  \\
-dCor       &  &  &  \\
+$\xi_n$    & 0.4848 & 0.4848 & 0.4848 \\
+Spearman   & 0.8380 & 0.8380 & 0.8380 \\
+Kendall    & 0.6490 & 0.6490 & 0.6490 \\
+dCor       & 0.8146 & 0.7006 & 0.7574 \\
 \bottomrule
 \end{tabular}
 \end{center}
 \end{table}
+
+El resultado es contundente: $\xi_n$, Spearman, y Kendall dan
+\emph{exactamente} el mismo valor (hasta la precisión reportada) bajo
+las tres transformaciones --- consecuencia directa y esperada de que
+los tres son estadísticos basados en rangos, no una hipótesis a
+verificar sino una propiedad matemática que esta simulación
+simplemente ilustra. dCor, en cambio, varía sustancialmente
+($0.701$ a $0.815$, un rango de $0.114$) pese a que la dependencia
+subyacente entre $X$ e $Y$ no cambió en absoluto entre columnas ---
+solo la parametrización observada de $X$. Este sub-experimento aísla
+la propiedad de invariancia de forma mucho más limpia que la Tabla
+\ref{tab:h3}, que compara familias generadoras distintas y por tanto
+no atribuye la diferencia únicamente a la invariancia ante
+transformaciones monótonas.
 
 \subsection{H4: potencia según geometría de la dependencia}
 
