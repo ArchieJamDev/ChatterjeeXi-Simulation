@@ -24,20 +24,39 @@
 \Shorttitle{Stress-Testing Chatterjee's Xi Correlation Coefficient}
 
 \Abstract{
-  Chatterjee's $\xi$ correlation coefficient (Chatterjee, 2021) was
-  proposed as a simple, rank-based measure capable of detecting arbitrary
-  functional dependence between two variables, together with a
-  computationally cheap asymptotic test of independence. Since its
-  introduction, a fast-growing theoretical literature has proposed
-  refinements, bias corrections, and multivariate extensions (e.g.,
-  Azadkia and Chatterjee, 2021), each typically accompanied by a small,
-  narrowly scoped simulation. No published study has stress-tested
-  $\xi$ across a full factorial design crossing sample size,
-  distribution shape, and variable type, nor benchmarked it
-  systematically against established nonlinear dependence measures such
-  as distance correlation and copula-based statistics under the same
-  conditions. \emph{[Placeholder --- to be completed once the
-  simulation design and results are finalized.]}
+  % NOTA: redactado en español para revision; traducir al ingles en
+  % la version final antes de enviar.
+  El coeficiente de correlación $\xi$ de Chatterjee (2021) promete
+  detectar cualquier forma de dependencia funcional entre dos
+  variables mediante una fórmula basada en rangos, con una prueba de
+  independencia asintótica computacionalmente barata. Pese al
+  rápido crecimiento de la literatura teórica sobre $\xi_n$ desde su
+  introducción, ningún estudio previo lo ha sometido a un diseño de
+  simulación Monte Carlo que cruce sistemáticamente tamaño de
+  muestra, tipo de variable, forma de la distribución, y geometría de
+  la dependencia, ni lo ha comparado bajo esas mismas condiciones
+  contra distance correlation y medidas basadas en cópulas. Este
+  artículo cierra ese vacío mediante un diseño por módulos, cada uno
+  fundamentado en una propiedad ya demostrada de $\xi_n$, motivado
+  por la investigación en psicología, donde los constructos son
+  fenómenos multifactoriales difíciles de aislar. Los resultados
+  confirman un sesgo de muestra finita que decrece con $n$ pero no
+  depende únicamente de la cota algebraica conocida; costos distintos
+  y no aditivos de los empates según afecten al predictor, a la
+  respuesta, o a ambos, atenuables mediante puntajes compuestos con
+  rendimientos marcadamente decrecientes; mayor estabilidad relativa
+  frente a la forma de la distribución que distance correlation; una
+  geometría de la dependencia que determina qué estadístico detecta
+  mejor --- con un hallazgo inesperado en que distance correlation y
+  una medida basada en cópulas divergen sustancialmente entre sí en
+  relaciones circulares, en vez de comportarse como un bloque
+  homogéneo de alternativas; y una asimetría empírica nítida entre el
+  umbral de detección subóptimo de $\xi_n$ cerca de independencia y su
+  optimalidad lejos de ella. Una ilustración con datos reales de
+  personalidad reproduce dos de estos hallazgos directamente. En
+  conjunto, los resultados ofrecen una guía práctica sobre cuándo
+  $\xi_n$ debe preferirse, interpretarse con cautela, o complementarse
+  con medidas clásicas, en datos psicológicos reales.
 }
 
 \Keywords{chatterjee's xi, rank correlation, monte carlo simulation, measures of dependence, distance correlation, robustness, \proglang{R}}
