@@ -159,9 +159,10 @@ bucher2025}, y umbrales exactos de detección \citep{auddy2024}.
 
 Pese a ese volumen de trabajo teórico, ninguno de esos estudios --- ni
 ningún otro que hayamos podido localizar --- somete a $\xi_n$ a un
-diseño de simulación factorial que cruce sistemáticamente tamaño de
-muestra, tipo de variable, forma de la distribución, estructura de
-dependencia, y magnitud de la dependencia, ni lo compara bajo esas
+diseño de simulación --- factorial o de otro tipo --- que cruce
+sistemáticamente tamaño de muestra, tipo de variable, forma de la
+distribución, estructura de dependencia, y magnitud de la dependencia,
+ni lo compara bajo esas
 mismas condiciones contra los puntos de referencia históricos de la
 dependencia no lineal (distance correlation, medidas basadas en
 cópulas). Las simulaciones existentes son, en el mejor de los casos, de alcance
@@ -192,8 +193,10 @@ dependencia realistas.
 El resto del artículo se organiza así. La Sección~\ref{sec:framework}
 presenta el marco teórico de $\xi_n$, sus medidas competidoras, y las
 cinco hipótesis del estudio. La Sección~\ref{sec:design} describe el
-diseño factorial de la simulación, los mecanismos generadores de
-datos, y las métricas de resultado. La Sección~\ref{sec:results}
+diseño modular de la simulación --- dirigido por hipótesis, no un
+factorial completo (Sección~\ref{sec:design}, 3.1) ---, los mecanismos
+generadores de datos, y las métricas de resultado. La
+Sección~\ref{sec:results}
 reporta los resultados organizados por hipótesis. La
 Sección~\ref{sec:realdata} ilustra los hallazgos aplicando $\xi_n$ y
 sus competidores a un conjunto de datos real de psicología. Las
@@ -901,8 +904,11 @@ MSE               & 0.0178 & 0.0029 & 0.0009 & 0.0001 & 0.00002 & 0.00001 & 0.00
 \end{center}
 \end{table}
 
-El sesgo se reduce monótonamente con $n$ en ambos regímenes, como
-predice H1. Notablemente, a $n=20$ la cota teórica ($0.857$) está por
+La magnitud absoluta del sesgo disminuye sistemáticamente con $n$ en
+ambos regímenes, como predice H1 --- el sesgo firmado en sí, en el
+régimen moderado, no es monótono (cambia de signo entre $n=2800$ y
+$n=3500$, ya dentro del ruido de Monte Carlo, Tabla~\ref{tab:h1}).
+Notablemente, a $n=20$ la cota teórica ($0.857$) está por
 encima de ambos valores verdaderos y por tanto no restringe
 activamente al estimador en ninguno de los dos --- y aun así se
 observa un sesgo sustancial en los dos casos. Esto confirma la
@@ -933,6 +939,18 @@ sigue siendo varias veces su propio error estándar --- pequeño en
 magnitud absoluta, pero no todavía indistinguible de cero. El régimen
 alto no solo parte de un sesgo mayor: tarda más en desvanecerse
 dentro del ruido de muestreo.
+
+H1 también predijo explícitamente un efecto sobre el MSE, y aquí el
+patrón no es tan simple como el del sesgo: el MSE del régimen alto es,
+de hecho, \emph{menor} que el del régimen moderado en todos los
+tamaños de muestra ($0.0178$ vs.\ $0.0221$ en $n=20$; $0.00001$ vs.\
+$0.0001$ en $n=3500$), pese a que su sesgo en valor absoluto es mayor.
+Esto es consistente con que el MSE combina sesgo al cuadrado y
+varianza, y sugiere que la varianza de $\xi_n$ es suficientemente
+menor en el régimen alto como para compensar su mayor sesgo --- un
+recordatorio de que no todos los indicadores de error se ordenan de
+la misma manera entre regímenes, y de que H1 no debe leerse como si
+predijera una ordenación uniforme del sesgo y del MSE.
 
 Se extendió el barrido a $n=2800$ y $n=3500$ --- tamaños frecuentes en
 investigación con encuestas de gran escala, y que incluyen
@@ -1074,10 +1092,17 @@ más ítems tiene cada vez menos margen para seguir reduciendo la
 varianza de $\xi_n$. Esto sugiere que, para efectos de mitigar el
 costo de los empates sobre $\xi_n$ específicamente, un número
 moderado de ítems ($k\approx 10$) ya captura la mayor parte del
-beneficio disponible; instrumentos con
-muchos más ítems (300--400, como algunos inventarios de personalidad o
-intereses reales) podrían justificarse por otras razones psicométricas
-(confiabilidad, validez de contenido), pero no por esta.
+beneficio disponible bajo las condiciones aquí examinadas ($n=100$,
+escala de 6 categorías, un único rasgo latente, error de medición
+independiente entre ítems); instrumentos con muchos más ítems
+(300--400, como algunos inventarios de personalidad o intereses
+reales) podrían justificarse por otras razones psicométricas
+(confiabilidad, validez de contenido), pero no parece que aporten un
+beneficio adicional importante para mitigar específicamente los
+empates de $\xi_n$ bajo estas condiciones --- si ese beneficio
+adicional aparece bajo otra distribución, tamaño de muestra, o
+estructura factorial de los ítems, no puede descartarse ni afirmarse
+desde este diseño.
 
 \begin{table}[H]
 \caption{\label{tab:h2d-kvar}Efecto del número de ítems $k$ sobre la varianza empírica de $\xi_n$, mismas condiciones que la Tabla~\ref{tab:h2d} ($R=500$; $n=100$).}
@@ -1378,9 +1403,11 @@ Spearman     & $-0.099$ & 0.703 & 0.096 \\
 Los tres pares ilustran hallazgos distintos de la Sección
 \ref{sec:results} sobre datos reales. En Edad--Neuroticismo, Pearson y
 Spearman detectan una asociación negativa modesta pero clara
-($\approx -0.10$, consistente con la literatura sobre neuroticismo y
-edad), y dCor una magnitud comparable de dependencia general
-($0.109$); $\xi_n$, en cambio, da un valor mucho menor ($0.009$--$0.025$)
+($\approx -0.10$), y dCor un valor de magnitud numérica similar
+($0.109$) --- aunque, como ya establece H3, no directamente comparable
+en interpretación, dado que los tres no comparten funcional
+poblacional ni escala; $\xi_n$, en cambio, da un valor mucho menor
+($0.009$--$0.025$)
 --- una réplica directa, en datos reales, del patrón de H4 (Tabla
 \ref{tab:h4}): $\xi_n$ es menos sensible que Pearson/dCor ante
 relaciones aproximadamente monótonas, y su valor puntual no debe
@@ -1491,10 +1518,14 @@ $\tau^\ast$. Concretamente:
   asociación'' sin revisar también Pearson o Spearman --- la
   ilustración de la Sección~\ref{sec:realdata} (Edad--Neuroticismo)
   muestra exactamente este escenario con datos reales.
-\item Si se sospecha una relación genuinamente no monótona u
-  oscilatoria, $\xi_n$ es probablemente más sensible que las
-  alternativas (H4); si se sospecha una relación suave, monótona, o
-  heterocedástica, dCor o $\tau^\ast$ probablemente detecten mejor.
+\item Si se sospecha una relación oscilatoria o funcionalmente
+  compleja de $X$ hacia $Y$, $\xi_n$ es probablemente más sensible que
+  las alternativas; pero no toda no monotonía favorece a $\xi_n$ por
+  igual --- en la Tabla~\ref{tab:h4}, $\xi_n$ domina claramente en la
+  estructura senoidal, pero no en la cuadrática (también no monótona),
+  donde dCor detecta mejor. Si se sospecha una relación suave,
+  monótona, circular, o heterocedástica, dCor o $\tau^\ast$
+  probablemente detecten mejor (H4).
 \item Cerca de independencia, $\xi_n$ requiere tamaños de muestra
   sustancialmente mayores que en regímenes de dependencia moderada o
   alta para alcanzar potencia razonable (H5a--b) --- una consideración
