@@ -39,8 +39,10 @@
   constructs are multifactorial phenomena that are difficult to
   isolate. The results confirm a finite-sample bias that decreases with
   $n$, does not depend solely on the known algebraic bound, and is
-  consistently larger under a high dependence regime than under a
-  moderate one; distinct, non-additive costs of ties depending on
+  larger under a high dependence regime than under a moderate one
+  across most sample sizes studied (the comparison reverses only at the
+  largest $n$, where both are already negligible); distinct,
+  non-additive costs of ties depending on
   whether they affect the predictor, the response, or both, attenuable
   through composite scores with markedly diminishing returns; a
   comparison with distance correlation across marginal-family changes
@@ -643,8 +645,9 @@ items, $I_j = \mathrm{discretize}(\theta + \epsilon_j, 6)$ for
 $j=1,\dots,k$, with $\epsilon_j$ independent measurement error across
 items (same discretization procedure as H2a--c); the observed score is
 $\bar{I} = \frac{1}{k}\sum_j I_j$. The parameters ($k=10$, 1--6 scale)
-are chosen to match the typical length of a \texttt{bfi} facet
-(Section~\ref{sec:realdata}). This is deliberately a simplification of
+are chosen as a plausible personality-subscale length --- roughly
+twice \texttt{bfi}'s own facet length of $5$ items (Section~\ref{sec:realdata}),
+while matching its response scale exactly. This is deliberately a simplification of
 real psychometric practice, where there are usually many more items
 (e.g., 40) grouped into several theoretically related factors, so that
 the relationships among the resulting composite scores are complex
@@ -756,9 +759,12 @@ set of cells needed to answer its question. The number of replications
 $R$ actually used varies by module according to the computational cost
 of the test involved --- on the order of $R=1000$ for modules that only
 require $\xi_n$'s own asymptotic test (H1, H2, H5), following the order
-used by \citealp{gao2024} and \citealp{dalitz2024}, and $R=300$--$500$
-where costlier permutation tests are also computed (H3, H4) --- and is
-reported explicitly in the corresponding results table in each case,
+used by \citealp{gao2024} and \citealp{dalitz2024}, and $R=300$ where
+costlier permutation tests are also computed throughout (H4); H3's own
+permutation-based Type I error and power (Table~\ref{tab:h3}) use a
+much smaller $R=50$, the lowest in the study, owing to this machine's
+memory constraints (Section~\ref{sec:discussion}) --- each module's
+exact $R$ is reported explicitly in the corresponding results table,
 together with $B=20$ additional tie-breaks per dataset in the modules
 with ties in the covariate (H2b, H2c). Higher-order interactions
 between modules, beyond those planned, remain a possible extension of
@@ -822,7 +828,7 @@ $\sigma$ & $\rho$ & Exact $\xi$ & Estimated $\xi$ (MC) & Abs.\ difference \\
 \midrule
 3.00 & 0.316 & 0.056 & 0.057 & 0.001 \\
 2.00 & 0.447 & 0.114 & 0.116 & 0.002 \\
-1.50 & 0.555 & 0.180 & 0.181 & 0.000 \\
+1.50 & 0.555 & 0.181 & 0.181 & 0.000 \\
 1.00 & 0.707 & 0.310 & 0.309 & 0.001 \\
 0.70 & 0.819 & 0.445 & 0.447 & 0.002 \\
 0.50 & 0.894 & 0.569 & 0.570 & 0.001 \\
@@ -861,10 +867,13 @@ MSE               & 0.0178 & 0.0029 & 0.0009 & 0.0001 & 0.00002 & 0.00001 & 0.00
 \end{center}
 \end{table}
 
-The absolute magnitude of the bias decreases systematically with $n$
-in both regimes, as predicted by H1 --- the signed bias itself, in the
-moderate regime, is not monotone (it flips sign between $n=2800$ and
-$n=3500$, already within Monte Carlo noise, Table~\ref{tab:h1}).
+The absolute magnitude of the bias decreases with $n$ across most of
+the sampled range in both regimes, as predicted by H1; in the moderate
+regime, however, this decrease is not strictly monotone at the largest
+sample sizes --- the signed bias flips sign between $n=2800$ and
+$n=3500$ (Table~\ref{tab:h1}), so its absolute value ticks up slightly
+rather than continuing to shrink, a reversal already within Monte Carlo
+noise.
 Notably, at $n=20$ the theoretical bound ($0.857$) lies above both true
 values and therefore does not actively constrain the estimator in
 either case --- and yet a substantial bias is observed in both. This
@@ -974,7 +983,11 @@ sample itself. This component
 decreases monotonically as categories increase
 ($0.0013 \to 0.0011 \to 0.0009$), approaching the continuous limit,
 exactly as H2b predicts. As in H2a, power remains saturated in this
-reference cell and does not discriminate between conditions.
+reference cell and does not discriminate between conditions. H2b's own
+wording also predicted a larger effect with \emph{smaller samples}; this
+single reference cell ($n=100$) does not cross categories with $n$, so
+that part of the hypothesis is not put to the test here and remains
+open.
 
 \begin{table}[H]
 \caption{\label{tab:h2c}H2c: empirical variance and power of $\xi_n$ with $X$ and $Y$ jointly discretized (same number of categories in both). Reference cell: $n=100$, shape = normal, structure = linear, regime = moderate (true $\xi \approx 0.493$; $300 \times 20$ nested replications).}
@@ -1028,7 +1041,10 @@ in H2a--c.
 An additional sweep over the number of items $k \in
 \{1,2,3,5,10,20,40,100,200,400\}$ (Table~\ref{tab:h2d-kvar}) --- this
 upper range deliberately chosen to cover personality or interest
-inventories with hundreds of items --- shows that the benefit has
+inventories with hundreds of items, and run as an independent set of
+replications at $R=500$ rather than Table~\ref{tab:h2d}'s $R=1000$, so
+the $k=10$ column of the two tables differs slightly ($0.0035$ vs.\
+$0.0036$) by Monte Carlo noise alone --- shows that the benefit has
 markedly diminishing returns from $k\approx 5$--$40$ onward: between
 that range and $k=400$ empirical variance stays nearly flat
 ($0.0029$--$0.0036$), with only an additional $\approx 19\%$ reduction
@@ -1110,7 +1126,7 @@ variance into a single comparable quantity. Together, these five
 metrics show a pattern more nuanced than the point-estimate comparison
 alone suggests. In
 \emph{bias}, it is dCor that turns out comparatively more stable in
-absolute magnitude ($|{-0.002}|$ to $|0.001|$) versus $\xi_n$
+absolute magnitude ($0.0002$ to $0.002$) versus $\xi_n$
 ($-0.011$ to $-0.021$) --- the opposite of what the comparison of
 point-estimate ranges suggested. In \emph{variance}, both statistics
 show comparable dispersion across families ($\xi_n$:
@@ -1130,7 +1146,7 @@ with $R=50$.
 
 The initial finding --- that $\xi_n$'s \emph{range of estimated point
 values} across families ($0.018$) is less than half that of dCor
-($0.042$), Table~\ref{tab:h3} --- remains valid as a descriptive
+($0.041$), Table~\ref{tab:h3} --- remains valid as a descriptive
 observation, but should not be generalized to "$\xi_n$ is more stable
 than dCor in bias, variance, and power": in bias specifically, the
 pattern reverses. The more precise reading is that $\xi_n$ and dCor
@@ -1209,7 +1225,13 @@ $\xi_n$: here it is $\tau^\ast$ ($0.747$) that clearly dominates, while
 dCor ($0.100$) is left with almost no power --- dCor and $\tau^\ast$ do
 not move together as a single generic competitor, but each has
 different strengths depending on the specific geometry of the
-dependence, a nuance H4's original formulation did not anticipate.
+dependence, a nuance H4's original formulation did not anticipate. This
+also reverses H4's original prediction for the $\xi_n$-vs-dCor
+comparison specifically: \citet{chatterjee2021} and \citet{gao2024}
+predicted $\xi_n$ less powerful than dCor for circular relationships,
+whereas here $\xi_n$ ($0.397$) clearly outperforms dCor ($0.100$) ---
+it is only against $\tau^\ast$ that $\xi_n$ falls short in this
+geometry.
 
 \subsection{H5a: practical performance at fixed dependence}
 
@@ -1329,8 +1351,9 @@ of variable comparison in the design:
   reported under different random tie-breaks, with the resulting
   variability corresponding specifically to H2b (tie-breaking
   randomization when the first item is treated as the predictor).
-\item[Binary--continuous.] Gender against an extraversion summary
-  score, illustrating H2a's binary case.
+\item[Binary--continuous.] Gender (treated as the predictor $X$)
+  against an extraversion summary score ($Y$), illustrating H2b's
+  binary case: ties in the predictor, not the response.
 \end{description}
 
 For each pair we report $\xi_n(X,Y)$ and $\xi_n(Y,X)$ --- given
@@ -1373,18 +1396,20 @@ real-data replication of H4's pattern (Table~\ref{tab:h4}): $\xi_n$ is
 less sensitive than Pearson/dCor to approximately monotone
 relationships, and its point value should not be interpreted as
 "absence of association" without also consulting Pearson or Spearman.
-In Item 1--Item 2 (two neuroticism items), all statistics agree on a
-strong association, as expected for two indicators of the same
-construct; the standard deviation of $\xi_n$ across $20$ independent
-random tie-breaks is $0.010$ --- a direct real-data replication of the
-tie-induced variability documented in H2b, though attenuated here by
-the considerably larger sample size ($n\approx 2757$) relative to H2's
+In Item 1--Item 2 (two neuroticism items), all statistics agree in
+direction on a strong association --- again not a comparison of shared
+magnitudes across scales (Section~\ref{sec:design}, 3.2) --- as
+expected for two indicators of the same construct; the standard
+deviation of $\xi_n$ across $20$ independent random tie-breaks is
+$0.010$ --- a direct real-data replication of the tie-induced
+variability documented in H2b, though attenuated here by the
+considerably larger sample size ($n\approx 2757$) relative to H2's
 reference cells ($n=100$). In Gender--Extraversion, all six reported
 coefficients ($\xi_n$ in both directions, dCor, $\tau^\ast$, Pearson,
-Spearman) agree on a very weak or null association, a substantively
-reasonable
-finding given that gender differences in extraversion reported in the
-literature tend to be small.
+Spearman) --- again not compared on a shared scale --- agree in
+direction on a very weak or null association, a substantively
+reasonable finding given that gender differences in extraversion
+reported in the literature tend to be small.
 
 \section{Discussion} \label{sec:discussion}
 
@@ -1478,9 +1503,13 @@ Pearson, Spearman, dCor, or $\tau^\ast$. Concretely:
   alternatives; but not every non-monotone relationship favors $\xi_n$
   equally --- in Table~\ref{tab:h4}, $\xi_n$ clearly dominates for the
   sinusoidal structure, but not for the quadratic one (also
-  non-monotone), where dCor detects better. If a smooth, monotone,
-  circular, or heteroskedastic relationship is suspected, dCor or
-  $\tau^\ast$ will likely detect better (H4).
+  non-monotone), where dCor detects better. For a smooth, monotone, or
+  heteroskedastic relationship, dCor or $\tau^\ast$ will likely detect
+  better; for a circular relationship, however, dCor and $\tau^\ast$
+  are \emph{not} interchangeable --- only $\tau^\ast$ retains
+  meaningful power there (Table~\ref{tab:h4}), the clearest
+  illustration in this study that they do not behave as a homogeneous
+  block of alternatives to $\xi_n$ (H4).
 \item Near independence, $\xi_n$ requires substantially larger sample
   sizes than under moderate or high dependence regimes to reach
   reasonable power (H5a--b) --- a relevant consideration when planning
