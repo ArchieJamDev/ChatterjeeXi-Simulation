@@ -190,7 +190,7 @@ real psychology dataset. Sections~\ref{sec:discussion}
 and~\ref{sec:conclusion} discuss the practical implications for
 applied researchers and conclude.
 
-\section{Theoretical Framework} \label{sec:framework}
+\section{Theoretical framework} \label{sec:framework}
 
 \subsection{Chatterjee's xi coefficient}
 
@@ -455,9 +455,11 @@ designs and estimands; they are presented here already disaggregated.
     dependence structure (H4) and the presence of ties (H2).
   \item[H5b (local sensitivity).] Under a sequence of alternatives
     whose signal shrinks as $n$ grows (following the framework of
-    \citealp{auddy2024}), $\xi_n$ will show a detection threshold
-    different from that of its competitors, especially near
-    independence.
+    \citealp{auddy2024}), $\xi_n$'s own power will behave differently
+    depending on whether the signal shrinks at $\xi_n$'s own
+    ($n^{-1/4}$) or at the classical parametric ($n^{-1/2}$) rate,
+    reflecting the theoretical asymmetry in its detection threshold
+    near independence.
   \end{description}
   For H5a, the level $\xi_0 \approx 0$ requires an explicit condition
   of exact independence ($X \perp Y$ generated directly), distinct
@@ -466,7 +468,7 @@ designs and estimands; they are presented here already disaggregated.
   independence for the purpose of evaluating Type I error.
 \end{description}
 
-\section{Simulation Design} \label{sec:design}
+\section{Simulation design} \label{sec:design}
 
 \subsection{Modular design}
 
@@ -505,12 +507,13 @@ H5b & How does the detection threshold change under local alternatives? & $n \ti
 
 For each relevant cell, $\xi_n$, dCor, $\tau^\ast$, and --- as applied
 benchmarks in routine use, not as general independence competitors ---
-Pearson and Spearman are computed. Hoeffding's $D$ is included as a
-historical/complementary diagnostic in H4 rather than as a primary
-competitor: $\tau^\ast$ was specifically designed to correct a known
-blind spot of $D$ (Section~\ref{sec:framework}), so that, if
-computational budget forces prioritization, $\tau^\ast$ is prioritized
-over $D$ rather than reducing the number of Monte Carlo replications.
+Pearson and Spearman are computed. Hoeffding's $D$ (Section~\ref{sec:framework})
+is discussed only as theoretical background motivating $\tau^\ast$'s
+design and is not itself among the statistics evaluated in any module:
+$\tau^\ast$ was specifically designed to correct a known blind spot of
+$D$, so it is prioritized throughout as the historical/copula-based
+competitor rather than running both under a fixed computational
+budget.
 
 \subsection{Data-generating mechanisms}
 
@@ -699,9 +702,13 @@ For each condition, replicated $R$ times:
   evaluated \emph{only} under the condition of exact independence
   ($X \perp Y$ generated directly, H1, H5a) --- never under
   alternatives, local or otherwise, since there the rejection
-  proportion is power, not Type I error. For each statistic, the
-  number of permutations (if applicable), the exact rule for computing
-  the $p$-value, and the treatment of ties are documented.
+  proportion is power, not Type I error. The number of permutations
+  used (if applicable) and the fixed random seed are reported alongside
+  each results table; the $p$-value rule and the internal handling of
+  ties otherwise follow each package's own defaults (\pkg{XICOR}'s
+  asymptotic normal test for $\xi_n$; \pkg{energy}'s and
+  \pkg{TauStar}'s permutation tests for dCor and $\tau^\ast$,
+  respectively) and are not re-derived here.
 \item[Power], evaluated under fixed dependence (H5a, $\xi_0>0$) and
   under the sequence of local alternatives (H5b), reported \emph{only}
   among statistics whose Type I error is reasonably controlled under
@@ -716,15 +723,16 @@ For each condition, replicated $R$ times:
   Table~\ref{tab:comparison}).
 \end{description}
 
-In addition to the tables in Section~\ref{sec:results}, figures are
-planned that make the interactions between factors visible: bias/MSE
-curves for $\xi_n$ against $n$ (one curve per $\xi_0$ level), power
-curves against dependence intensity by structure, Type I error by
-variable type and number of categories, variance decomposition
-(sampling vs.\ tie-breaking), computation time on a logarithmic scale
-against $n$, and the calibration curves $\sigma \mapsto \xi(X,Y)$ by
-structure (Section~\ref{sec:design}, 3.2) that document the
-monotonicity check.
+The interactions between factors --- bias/MSE against $n$ by $\xi_0$
+level, power against dependence intensity by structure, Type I error by
+variable type and number of categories, and the variance decomposition
+between sampling and tie-breaking --- are reported as tables rather
+than figures throughout Section~\ref{sec:results}, consistent with the
+precision needed to compare specific cells across modules; the
+calibration curves $\sigma \mapsto \xi(X,Y)$ by structure
+(Section~\ref{sec:design}, 3.2) that document the monotonicity check
+are likewise available, cell by cell, in the reproducibility
+repository rather than reproduced here.
 
 \subsection{Software and reproducibility}
 
@@ -733,9 +741,8 @@ $\ge 4.3$), using the packages \pkg{XICOR} \citep[for $\xi_n$; the same
 package used by][]{chatterjee2021,dalitz2024}, \pkg{energy} \citep[for
 dCor; by the same authors who proposed it,][]{szekely2007},
 \pkg{TauStar} (for $\tau^\ast$, prioritized as the main rank/copula
-competitor, Section~\ref{sec:design}, 3.1), \pkg{Hmisc} (for
-Hoeffding's $D$, as a complementary diagnostic), and \proglang{R}'s
-base functions for Pearson and Spearman (routine applied benchmarks).
+competitor, Section~\ref{sec:design}, 3.1), and \proglang{R}'s base
+functions for Pearson and Spearman (routine applied benchmarks).
 
 \emph{Computational scope.} The modular design (Section~\ref{sec:design},
 3.1) deliberately avoids a full factorial --- which, with the axes
@@ -1280,7 +1287,7 @@ differs empirically from its competitors', as H5b's original wording
 suggested --- only that $\xi_n$'s own behavior is consistent with the
 asymmetry the theory predicts for $\xi_n$ specifically.
 
-\section{Real-Data Illustration} \label{sec:realdata}
+\section{Real-data illustration} \label{sec:realdata}
 
 Following AJS's recommendation to illustrate methods with real,
 interesting data rather than trivial examples, $\xi_n$ and its
@@ -1505,8 +1512,9 @@ coefficient, to a Monte Carlo simulation design organized by modules
 and grounded in already-established properties of the estimator ---
 not an unguided exploratory sweep --- crossing sample size, variable
 type, distribution shape, dependence geometry, and dependence regime.
-We confirm that none of these crossings previously existed in the
-literature on $\xi_n$ (Section~\ref{sec:introduction}), and that each
+To the best of our knowledge, none of these crossings previously
+existed in the literature on $\xi_n$ (Section~\ref{sec:introduction}),
+and each
 one reveals behavior with concrete practical consequences for anyone
 analyzing psychological data: finite-sample bias that decreases with
 $n$ but does not depend solely on the known algebraic bound; distinct,
