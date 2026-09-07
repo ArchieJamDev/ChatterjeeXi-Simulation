@@ -804,10 +804,9 @@ which to compare. Moreover, this study's own $t$ condition ($X, E \sim
 t_{\text{df}}$ independent, $Y=X+\sigma E$; Section~\ref{sec:design})
 does not correspond to the bivariate elliptical construction that
 theorem requires --- a sum of two independent $t$ variables is not, in
-general, itself $t$-distributed as a pair $(X,Y)$. The validation of
-the $t$ family against a closed form, as originally planned, is
-therefore not possible with this design, and that expectation is
-withdrawn: the $t$ condition in Table~\ref{tab:h3} is reported with the
+general, itself $t$-distributed as a pair $(X,Y)$. No closed-form
+reference value is therefore available for the $t$ family under this
+design: the $t$ condition in Table~\ref{tab:h3} is reported with the
 same epistemic status as the non-elliptical families (uniform,
 exponential, mixture) --- internal consistency of the simulation, not
 external verification against a known exact value.
@@ -1296,11 +1295,10 @@ minimax rate robustly --- that is the province of \citet{auddy2024}'s
 theoretical proof --- but rather to show that the asymmetry they
 predict is empirically detectable even with a modest design. Note also
 that this module reports only $\xi_n$'s own power under the two decay
-rates; it does not include dCor, $\tau^\ast$, Pearson, or Spearman, so
-it cannot by itself establish that $\xi_n$'s detection threshold
-differs empirically from its competitors', as H5b's original wording
-suggested --- only that $\xi_n$'s own behavior is consistent with the
-asymmetry the theory predicts for $\xi_n$ specifically.
+rates; it does not include dCor, $\tau^\ast$, Pearson, or Spearman, and
+so it examines $\xi_n$'s own behavior under the two decay rates without
+directly comparing its detection threshold to that of its
+competitors --- a question that remains for future work.
 
 \section{Real-data illustration} \label{sec:realdata}
 
@@ -1504,12 +1502,14 @@ uniform across tables. Most modules use a single reference cell
 to isolate the effect of interest, following the modular design of
 Section~\ref{sec:design}; the full factorial matrix of higher-order
 interactions among the five factors was not explored, and remains a
-possible extension of the reproducibility repository. For the
-Student-$t$ family, no closed form analogous to the normal case exists
-in \citet{ansari2026} with this design (Section~\ref{sec:results},
-Validation); H3's results for that family should be read, like those
-for uniform/exponential/mixture, as internally consistent, not as
-externally validated against a known exact value.
+possible extension of the reproducibility repository. As noted in
+Section~\ref{sec:results} (Validation), the Student-$t$ condition in
+Table~\ref{tab:h3} is not externally validated against a closed form,
+unlike the normal condition; it is reported as internally consistent
+only. H5b's own module (Section~\ref{sec:results}) likewise reports
+only $\xi_n$'s power under two decay rates, without comparing its
+detection threshold against dCor, $\tau^\ast$, Pearson, or Spearman ---
+that comparison remains for future work.
 
 \subsection{Future directions}
 
