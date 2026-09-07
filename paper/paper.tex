@@ -339,8 +339,8 @@ designs and estimands; they are presented here already disaggregated.
   is the same under every dependence structure: for $\xi \approx 0.5$,
   for instance, the bound of $0.86$ at $n=20$ does not directly
   constrain the estimator. We therefore formulate H1 as a conditional
-  hypothesis: the negative bias and the MSE of $\xi_n$ will decrease as
-  $n$ increases, with a particularly marked reduction when the
+  hypothesis: the negative bias and the MSE of $\xi_n$ will generally
+  decrease as $n$ increases, with a particularly marked reduction when the
   population value of $\xi$ is high; the magnitude --- and sign --- of
   the residual bias in other regimes must be verified empirically and
   may depend on the dependence structure and the pattern of ties (H2,
@@ -772,7 +772,8 @@ values.
 
 \emph{Reproducibility repository.} The complete code (data-generating
 mechanisms, calibration of $\sigma$, computation of the three
-statistics, and generation of Tables~\ref{tab:h1}--\ref{tab:h5b}) is
+statistics, and generation of Tables~\ref{tab:validation}--\ref{tab:h5b}
+and Table~\ref{tab:realdata}) is
 published in a dedicated public repository,
 \url{https://github.com/ArchieJamDev/ChatterjeeXi-Simulation}, under
 \texttt{simulation/}, with its own \texttt{README} of execution
@@ -905,7 +906,9 @@ ordering of bias and MSE.
 
 The sweep was extended to $n=2800$ and $n=3500$ --- sample sizes common
 in large-scale survey research, and which deliberately include
-\texttt{bfi}'s exact sample size (Section~\ref{sec:realdata}) --- to
+\texttt{bfi}'s nominal sample size (Section~\ref{sec:realdata}; the
+complete-case pairs analyzed there are somewhat smaller, $n=2694$ to
+$2757$) --- to
 directly answer the question of what happens beyond $n=2000$; in the
 moderate regime (the relevant one for interpreting
 Section~\ref{sec:realdata}, whose estimated $\xi_n$ values are low to
@@ -964,9 +967,10 @@ The decomposition cleanly confirms H2b. By construction, the within
 variance is exactly zero for the continuous condition (no ties to
 break), and grows to $0.0017$ for the binary condition --- practically
 the same order of magnitude as the between-dataset variance
-($0.0021$) --- meaning that, with only two categories, nearly half of
-$\xi_n$'s total variability comes solely from how the implementation
-breaks ties at random, not from the sample itself. This component
+($0.0021$) --- meaning that, with only two categories, approximately
+45\% of $\xi_n$'s total variability ($0.0017/(0.0021+0.0017)$) comes
+solely from how the implementation breaks ties at random, not from the
+sample itself. This component
 decreases monotonically as categories increase
 ($0.0013 \to 0.0011 \to 0.0009$), approaching the continuous limit,
 exactly as H2b predicts. As in H2a, power remains saturated in this
@@ -1015,7 +1019,7 @@ Num.\ distinct observed values & 6.0 & 43.4 \\
 H2d confirms the psychometric intuition: the $k=10$-item composite
 score reduces empirical variance by approximately 37\% relative to the
 single item, raises power from $0.970$ to $1.000$, and multiplies the
-effective number of distinct observed values by more than seven
+number of distinct observed values by more than seven
 ($6.0 \to 43.4$, close to the theoretical maximum of $10\times(6-1)+1=51$).
 Aggregating items alone --- without any additional multifactorial
 structure --- already substantially attenuates the tie cost documented
@@ -1081,6 +1085,7 @@ Distinct values & 6.0 & 11.0 & 16.0 & 25.4 & 43.3 & 62.7 & 78.2 & 90.2 & 95.0 & 
 Mean $\hat\xi_n$    & 0.478 & 0.484 & 0.483 & 0.492 & 0.474 \\
 Bias                & $-0.015$ & $-0.011$ & $-0.013$ & $-0.015$ & $-0.021$ \\
 Variance             & 0.0032 & 0.0023 & 0.0038 & 0.0043 & 0.0019 \\
+MSE                  & 0.0034 & 0.0024 & 0.0039 & 0.0045 & 0.0023 \\
 Type I error      & 0.04 & 0.06 & 0.02 & 0.06 & 0.04 \\
 Power             & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 \\
 \midrule
@@ -1088,6 +1093,7 @@ Power             & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 \\
 Mean                & 0.816 & 0.834 & 0.829 & 0.821 & 0.793 \\
 Bias                & $-0.002$ & $0.0003$ & $0.0007$ & $-0.0002$ & $0.001$ \\
 Variance             & 0.0012 & 0.0006 & 0.0019 & 0.0019 & 0.0006 \\
+MSE                  & 0.0012 & 0.0006 & 0.0019 & 0.0019 & 0.0006 \\
 Type I error      & 0.00 & 0.04 & 0.04 & 0.08 & 0.08 \\
 Power             & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 \\
 \bottomrule
@@ -1096,16 +1102,21 @@ Power             & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 \\
 \end{center}
 \end{table}
 
-With the four further metrics H3 promises beyond the point estimate ---
-bias, variance, Type I error, and power --- the pattern is more nuanced
-than the point-estimate comparison alone suggests. In
+With the five further metrics H3 promises beyond the point estimate ---
+bias, variance, MSE, Type I error, and power --- the pattern is more
+nuanced than the point-estimate comparison alone suggests. In
 \emph{bias}, it is dCor that turns out comparatively more stable in
 absolute magnitude ($|{-0.002}|$ to $|0.001|$) versus $\xi_n$
 ($-0.011$ to $-0.021$) --- the opposite of what the comparison of
 point-estimate ranges suggested. In \emph{variance}, both statistics
 show comparable dispersion across families ($\xi_n$:
 $0.0019$--$0.0043$; dCor: $0.0006$--$0.0019$), without an asymmetry as
-marked as that of the point estimates. In \emph{power}, neither
+marked as that of the point estimates; since $\xi_n$'s biases are
+larger in absolute terms, its \emph{MSE} ($0.0023$--$0.0045$) also runs
+somewhat higher than dCor's ($0.0006$--$0.0019$) throughout, combining
+both components in the same direction rather than offsetting each
+other, unlike the pattern seen in H1's high-dependence regime. In
+\emph{power}, neither
 statistic discriminates in this reference cell --- both are saturated
 at $1.00$ across the five families, as in H2a--c, because $n=100$ and
 $\xi\approx 0.5$ is too strong a dependence regime for power to be
@@ -1365,8 +1376,10 @@ construct; the standard deviation of $\xi_n$ across $20$ independent
 random tie-breaks is $0.010$ --- a direct real-data replication of the
 tie-induced variability documented in H2b, though attenuated here by
 the considerably larger sample size ($n\approx 2757$) relative to H2's
-reference cells ($n=100$). In Gender--Extraversion, all six statistics
-agree on a very weak or null association, a substantively reasonable
+reference cells ($n=100$). In Gender--Extraversion, all six reported
+coefficients ($\xi_n$ in both directions, dCor, $\tau^\ast$, Pearson,
+Spearman) agree on a very weak or null association, a substantively
+reasonable
 finding given that gender differences in extraversion reported in the
 literature tend to be small.
 
@@ -1396,8 +1409,8 @@ case, variance plus tie-breaking randomization in the other
 (Table~\ref{tab:h2c}) that is not their sum. H2d showed that the
 standard psychometric practice of aggregating items into a composite
 score attenuates this problem, though with markedly diminishing
-returns: the plateau is reached with relatively few items, and
-instruments with hundreds of items add only a modest further
+returns: most of the reduction is already achieved with relatively few
+items, and instruments with hundreds of items add only a modest further
 reduction, because the room for improvement becomes bounded by sample
 size rather than by number of items. H3, once evaluated on the five
 metrics the hypothesis itself promised (bias, variance, Type I error,
