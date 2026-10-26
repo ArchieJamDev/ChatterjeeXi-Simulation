@@ -121,3 +121,26 @@ The files in `results/study2/` come from run 40325393994 (tag `study2-v2`, commi
 `9d72d30`). An earlier full run of the first twelve shards (tag `study2-v1`) produced
 byte-identical CSV files, which confirms that the fixed seeds make the Actions runs
 exactly reproducible.
+
+## Real-data screening
+
+`scripts/30_realdata_screen.R <shard> <n_shards>` (workflow
+`.github/workflows/realdata.yml`, tag `realdata-v*` for the full run, 12 shards)
+analyses **every** pair of variables of two public datasets distributed with the
+CRAN package `psych` (`data(bfi, package = "psych")`, `data(sat.act, package = "psych")`),
+so that no pair is chosen by its result: the 25 `bfi` items, the 5 Big Five composite
+scores (reverse-keyed item means), gender, education and age (503 pairs after removing
+item-own-composite pairs) and the 6 variables of `sat.act` (15 pairs). Each pair uses its
+complete cases and its own seed (`20263000 + pair index`), so results do not depend on how
+the pairs are split into shards.
+
+For every pair: Spearman's rho with a Fisher-type CI and test, Pearson's r with CI and
+test, xi(X,Y) and xi(Y,X) averaged over 20 random tie-breaks with their SD, the asymptotic
+tie-aware p-value of each direction (median over tie-breaks) and the share of tie-breaks
+with p < .05, distance correlation with a permutation test (B = 499), and tau* with its
+test (`tauStarTest`). No confidence interval is given for xi: the bootstrap fails for xi_n
+and no meaningful interval exists in general (Dalitz et al., 2024). The decision rule used in
+the summary (Benjamini-Hochberg-adjusted p < .05 within each measure, and unadjusted) is
+fixed in the header of the script. Environment variables: `REALDATA_SMOKE=1`,
+`REALDATA_OUT`, `REALDATA_MAXPAIRS`.
+
