@@ -158,3 +158,6 @@ survey weights and design are ignored, so estimates describe the sample, not the
 The sleep-depression pair was expected a priori to be non-monotone (a U shape) but is one of the
 127 pairs, not selected by its result. Downloaded files are cached in `data/nhanes/` (git-ignored).
 
+The files in `results/realdata/` come from run 40361294396 (tag `realdata-v1`, commit `6a67127`) and
+those in `results/nhanes/` from run 40365086795 (tag `nhanes-v1`, commit `0df8a14`).
+

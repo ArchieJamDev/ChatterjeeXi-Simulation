@@ -1,0 +1,9 @@
+R version 4.6.1 (2026-06-24)
+XICOR 0.4.1
+energy 1.7.12
+TauStar 1.1.9
+B_PERM 499 B_TB 20 seed_base 20264000
+DEMO_J.xpt 3412720 bytes md5 3d5e48e4255b2ec80578a0eb45480d4c
+DPQ_J.xpt 489280 bytes md5 1bdf702f2cb14c5e54f2046f4c42bfae
+SLQ_J.xpt 470560 bytes md5 10724d21310b4352c01b23121074c927
+BMX_J.xpt 1466000 bytes md5 4c51e08c3b105005a326da3a4fc6b223
