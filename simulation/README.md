@@ -148,7 +148,7 @@ fixed in the header of the script. Environment variables: `REALDATA_SMOKE=1`,
 
 `scripts/31_nhanes_screen.R <shard> <n_shards>` (workflow `.github/workflows/nhanes.yml`, tag
 `nhanes-v*` for the full run, 16 shards) applies the same per-pair analysis to the US National
-Health and Nutrition Examination Survey 2017-2018 (CDC/NCHS; public domain; the four files
+Health and Nutrition Examination Survey 2017-2018 (CDC/NCHS; public-use files, subject to the NCHS data use agreement; the four files
 `DEMO_J`, `DPQ_J`, `SLQ_J`, `BMX_J` are downloaded anonymously, with no registration, from
 `https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2017/DataFiles/`; their sizes and md5 sums are written
 to each shard's `*_env.txt`). Adults aged 18+ and 17 variables fixed in advance (the nine PHQ-9
@@ -169,4 +169,11 @@ median p)) and writes `results/realdata_summary/`: `detection_counts.csv` (pairs
 measure), `concordance.csv` (pairs detected only by general measures, only by monotone measures,
 by both, by none), `non_monotone_only_pairs.csv`, `tiebreak_instability.csv` (how often xi's decision and
 value change with the random tie-break) and `nhanes_key_pairs.csv`.
+
+### Tables and figures of the BRM manuscript
+
+`scripts/40_make_tables.R` builds every table (bare `tabular` environments) and figure (PDF) of the
+manuscript in `../paper_brm/` from the result CSV files only, so that no number is typed by hand
+(`TABLE_LANG=es` or `en` selects the language of the labels). Figure 3 downloads the NHANES files into
+`data/nhanes/` if they are missing.
 

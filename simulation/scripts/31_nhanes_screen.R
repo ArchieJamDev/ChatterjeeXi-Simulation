@@ -1,4 +1,4 @@
-# Real-data screening, second dataset: NHANES 2017-2018 (US CDC / NCHS), public domain,
+# Real-data screening, second dataset: NHANES 2017-2018 (US CDC / NCHS), public-use files,
 # downloaded anonymously (no registration) from
 #   https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2017/DataFiles/{DEMO_J,DPQ_J,SLQ_J,BMX_J}.xpt
 # Same per-pair analysis as 30_realdata_screen.R (xi_n averaged over random tie-breaks, Spearman,
