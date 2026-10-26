@@ -7,3 +7,5 @@
 *.bbl
 .Rhistory
 .RData
+# downloaded public datasets (re-created by the scripts)
+simulation/data/

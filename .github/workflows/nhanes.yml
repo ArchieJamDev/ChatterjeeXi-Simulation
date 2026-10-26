@@ -1,0 +1,47 @@
+name: nhanes
+
+# Real-data screening, second dataset: NHANES 2017-2018 (US CDC, public domain, anonymous download).
+# Every pair of 17 pre-specified variables (127 pairs) with xi_n, Spearman, Pearson, dCor and tau*.
+#   * push to branch brm-revision -> SMOKE run (4 pairs per shard, B = 19)
+#   * push a tag named nhanes-v*  -> FULL run, 16 parallel shards (B = 499, 20 tie-breaks)
+# Each shard downloads the four NHANES files from wwwn.cdc.gov, runs
+# simulation/scripts/31_nhanes_screen.R and uploads its CSV as the artifact nhanes-<mode>-<shard>.
+on:
+  push:
+    branches: [brm-revision]
+    paths:
+      - 'simulation/scripts/31_nhanes_screen.R'
+      - '.github/workflows/nhanes.yml'
+    tags: ['nhanes-v*']
+
+jobs:
+  nhanes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    env:
+      MODE: ${{ startsWith(github.ref, 'refs/tags/nhanes-') && 'full' || 'smoke' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - name: Install system libraries (GNU Scientific Library, needed by R package gsl -> energy)
+        run: sudo apt-get update -y && sudo apt-get install -y libgsl-dev
+      - name: Install packages
+        run: Rscript -e 'install.packages(c("XICOR", "energy", "TauStar", "foreign"))'
+      - name: Run shard
+        working-directory: simulation
+        env:
+          NHANES_OUT: ${{ github.workspace }}/out
+        run: |
+          if [ "$MODE" = "smoke" ]; then export NHANES_SMOKE=1; fi
+          Rscript scripts/31_nhanes_screen.R ${{ matrix.shard }} 16
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nhanes-${{ env.MODE }}-${{ matrix.shard }}
+          path: out/
+          if-no-files-found: error

@@ -144,3 +144,17 @@ the summary (Benjamini-Hochberg-adjusted p < .05 within each measure, and unadju
 fixed in the header of the script. Environment variables: `REALDATA_SMOKE=1`,
 `REALDATA_OUT`, `REALDATA_MAXPAIRS`.
 
+### Second real dataset: NHANES 2017-2018
+
+`scripts/31_nhanes_screen.R <shard> <n_shards>` (workflow `.github/workflows/nhanes.yml`, tag
+`nhanes-v*` for the full run, 16 shards) applies the same per-pair analysis to the US National
+Health and Nutrition Examination Survey 2017-2018 (CDC/NCHS; public domain; the four files
+`DEMO_J`, `DPQ_J`, `SLQ_J`, `BMX_J` are downloaded anonymously, with no registration, from
+`https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2017/DataFiles/`; their sizes and md5 sums are written
+to each shard's `*_env.txt`). Adults aged 18+ and 17 variables fixed in advance (the nine PHQ-9
+items and their total, weekday and weekend sleep hours, age, gender, body-mass index, family
+income-to-poverty ratio, education) give 127 pairs. The analysis is **unweighted**: NHANES
+survey weights and design are ignored, so estimates describe the sample, not the US population.
+The sleep-depression pair was expected a priori to be non-monotone (a U shape) but is one of the
+127 pairs, not selected by its result. Downloaded files are cached in `data/nhanes/` (git-ignored).
+
