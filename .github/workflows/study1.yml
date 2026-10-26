@@ -10,7 +10,9 @@ on:
     branches: [brm-revision]
     paths:
       - 'simulation/scripts/20_study1.R'
-      - 'simulation/R/**'
+      - 'simulation/R/study1_lib.R'
+      - 'simulation/R/dgp.R'
+      - 'simulation/R/calibration.R'
       - '.github/workflows/study1.yml'
     tags: ['study1-v*']
 

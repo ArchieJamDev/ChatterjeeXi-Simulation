@@ -1,0 +1,60 @@
+name: study2
+
+# Study 2 (xi_n vs. Spearman, Pearson, distance correlation and tau*: type I error and
+# power with discrete responses, several n, neutral calibration by signal share).
+#   * push to branch brm-revision  -> SMOKE run (R = 10 per cell), checks the pipeline only
+#   * push a tag named study2-v*   -> FULL run, 12 parallel shards
+# Each shard runs simulation/scripts/21_study2.R with a fixed seed and uploads its CSV as an
+# artifact (study2-<mode>-<block>-<shard>). Download them with:  gh run download <run-id>
+on:
+  push:
+    branches: [brm-revision]
+    paths:
+      - 'simulation/scripts/21_study2.R'
+      - 'simulation/R/study2_lib.R'
+      - 'simulation/R/study1_lib.R'
+      - 'simulation/R/dgp.R'
+      - '.github/workflows/study2.yml'
+    tags: ['study2-v*']
+
+jobs:
+  study2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    env:
+      MODE: ${{ startsWith(github.ref, 'refs/tags/study2-') && 'full' || 'smoke' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {block: typeI, shard: '50'}
+          - {block: typeI, shard: '100'}
+          - {block: typeI, shard: '200'}
+          - {block: typeI, shard: '400'}
+          - {block: power_cheap, shard: 'lineal'}
+          - {block: power_cheap, shard: 'cuadratica'}
+          - {block: power_cheap, shard: 'senoidal'}
+          - {block: power_cheap, shard: 'circular'}
+          - {block: power_full, shard: 'lineal'}
+          - {block: power_full, shard: 'cuadratica'}
+          - {block: power_full, shard: 'senoidal'}
+          - {block: power_full, shard: 'circular'}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+      - name: Install packages
+        run: Rscript -e 'install.packages(c("XICOR", "energy", "TauStar"))'
+      - name: Run shard
+        working-directory: simulation
+        env:
+          STUDY2_OUT: ${{ github.workspace }}/out
+        run: |
+          if [ "$MODE" = "smoke" ]; then export STUDY2_SMOKE=1; fi
+          Rscript scripts/21_study2.R ${{ matrix.block }} ${{ matrix.shard }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: study2-${{ env.MODE }}-${{ matrix.block }}-${{ matrix.shard }}
+          path: out/
+          if-no-files-found: error

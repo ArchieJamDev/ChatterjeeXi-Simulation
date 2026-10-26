@@ -19,8 +19,8 @@ coefficient. Every script has a fixed seed, writes its results as CSV under
   structures); `R/calibration.R` calibration of the noise level `sigma` to a
   target population xi (monotonicity is checked, not assumed);
   `R/discretize.R` discretization and composite scores for the H2 modules;
-  `R/statistics.R` loads `XICOR`, `energy`, `TauStar`; `R/study1_lib.R` helpers
-  of Study 1.
+  `R/statistics.R` loads `XICOR`, `energy`, `TauStar`; `R/study1_lib.R`,
+  `R/study2_lib.R` helpers of Studies 1 and 2.
 - `scripts/` one script per module; `results/` one CSV per module.
 
 ## Scripts and manuscript tables
@@ -87,3 +87,31 @@ branch `brm-revision` runs a smoke version (R = 20); pushing a tag named
 `study1-<mode>-<block>-<shard>`; download them with `gh run download <run-id>`
 and store the files of a full run in `results/study1/`. The files currently in
 `results/study1/` come from run 40297517916 (tag `study1-v1`, commit `91f012d`).
+
+## Study 2: xi_n against competing measures
+
+`scripts/21_study2.R <block> <shard>` (workflow `.github/workflows/study2.yml`,
+tag `study2-v*` for the full run) compares the tie-aware asymptotic test of xi_n
+with Spearman and Pearson (two-sided t tests), distance correlation
+(`energy::dcor.test`, permutation test, B = 199) and tau* (`TauStar::tauStarTest`,
+mode chosen automatically from the data), always on the same simulated datasets.
+X is continuous; Y is continuous, binary 50/50, binary 90/10, 5-category skewed or
+a composite of 5 six-category items (same definitions as Study 1).
+
+**Neutral calibration.** Dependence is not matched on any coefficient's scale but on
+the signal share `s = Var(noiseless structure) / Var(latent Y)`, i.e. the R^2 of the
+true generating function: `sigma^2 = Var(f) (1 - s) / s`, with `Var(f)` from a large
+noiseless sample (`R/study2_lib.R`). The same `s` therefore means the same amount of
+signal for the linear, quadratic, sinusoidal and circular structures.
+
+| Block | Shard | Computes |
+|---|---|---|
+| `typeI` | n in 50, 100, 200, 400 | type I error of all five tests under independence, 5 Y types; R = 1000 |
+| `power_cheap` | structure (lineal, cuadratica, senoidal, circular) | power of xi, Spearman, Pearson; s in .05, .13, .26, .50; n in 50, 100, 200, 400, 800; 5 Y types; R = 2000 |
+| `power_full` | structure | power of all five tests; s in .13, .26 (Cohen's medium and large R^2); n in 50, 100, 200, 400; 4 Y types; R = 500 |
+
+`warn_rate_tau` in the output is the share of replications in which
+`tauStarTest` raised a numerical warning (counted, not hidden); `na_rate_tau` is
+the share in which it failed. Seeds: `20262100 + 10000 * block_index + shard_index`
+(+ `round(1000 * s)` inside the power blocks). Environment variables:
+`STUDY2_SMOKE=1`, `STUDY2_R`, `STUDY2_OUT`, as in Study 1.
