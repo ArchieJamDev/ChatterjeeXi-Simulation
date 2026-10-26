@@ -1,25 +1,88 @@
-# Paquete de reproducibilidad — simulación
+# Reproducibility package — simulation
 
-Pendiente de implementación. Esta carpeta contendrá, siguiendo el mismo
-patrón usado en las validaciones Monte Carlo de AssumptionsLab (script +
-resultados + README por corrida, con semilla fija):
-
-- Scripts de generación de datos para las cinco estructuras de
-  dependencia (Sección 3.2 del manuscrito: lineal, cuadrática,
-  senoidal, circular, heterocedástica).
-- Script de calibración numérica del nivel de ruido `sigma` para
-  alcanzar cada régimen objetivo de xi poblacional (H5).
-- Script de discretización para las variantes binaria/ordinal (H2).
-- Cómputo de xi_n, dCor, y D de Hoeffding / tau* sobre cada condición
-  simulada.
-- Resultados crudos (CSV) y scripts que generan las Tablas 2-6 del
-  manuscrito directamente a partir de esos resultados.
+R code and raw results for the Monte Carlo study of Chatterjee's xi
+coefficient. Every script has a fixed seed, writes its results as CSV under
+`results/`, and is run from this directory (`cd simulation`).
 
 ## Software
 
-Pendiente de especificar (versión de R, paquetes: `XICOR`, `energy`,
-etc. — ver Sección 3.4 del manuscrito).
+- R 4.5.2; packages `XICOR` 0.4.1, `energy` 1.7.12, `TauStar` 1.1.9,
+  `psych` 2.6.5 (versions currently used; the Study 1 workflow installs the
+  current CRAN release of `XICOR` and records the exact versions in each
+  shard's `*_env.txt`).
+- `dcor()` from `energy` builds an n x n distance matrix (O(n^2) memory), so the
+  permutation-based dCor tests are run with small R on small machines.
 
-## Semilla
+## Layout
 
-Pendiente de fijar antes de la primera corrida real.
+- `R/dgp.R` data-generating mechanisms (five latent families, five dependence
+  structures); `R/calibration.R` calibration of the noise level `sigma` to a
+  target population xi (monotonicity is checked, not assumed);
+  `R/discretize.R` discretization and composite scores for the H2 modules;
+  `R/statistics.R` loads `XICOR`, `energy`, `TauStar`; `R/study1_lib.R` helpers
+  of Study 1.
+- `scripts/` one script per module; `results/` one CSV per module.
+
+## Scripts and manuscript tables
+
+Table numbers refer to `paper/paper.tex` as originally submitted.
+
+| Script | Content | Table | Results file |
+|---|---|---|---|
+| `00_validation.R` | exact xi for the equicorrelated normal vs. Monte Carlo | 3 | `00_validation_normal.csv` |
+| `01_h1.R`, `01b_h1_highregime.R` | finite-sample bias and MSE vs. n, moderate and high dependence | 4 | `01_h1.csv`, `01b_h1_highregime.csv` |
+| `02_h2a.R` | ties in the response | 5 | `02_h2a.csv` |
+| `03_h2b.R` | ties in the predictor, nested tie-breaking variance decomposition | 6 | `03_h2b.csv` |
+| `04_h2c.R` | joint discretization | 7 | `04_h2c.csv` |
+| `05_h2d.R`, `06_h2d_kvarying.R` | composite score of k items | 8, 9 | `05_h2d.csv`, `06_h2d_kvarying.csv` |
+| `07_h3.R`, `07b_h3_typeI_power.R` | marginal families: bias, variance, type I error, power | 10 | `07_h3.csv`, `07b_h3_typeI_power.csv` |
+| `08_h3_invariance.R` | invariance under monotone transformations | 11 | `08_h3_invariance.csv` |
+| `09_h4.R` | power by dependence geometry vs. dCor and tau* | 12 | `09_h4_type1.csv`, `09_h4_power.csv` |
+| `10_h5a.R` | power at fixed dependence | 13 | `10_h5a.csv` |
+| `11_h5b.R` | local alternatives | 14 | `11_h5b.csv` |
+| `12_realdata_bfi.R` | real-data illustration, `psych::bfi` | 15 | `12_realdata_bfi.csv` |
+
+`07b_h3_typeI_power.R` takes one family per call (memory), e.g.
+`for f in normal uniform exponential t mixture; do Rscript scripts/07b_h3_typeI_power.R $f; done`.
+
+## Seeds
+
+Every script calls `set.seed(20260906)` once at the top, except
+`12_realdata_bfi.R`, whose random tie-breaks are not seeded (its xi values
+reproduce only up to Monte Carlo noise in the third decimal). Study 1 uses one
+seed per block and shard: `20261100 + 10000 * block_index + shard_index`
+(`block_index` follows the order typeI_asym, typeI_perm, power_asym,
+power_perm; `shard_index` is n, or 1/2/3 for lineal/cuadratica/senoidal).
+Population cut points are drawn from a separate fixed stream (`set.seed(1)`).
+
+## Study 1: type I error and power with discrete margins
+
+`scripts/20_study1.R <block> <shard>` runs one block and shard and writes
+`results/study1/<block>_<shard>.csv` (plus an `_env.txt` with R and package
+versions and the seed).
+
+| Block | Shard | Computes |
+|---|---|---|
+| `typeI_asym` | n in 50, 100, 250, 500, 1000 | type I error of the tie-aware asymptotic test (`XICOR`, `ties = TRUE`) and of the naive test that assumes a continuous response, under exact independence; 3 X types x 8 Y types; R = 5000 |
+| `typeI_perm` | n in 100, 250, 500 | same datasets plus a permutation test (B = 499); X in {continuous, binary 50/50} x Y in {continuous, binary 90/10, binary 95/5, 7-category with floor effect}; R = 1000 |
+| `power_asym` | structure (lineal, cuadratica, senoidal) | asymptotic power when dependence is calibrated on the latent variable to xi = 0.15; 3 X types x 8 Y types x 5 n; R = 2000 |
+| `power_perm` | n in 100, 250 | asymptotic and permutation power (B = 199); 3 structures x 2 X types x 4 Y types; R = 500 |
+
+Margin types. X: continuous; binary 50/50; 5-category skewed
+(.05/.10/.15/.30/.40). Y: continuous; binary 50/50, 80/20, 90/10, 95/5;
+5-category skewed; 7-category with floor effect
+(.35/.25/.15/.10/.07/.05/.03); composite of 5 six-category items. Categories
+are obtained by cutting the latent variable at population cut points, so
+category counts are random from sample to sample, as in real data.
+
+Quick check of the pipeline: `STUDY1_SMOKE=1 Rscript scripts/20_study1.R typeI_asym 100`
+(R = 20, writes to a temporary directory). `STUDY1_R=<R>` overrides the number of
+replications and `STUDY1_OUT=<dir>` the output directory.
+
+### Running on GitHub Actions
+
+`.github/workflows/study1.yml` runs the 13 shards as parallel jobs. A push to
+branch `brm-revision` runs a smoke version (R = 20); pushing a tag named
+`study1-v*` runs the full version. Each shard uploads its CSV as the artifact
+`study1-<mode>-<block>-<shard>`; download them with `gh run download <run-id>`
+and store the files of a full run in `results/study1/`.
