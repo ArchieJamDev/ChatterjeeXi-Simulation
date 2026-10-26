@@ -6,10 +6,10 @@ coefficient. Every script has a fixed seed, writes its results as CSV under
 
 ## Software
 
-- R 4.5.2; packages `XICOR` 0.4.1, `energy` 1.7.12, `TauStar` 1.1.9,
-  `psych` 2.6.5 (versions currently used; the Study 1 workflow installs the
-  current CRAN release of `XICOR` and records the exact versions in each
-  shard's `*_env.txt`).
+- Scripts 00-12: R 4.5.2; packages `XICOR` 0.4.1, `energy` 1.7.12,
+  `TauStar` 1.1.9, `psych` 2.6.5 (versions currently used).
+- Study 1: produced on GitHub Actions (`ubuntu-latest`, R 4.6.1, `XICOR` 0.4.1);
+  the exact versions and the seed of each shard are in its `*_env.txt`.
 - `dcor()` from `energy` builds an n x n distance matrix (O(n^2) memory), so the
   permutation-based dCor tests are run with small R on small machines.
 
@@ -85,4 +85,5 @@ replications and `STUDY1_OUT=<dir>` the output directory.
 branch `brm-revision` runs a smoke version (R = 20); pushing a tag named
 `study1-v*` runs the full version. Each shard uploads its CSV as the artifact
 `study1-<mode>-<block>-<shard>`; download them with `gh run download <run-id>`
-and store the files of a full run in `results/study1/`.
+and store the files of a full run in `results/study1/`. The files currently in
+`results/study1/` come from run 40297517916 (tag `study1-v1`, commit `91f012d`).
