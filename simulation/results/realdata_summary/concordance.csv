@@ -1,0 +1,4 @@
+"dataset","pairs","both","non-monotone-only","monotone-only","none","xi_detects_but_spearman_pearson_do_not","spearman_detects_but_xi_does_not"
+"bfi",503,438,40,1,24,0,296
+"nhanes_2017_2018",127,100,20,0,7,0,54
+"sat.act",15,9,1,0,5,0,4

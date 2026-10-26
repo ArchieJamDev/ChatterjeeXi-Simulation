@@ -161,3 +161,12 @@ The sleep-depression pair was expected a priori to be non-monotone (a U shape) b
 The files in `results/realdata/` come from run 40361294396 (tag `realdata-v1`, commit `6a67127`) and
 those in `results/nhanes/` from run 40365086795 (tag `nhanes-v1`, commit `0df8a14`).
 
+### Summary of the screening
+
+`scripts/32_realdata_summary.R` applies the pre-specified decision rule (Benjamini-Hochberg-adjusted
+p < .05 within each dataset and measure; xi's p-value = min(1, 2 x the smaller of the two directions'
+median p)) and writes `results/realdata_summary/`: `detection_counts.csv` (pairs detected by each
+measure), `concordance.csv` (pairs detected only by general measures, only by monotone measures,
+by both, by none), `non_monotone_only_pairs.csv`, `tiebreak_instability.csv` (how often xi's decision and
+value change with the random tie-break) and `nhanes_key_pairs.csv`.
+

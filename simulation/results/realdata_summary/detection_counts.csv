@@ -1,0 +1,16 @@
+"dataset","pairs","measure","detected_bh","detected_unadjusted"
+"bfi",503,"spearman",434,437
+"bfi",503,"pearson",428,431
+"bfi",503,"xi",138,183
+"bfi",503,"dcor",475,476
+"bfi",503,"tau",477,478
+"nhanes_2017_2018",127,"spearman",96,99
+"nhanes_2017_2018",127,"pearson",97,97
+"nhanes_2017_2018",127,"xi",42,47
+"nhanes_2017_2018",127,"dcor",119,119
+"nhanes_2017_2018",127,"tau",113,115
+"sat.act",15,"spearman",8,8
+"sat.act",15,"pearson",8,8
+"sat.act",15,"xi",4,4
+"sat.act",15,"dcor",10,10
+"sat.act",15,"tau",10,10
