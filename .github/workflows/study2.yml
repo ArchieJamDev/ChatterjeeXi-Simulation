@@ -3,7 +3,7 @@ name: study2
 # Study 2 (xi_n vs. Spearman, Pearson, distance correlation and tau*: type I error and
 # power with discrete responses, several n, neutral calibration by signal share).
 #   * push to branch brm-revision  -> SMOKE run (R = 10 per cell), checks the pipeline only
-#   * push a tag named study2-v*   -> FULL run, 12 parallel shards
+#   * push a tag named study2-v*   -> FULL run, 13 parallel shards
 # Each shard runs simulation/scripts/21_study2.R with a fixed seed and uploads its CSV as an
 # artifact (study2-<mode>-<block>-<shard>). Download them with:  gh run download <run-id>
 on:
@@ -39,6 +39,7 @@ jobs:
           - {block: power_full, shard: 'cuadratica'}
           - {block: power_full, shard: 'senoidal'}
           - {block: power_full, shard: 'circular'}
+          - {block: power_circ_hi, shard: 'circular'}
     steps:
       - uses: actions/checkout@v4
       - uses: r-lib/actions/setup-r@v2

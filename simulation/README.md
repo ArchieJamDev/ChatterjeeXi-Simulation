@@ -109,6 +109,7 @@ signal for the linear, quadratic, sinusoidal and circular structures.
 | `typeI` | n in 50, 100, 200, 400 | type I error of all five tests under independence, 5 Y types; R = 1000 |
 | `power_cheap` | structure (lineal, cuadratica, senoidal, circular) | power of xi, Spearman, Pearson; s in .05, .13, .26, .50; n in 50, 100, 200, 400, 800; 5 Y types; R = 2000 |
 | `power_full` | structure | power of all five tests; s in .13, .26 (Cohen's medium and large R^2); n in 50, 100, 200, 400; 4 Y types; R = 500 |
+| `power_circ_hi` | circular | as `power_full` for the circular structure only, at s in .70, .85, .95: for a circular relationship no test has power at s <= .50, so that range is uninformative |
 
 `warn_rate_tau` in the output is the share of replications in which
 `tauStarTest` raised a numerical warning (counted, not hidden); `na_rate_tau` is

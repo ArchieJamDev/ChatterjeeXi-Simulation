@@ -11,6 +11,9 @@
 #                              n in {50,100,200,400,800}, 5 Y types; R = 2000
 #   power_full   structure     power of all five tests (adds dCor and tau*);
 #                              s in {.13,.26}, n in {50,100,200,400}, 4 Y types; R = 500
+#   power_circ_hi circular     same as power_full for the circular structure only, at the
+#                              much higher signal shares {.70,.85,.95} (at s <= .50 no test has
+#                              power for a circular relationship, so that range is uninformative)
 #
 # X is continuous throughout (discretizing X is studied in Study 1).
 #
@@ -30,7 +33,7 @@ out_dir <- Sys.getenv("STUDY2_OUT", unset = if (smoke) tempdir() else "results/s
 dir.create(out_dir, showWarnings = FALSE, recursive = TRUE)
 
 cfg <- list(typeI = list(R = 1000, B = 199), power_cheap = list(R = 2000, B = 0),
-            power_full = list(R = 500, B = 199))
+            power_full = list(R = 500, B = 199), power_circ_hi = list(R = 500, B = 199))
 stopifnot(block %in% names(cfg))
 if (smoke) cfg <- lapply(cfg, function(z) list(R = 10, B = if (z$B > 0) 19 else 0))
 R <- cfg[[block]]$R; B <- cfg[[block]]$B
@@ -62,11 +65,13 @@ if (block == "typeI") {
   }
 } else {
   stopifnot(shard %in% STRUCTS2)
+  if (block == "power_circ_hi") stopifnot(shard == "circular")
   st <- shard
-  shares <- if (block == "power_cheap") S_ALL else c(0.13, 0.26)
+  shares <- switch(block, power_cheap = S_ALL, power_full = c(0.13, 0.26),
+                   power_circ_hi = c(0.70, 0.85, 0.95))
   ns <- if (block == "power_cheap") c(50, 100, 200, 400, 800) else c(50, 100, 200, 400)
   yts <- if (block == "power_cheap") Y_TYPES2 else Y_FULL
-  full <- block == "power_full"
+  full <- block != "power_cheap"
   for (s in shares) {
     sig <- sigma_for_share(st, s)
     set.seed(1); big <- generate_xy(2e5, st, "normal", sig)
