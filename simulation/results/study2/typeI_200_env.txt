@@ -1,0 +1,5 @@
+R version 4.6.1 (2026-06-24)
+XICOR 0.4.1
+energy 1.7.12
+TauStar 1.1.9
+seed 20272300

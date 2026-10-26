@@ -116,3 +116,8 @@ signal for the linear, quadratic, sinusoidal and circular structures.
 the share in which it failed. Seeds: `20262100 + 10000 * block_index + shard_index`
 (+ `round(1000 * s)` inside the power blocks). Environment variables:
 `STUDY2_SMOKE=1`, `STUDY2_R`, `STUDY2_OUT`, as in Study 1.
+
+The files in `results/study2/` come from run 40325393994 (tag `study2-v2`, commit
+`9d72d30`). An earlier full run of the first twelve shards (tag `study2-v1`) produced
+byte-identical CSV files, which confirms that the fixed seeds make the Actions runs
+exactly reproducible.
