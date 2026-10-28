@@ -23,24 +23,27 @@ coefficient. Every script has a fixed seed, writes its results as CSV under
   `R/study2_lib.R` helpers of Studies 1 and 2.
 - `scripts/` one script per module; `results/` one CSV per module.
 
-## Scripts and manuscript tables
+## Earlier modular simulations (scripts 00 to 12)
 
-Table numbers refer to `paper/paper.tex` as originally submitted.
+One-factor-at-a-time simulations of the same project (validation against the exact value of xi for the
+equicorrelated normal, finite-sample bias, ties, marginal families, dependence geometry, local
+alternatives, and a real-data illustration). Only `03_h2b.R`, `05_h2d.R` and `06_h2d_kvarying.R` are used
+in the manuscript (the tie-breaking noise of its Table 4); the rest are kept for completeness.
 
-| Script | Content | Table | Results file |
-|---|---|---|---|
-| `00_validation.R` | exact xi for the equicorrelated normal vs. Monte Carlo | 3 | `00_validation_normal.csv` |
-| `01_h1.R`, `01b_h1_highregime.R` | finite-sample bias and MSE vs. n, moderate and high dependence | 4 | `01_h1.csv`, `01b_h1_highregime.csv` |
-| `02_h2a.R` | ties in the response | 5 | `02_h2a.csv` |
-| `03_h2b.R` | ties in the predictor, nested tie-breaking variance decomposition | 6 | `03_h2b.csv` |
-| `04_h2c.R` | joint discretization | 7 | `04_h2c.csv` |
-| `05_h2d.R`, `06_h2d_kvarying.R` | composite score of k items | 8, 9 | `05_h2d.csv`, `06_h2d_kvarying.csv` |
-| `07_h3.R`, `07b_h3_typeI_power.R` | marginal families: bias, variance, type I error, power | 10 | `07_h3.csv`, `07b_h3_typeI_power.csv` |
-| `08_h3_invariance.R` | invariance under monotone transformations | 11 | `08_h3_invariance.csv` |
-| `09_h4.R` | power by dependence geometry vs. dCor and tau* | 12 | `09_h4_type1.csv`, `09_h4_power.csv` |
-| `10_h5a.R` | power at fixed dependence | 13 | `10_h5a.csv` |
-| `11_h5b.R` | local alternatives | 14 | `11_h5b.csv` |
-| `12_realdata_bfi.R` | real-data illustration, `psych::bfi` | 15 | `12_realdata_bfi.csv` |
+| Script | Content | Results file |
+|---|---|---|
+| `00_validation.R` | exact xi for the equicorrelated normal vs. Monte Carlo | `00_validation_normal.csv` |
+| `01_h1.R`, `01b_h1_highregime.R` | finite-sample bias and MSE vs. n, moderate and high dependence | `01_h1.csv`, `01b_h1_highregime.csv` |
+| `02_h2a.R` | ties in the response | `02_h2a.csv` |
+| `03_h2b.R` | ties in the predictor, nested tie-breaking variance decomposition | `03_h2b.csv` |
+| `04_h2c.R` | joint discretization | `04_h2c.csv` |
+| `05_h2d.R`, `06_h2d_kvarying.R` | composite score of k items | `05_h2d.csv`, `06_h2d_kvarying.csv` |
+| `07_h3.R`, `07b_h3_typeI_power.R` | marginal families: bias, variance, type I error, power | `07_h3.csv`, `07b_h3_typeI_power.csv` |
+| `08_h3_invariance.R` | invariance under monotone transformations | `08_h3_invariance.csv` |
+| `09_h4.R` | power by dependence geometry vs. dCor and tau* | `09_h4_type1.csv`, `09_h4_power.csv` |
+| `10_h5a.R` | power at fixed dependence | `10_h5a.csv` |
+| `11_h5b.R` | local alternatives | `11_h5b.csv` |
+| `12_realdata_bfi.R` | real-data illustration, `psych::bfi` | `12_realdata_bfi.csv` |
 
 `07b_h3_typeI_power.R` takes one family per call (memory), e.g.
 `for f in normal uniform exponential t mixture; do Rscript scripts/07b_h3_typeI_power.R $f; done`.
