@@ -1,3 +1,6 @@
+% !TeX program = pdflatex
+% !TeX encoding = UTF-8
+% !BIB program = biber
 % BORRADOR EN ESPAÑOL para revisión (se traduce al inglés al final).
 % Formato final: Behavior Research Methods (APA 7, apa7.cls). Las tablas y figuras se generan
 % con simulation/scripts/40_make_tables.R a partir de los CSV de resultados; no se escriben a mano.
@@ -166,7 +169,7 @@ La prueba ingenua, que supone $Y$ continua, rechazó demasiado con respuestas di
 
 \subsection{Método}
 
-\paragraph{Estructuras y calibración neutral.} Se usaron las estructuras lineal, cuadrática y sinusoidal del Estudio 1 y una estructura circular: $X=2\Phi(Z)-1$, uniforme en $(-1,1)$ con $Z$ normal estándar, e $Y=S\sqrt{1-X^2}+\sigma\varepsilon$, con $S=\pm1$ con igual probabilidad, de modo que $Y$ no es función de $X$. La intensidad de la dependencia se fijó con la proporción de varianza de la $Y$ latente atribuible a la estructura determinista, $R^2=\operatorname{Var}(f)/(\operatorname{Var}(f)+\sigma^2)$, es decir, el $R^2$ de la función verdadera, con $\operatorname{Var}(f)$ calculada en una muestra grande sin ruido. Una misma cantidad $R^2$ significa la misma cantidad de señal en las cuatro estructuras, sin referencia al valor de ningún coeficiente. Los valores fueron .05, .13, .26 y .50 (.13 y .26 corresponden a los efectos mediano y grande de Cohen, 1988) y, solo para la estructura circular, .70, .85 y .95, porque con $R^2\le .50$ ninguna prueba tuvo potencia apreciable en esa estructura.
+\paragraph{Estructuras y calibración neutral.} Se usaron las estructuras lineal, cuadrática y sinusoidal del Estudio 1 y una estructura circular: $X=2\Phi(Z)-1$, uniforme en $(-1,1)$ con $Z$ normal estándar, e $Y=S\sqrt{1-X^2}+\sigma\varepsilon$, con $S=\pm1$ con igual probabilidad, de modo que $Y$ no es función de $X$. La intensidad de la dependencia se fijó con la proporción de varianza de la $Y$ latente atribuible a la estructura determinista, $R^2=\operatorname{Var}(f)/(\operatorname{Var}(f)+\sigma^2)$, es decir, el $R^2$ de la función verdadera, con $\operatorname{Var}(f)$ calculada en una muestra grande sin ruido. Una misma cantidad $R^2$ significa la misma cantidad de señal en las cuatro estructuras, sin referencia al valor de ningún coeficiente. Los valores fueron .05, .13, .26 y .50 (.13 y .26 corresponden a los efectos mediano y grande de \textcite{cohen1988}) y, solo para la estructura circular, .70, .85 y .95, porque con $R^2\le .50$ ninguna prueba tuvo potencia apreciable en esa estructura.
 
 \paragraph{Respuestas y pruebas.} $X$ fue continua. $Y$ fue continua, binaria 50/50, binaria 90/10, ordinal de 5 categorías asimétrica o puntaje compuesto de 5 ítems (definidos como en el Estudio 1). Se compararon (Tabla~\ref{tab:medidas}) la prueba de $\xi_n$ con ajuste por empates; las pruebas $t$ de Spearman y de Pearson; dCor con prueba de permutación ($B=199$; \texttt{energy} 1.7.12, \cite{rizzo2024energy}); y $\tau^*$ con la prueba de \texttt{TauStar} 1.1.9 \parencite{weihs2026taustar}, que elige automáticamente el modo continuo, mixto o discreto según los datos. Todas las pruebas se aplicaron a los mismos conjuntos de datos simulados.
 
@@ -345,7 +348,7 @@ Todo el código (generación de datos, pruebas, análisis, tablas y figuras) y l
 
 \paragraph{Contribución del autor.} Autor único: concepción, diseño, análisis, redacción.
 
-\paragraph{Uso de herramientas de inteligencia artificial.} Se utilizó un asistente de inteligencia artificial (Claude, Anthropic) como apoyo para programar, ejecutar y verificar las simulaciones y los análisis, y para redactar borradores del texto. El autor revisó y verificó el código, los resultados y el texto, y es el único responsable del contenido.
+\paragraph{Uso de herramientas de inteligencia artificial.} Se utilizó un asistente de inteligencia artificial (Claude, Anthropic) como apoyo para ejecutar y verificar las simulaciones y asistir en el desarrollo del código necesario. El autor diseñó, desarrolló, revisó y verificó el código, los resultados y el texto, y es el único responsable del contenido.
 
 \section*{Declaración de prácticas abiertas}
 

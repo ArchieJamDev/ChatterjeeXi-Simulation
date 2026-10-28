@@ -3,12 +3,12 @@
 # ../paper_brm/tables/ (the captions and notes live in the manuscript); figures as PDF to
 # ../paper_brm/figures/.
 #
-# TABLE_LANG=es (default) or en selects the language of labels.
+# TABLE_LANG=es (default) or en selects the language of labels (tables go to tables/ or tables_en/).
 # NOTE: run from the simulation/ directory:  cd simulation && Rscript scripts/40_make_tables.R
 # Figure 3 needs the NHANES files; they are downloaded (anonymously) into data/nhanes/ if missing.
 LANG <- Sys.getenv("TABLE_LANG", "es")
 L <- function(es, en) if (LANG == "es") es else en
-out_tab <- "../paper_brm/tables"; out_fig <- "../paper_brm/figures"
+out_tab <- if (LANG == "es") "../paper_brm/tables" else paste0("../paper_brm/tables_", LANG); out_fig <- "../paper_brm/figures"
 dir.create(out_tab, FALSE, TRUE); dir.create(out_fig, FALSE, TRUE)
 
 ## ---- helpers -----------------------------------------------------------------
