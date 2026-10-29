@@ -9,3 +9,16 @@
 .RData
 # downloaded public datasets (re-created by the scripts)
 simulation/data/
+# LaTeX build files of the BRM manuscript
+paper_brm/*.aux
+paper_brm/*.bbl
+paper_brm/*.bcf
+paper_brm/*.blg
+paper_brm/*.log
+paper_brm/*.out
+paper_brm/*.run.xml
+paper_brm/*.toc
+paper_brm/*.fls
+paper_brm/*.fdb_latexmk
+paper_brm/*.pdf
+paper_brm/*.zip

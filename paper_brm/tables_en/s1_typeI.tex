@@ -1,0 +1,16 @@
+\begin{tabular}{lccccccc}
+\toprule
+ & \multicolumn{5}{c}{Tie-aware test, $\alpha = .05$} & Naive & Tie-aware \\
+\cmidrule(lr){2-6}
+Response $Y$ & $n=50$ & $n=100$ & $n=250$ & $n=500$ & $n=1000$ & $\alpha = .05$ & $\alpha = .01$ \\
+\midrule
+Continuous & .051 & .053 & .052 & .058 & .050 & .053 & .010 \\
+Binary 50/50 & .057 & .058 & .048 & .049 & .047 & .152 & .010 \\
+Binary 80/20 & .059 & .055 & .049 & .050 & .051 & .146 & .012 \\
+Binary 90/10 & .076 & .060 & .050 & .050 & .061 & .154 & .018 \\
+Binary 95/5 & .052 & .064 & .072 & .070 & .069 & .142 & .025 \\
+Ordinal, 5 categories (skewed) & .050 & .056 & .052 & .049 & .050 & .084 & .012 \\
+Ordinal, 7 categories (floor effect) & .045 & .047 & .050 & .054 & .049 & .073 & .009 \\
+5-item composite & .052 & .047 & .052 & .048 & .051 & .051 & .009 \\
+\bottomrule
+\end{tabular}

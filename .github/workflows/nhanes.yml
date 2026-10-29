@@ -1,6 +1,6 @@
 name: nhanes
 
-# Real-data screening, second dataset: NHANES 2017-2018 (US CDC, public domain, anonymous download).
+# Real-data screening, second dataset: NHANES 2017-2018 (US CDC, public-use files, anonymous download).
 # Every pair of 17 pre-specified variables (127 pairs) with xi_n, Spearman, Pearson, dCor and tau*.
 #   * push to branch brm-revision -> SMOKE run (4 pairs per shard, B = 19)
 #   * push a tag named nhanes-v*  -> FULL run, 16 parallel shards (B = 499, 20 tie-breaks)
